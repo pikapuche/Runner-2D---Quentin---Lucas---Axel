@@ -80,9 +80,11 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="menu.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
