@@ -1,14 +1,11 @@
 #include "Game.hpp"
-#include "menu.hpp"
 Game::Game() {}
 Game::~Game() {}
 
 void Game::run() {
-
-
     sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "My window");
     window.setFramerateLimit(60);
-
+    map.init();
     sf::Clock clock;
 
     Time deltaT = clock.restart();
@@ -26,6 +23,7 @@ void Game::run() {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
+      map.run();
 
 
         
@@ -34,12 +32,13 @@ void Game::run() {
         render(window);
 
 
-        
+    
     }
 }
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
+    map.render(window);
     player->draw(window);
     window.display();
 }
