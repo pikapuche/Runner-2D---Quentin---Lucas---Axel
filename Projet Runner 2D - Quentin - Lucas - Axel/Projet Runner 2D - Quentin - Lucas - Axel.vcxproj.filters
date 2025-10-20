@@ -32,6 +32,11 @@
     </ClCompile>
     <ClCompile Include="Obstacle.cpp">
       <Filter>Fichiers sources\Map</Filter>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -46,6 +51,11 @@
     </ClInclude>
     <ClInclude Include="Obstacle.hpp">
       <Filter>Fichiers d%27en-tête\Map</Filter>
+    <ClInclude Include="Entity.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
