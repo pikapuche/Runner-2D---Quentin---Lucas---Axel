@@ -3,7 +3,7 @@ Game::Game() {}
 Game::~Game() {}
 
 void Game::run() {
-    sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "My window");
+    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window");
     window.setFramerateLimit(60);
     map.init();
     sf::Clock clock;
@@ -23,22 +23,17 @@ void Game::run() {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-      map.run();
-
-
-        
+        map.run();
 
         player->update(deltaTime);
         render(window);
 
-
-    
     }
 }
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
     map.render(window);
-    player->draw(window);
+    //player->draw(window);
     window.display();
 }

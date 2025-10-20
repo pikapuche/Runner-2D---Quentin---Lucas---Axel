@@ -3,7 +3,7 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Player.hpp"
-#inclue "menu.hpp"
+#include "menu.hpp"
 
 class Game {
 private : 
