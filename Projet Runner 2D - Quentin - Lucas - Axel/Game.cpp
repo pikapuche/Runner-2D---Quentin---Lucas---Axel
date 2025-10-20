@@ -1,9 +1,10 @@
 #include "Game.hpp"
-
+#include "menu.hpp"
 Game::Game() {}
 Game::~Game() {}
 
 void Game::run() {
+
 
     sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "My window");
     window.setFramerateLimit(60);
@@ -17,6 +18,7 @@ void Game::run() {
     {
         float deltaTime = deltaT.asSeconds();
 
+
         // check all the window's events that were triggered since the last iteration of the loop
         while (const std::optional event = window.pollEvent())
         {
@@ -25,15 +27,19 @@ void Game::run() {
                 window.close();
         }
 
-        window.clear();
+
+        
 
         player->update(deltaTime);
         render(window);
 
-        window.display();
+
+        
     }
 }
 
 void Game::render(sf::RenderWindow& window) {
+    window.clear();
     player->draw(window);
+    window.display();
 }
