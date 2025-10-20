@@ -23,6 +23,7 @@ public :
 	State state = NONE;
 
 	Entity(float posX, float posY);
+	~Entity() {};
 
 	virtual void collision(Sprite& tile, float deltaTime);
 	virtual void draw(RenderWindow& window) = 0;
