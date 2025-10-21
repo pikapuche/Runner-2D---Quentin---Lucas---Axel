@@ -4,17 +4,15 @@ Game::Game() {
 Game::~Game() {}
 
 void Game::run() {
-    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window", sf::State::Fullscreen);
-    window.setFramerateLimit(60);
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
+    window.setVerticalSyncEnabled(true);
     map.init();
     sf::Clock clock;
-
-    Time deltaT = clock.restart();
 
     // run the program as long as the window is open
     while (window.isOpen())
     {
-        float deltaTime = deltaT.asSeconds();
+        float deltaTime = clock.restart().asSeconds();
 
 
         // check all the window's events that were triggered since the last iteration of the loop
@@ -24,7 +22,7 @@ void Game::run() {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        map.run();
+        map.run(deltaTime);
 
         player->update(deltaTime);
         render(window);

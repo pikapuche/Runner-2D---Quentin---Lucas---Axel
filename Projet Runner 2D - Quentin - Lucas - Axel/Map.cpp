@@ -25,12 +25,12 @@ void Map::render(sf::RenderWindow& window) {
 	}
 }
 
-void Map::run() {
+void Map::run(float deltatime) {
 
     for (auto it = obstacles.begin(); it != obstacles.end(); )
     {
         auto& obstacle = *it;
-        obstacle->move();
+        obstacle->move(deltatime);
 
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0)
         {
@@ -45,22 +45,20 @@ void Map::run() {
 	//std::cout << "score : " << score << std::endl;
 
 
-	if (obstacles[0]->shape.getPosition().x < STGS::WIDTH / 2 || obstacles.empty())
+	if (obstacles[0]->shape.getPosition().x < 0 || obstacles.empty())
 	{
-		generate();
+		init();
 	}
 }
 
 
 void Map::generate() {
-	std::uniform_real_distribution<float> speedDist(-6.f, -5.f);
 	std::vector<int> lines = { 0, 1, 2 };
 	std::shuffle(lines.begin(), lines.end(), rng);
 
 	for (int i = 0; i < 2; ++i) {
-		float speed = speedDist(rng);
 		int line = lines[i];
-		Obstacle* temp = new Obstacle(std::min(-1, -score), line);
+		Obstacle* temp = new Obstacle(-500.0f - score * 10.0f, line);
 
 		temp->shape.setFillColor(sf::Color::Red);
 		temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y });

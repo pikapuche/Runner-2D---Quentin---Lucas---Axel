@@ -15,8 +15,8 @@ void Obstacle::init() {
 	
 }
 
-void Obstacle::move() {
-	shape.move({ velocity, 0 });
+void Obstacle::move(float deltatime) {
+	shape.move({ velocity * deltatime, 0 });
 }
 
 void Obstacle::render(sf::RenderWindow& window) {

@@ -5,7 +5,7 @@ class Map {
 public:
 	Map();
 	~Map();
-	void run();
+	void run(float deltatime);
 	void render(sf::RenderWindow& window);
 	void init();
 	void generate();
