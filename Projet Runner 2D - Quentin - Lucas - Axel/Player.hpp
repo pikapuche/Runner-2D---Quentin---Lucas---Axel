@@ -5,7 +5,7 @@
 class Player : public Entity {
 protected : 
 
-	const float SPEED = 50.f;
+	const float SPEED = 100.f;
 	const float JUMP_FORCE = 100.f;
 
 public :

@@ -18,7 +18,7 @@ Player::~Player()
 
 void Player::playerMovement(float deltaTime)
 {
-	position.x += SPEED * deltaTime;
+	position.x = SPEED * deltaTime;
 
 	velocity.y = gravity * deltaTime;
 	position.y = velocity.y * deltaTime;
@@ -27,7 +27,7 @@ void Player::playerMovement(float deltaTime)
 
 void Player::update(float deltaTime)
 {
-	//playerMovement(deltaTime);
+	playerMovement(deltaTime);
 }
 
 void Player::draw(RenderWindow& window)
