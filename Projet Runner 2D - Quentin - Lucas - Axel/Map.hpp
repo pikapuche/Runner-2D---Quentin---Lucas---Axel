@@ -16,6 +16,5 @@ public:
 private:
 	int seed = 0;
 	std::mt19937 rng;
-	bool canSpawn = true;
 	int score;
 };
