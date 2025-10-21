@@ -1,9 +1,10 @@
 #include "Game.hpp"
-Game::Game() {}
+Game::Game() {
+}
 Game::~Game() {}
 
 void Game::run() {
-    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window");
+    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window", sf::State::Fullscreen);
     window.setFramerateLimit(60);
     map.init();
     sf::Clock clock;
@@ -27,7 +28,6 @@ void Game::run() {
 
         player->update(deltaTime);
         render(window);
-
     }
 }
 
