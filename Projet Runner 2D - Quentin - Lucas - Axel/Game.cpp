@@ -26,7 +26,7 @@ void Game::run() {
         }
         map.run();
 
-        player->update(deltaTime);
+        player->update(deltaTime); 
         render(window);
 
     }
