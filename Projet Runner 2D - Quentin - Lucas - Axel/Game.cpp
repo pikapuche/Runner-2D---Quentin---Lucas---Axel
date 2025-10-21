@@ -24,7 +24,7 @@ void Game::run() {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        map.run();
+        //map.run();
 
         player->update(deltaTime); 
         render(window);
@@ -34,7 +34,7 @@ void Game::run() {
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
-    map.render(window);
-    //player->draw(window);
+    //map.render(window);
+    player->draw(window);
     window.display();
 }

@@ -8,7 +8,8 @@ using namespace sf;
 class Entity {
 protected : 
 
-	Sprite sprite;
+	//Sprite sprite;
+	RectangleShape shape;
 	Texture texture;
 	Vector2f position;
 	Vector2f velocity;
@@ -27,7 +28,4 @@ public :
 
 	virtual void collision(Sprite& tile, float deltaTime);
 	virtual void draw(RenderWindow& window) = 0;
-
-	Sprite& getSprite();
-
 };

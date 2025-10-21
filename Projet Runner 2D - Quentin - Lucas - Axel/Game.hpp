@@ -10,7 +10,7 @@ private :
 
 public:
 
-	shared_ptr<Player> player = make_shared<Player>(100, 100);
+	shared_ptr<Player> player = make_shared<Player>(0, 0);
   Map map;
 	Game();
 	~Game();

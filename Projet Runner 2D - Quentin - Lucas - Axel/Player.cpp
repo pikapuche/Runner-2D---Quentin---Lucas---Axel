@@ -2,11 +2,12 @@
 
 Player::Player(float xPos, float yPos) : Entity(xPos, yPos)
 {
-	position.y = 0;
-	sprite.setPosition(position);
-	//sprite.setColor(Color::Red);
-	if (!texture.loadFromFile("Assets/Character/rect.jpg")) cout << "prout";
-	sprite.setTexture(texture);
+	shape.setPosition(position);
+	//sprite.setColor(Color::Blue);
+	if (!texture.loadFromFile("Assets/Character/_Crouch.png")) cout << "prout" << endl << endl << endl << endl;
+	shape.setTexture(&texture);
+	shape.setSize(Vector2f(120, 80));
+	shape.setScale(Vector2f(3, 3));
 	cout << "Joueur créé" << endl;
 }
 
@@ -21,7 +22,7 @@ void Player::playerMovement(float deltaTime)
 
 	velocity.y = gravity * deltaTime;
 	position.y = velocity.y * deltaTime;
-	sprite.move(position);
+	shape.move(position);
 }
 
 void Player::update(float deltaTime)
@@ -31,5 +32,5 @@ void Player::update(float deltaTime)
 
 void Player::draw(RenderWindow& window)
 {
-	window.draw(sprite);
+	window.draw(shape);
 }
