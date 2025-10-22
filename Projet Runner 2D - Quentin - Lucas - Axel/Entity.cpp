@@ -1,7 +1,8 @@
 #include "Entity.hpp"
 
-Entity::Entity(float posX, float posY) : sprite(texture)
+Entity::Entity(float posX, float posY)
 {
+	texture.setSmooth(true);
 	position.x = posX;
 	position.y = posY;
 }
@@ -9,9 +10,4 @@ Entity::Entity(float posX, float posY) : sprite(texture)
 void Entity::collision(Sprite& tile, float deltaTime)
 {
 
-}
-
-Sprite& Entity::getSprite()
-{
-	return sprite;
 }
