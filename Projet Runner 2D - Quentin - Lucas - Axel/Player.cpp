@@ -1,29 +1,45 @@
 #include "Player.hpp"
 
-Player::Player(float xPos, float yPos) : Entity(xPos, yPos)
+Player::Player() : sound(bufferRun), Entity()
 {
-	shape.setPosition(position);
+    // chargement des textures
 	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "caca run" << endl << endl;
     if (!textureJump.loadFromFile("Assets/Character/Astronaut_JumpV2.png")) cout << "caca jump" << endl << endl;
-    if (!textureJetpack.loadFromFile("Assets/Character/Astronaut_JetPack.png")) cout << "caca jump" << endl << endl;
-	shape.setTexture(&texture);
-	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // donc 128x128 ici
-	cout << "Joueur créé" << endl;
-    stateMove = RUNNING;
-    clockRun.start();
+    if (!textureJetpack.loadFromFile("Assets/Character/Astronaut_JetPack.png")) cout << "caca jetpack" << endl << endl;
+
+    // setSmooth pour des images plus nette 
+    textureJump.setSmooth(true);
+    textureJetpack.setSmooth(true);
+
+	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // 128x128 car la size du perso est 128 px
+
+    // préparation de la staminaBar pour le jetpack
     staminaBarRect.setOutlineThickness(5.f);
     staminaBarRect.setOutlineColor(Color::White);
+
+    shape.setPosition(Vector2f(300, 800));
+
+    // initialisation des sons
+    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) cout << "caca son run" << endl << endl;
+
+    sound.setBuffer(bufferRun);
+    sound.setLooping(true);
+    sound.setVolume(100);
 }
 
-Player::~Player()
+Player::~Player() {}
+
+bool Player::collision(Map& map)
 {
-	cout << "Joueur détruit" << endl;
+    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        return true;
+    }
 }
 
 void Player::playerMovement(float deltaTime, Map& map)
 {
-	position.x = 0;
-
     if (!collision(map)) {
         velocity.y += gravity * deltaTime;
     }
@@ -43,14 +59,7 @@ void Player::playerMovement(float deltaTime, Map& map)
 	shape.move(position);
 }
 
-bool Player::collision(Map& map)
-{
-    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
-        velocity.y = 0;
-        state = GROUNDED;
-        return true;
-    }
-}
+
 
 void Player::jump(float deltaTime)
 {
@@ -80,6 +89,8 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
+        sound.setBuffer(bufferRun);
+        sound.play();
         shape.setTexture(&texture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -93,6 +104,8 @@ void Player::animationManager(float deltaTime)
         break;
         
     case JUMPING:
+        sound.setBuffer(bufferJump);
+        sound.play();
         shape.setTexture(&textureJump);
         animJump.y = 0;
 
@@ -105,6 +118,8 @@ void Player::animationManager(float deltaTime)
         shape.setTextureRect(IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
+        sound.setBuffer(bufferJetpack);
+        sound.play();
         shape.setTexture(&textureJetpack);
         animJetpack.y = 0;
 

@@ -7,12 +7,12 @@ class Player : public Entity {
 protected : 
 
 	const float JUMP_FORCE = 40.f; // force initiale du saut
-	const float JETPACK_FORCE = 5.f;
-	const int CHARACTER_ASSET_SIZE = 128;
+	const float JETPACK_FORCE = 5.f; // force de propulsion du jetpack
+	const int CHARACTER_ASSET_SIZE = 128; // taille du character
 
-	float jetpackStamina = 100.f;
-	RectangleShape staminaBar;
-	RectangleShape staminaBarRect;
+	float jetpackStamina = 100.f; // endurance du jetpack
+	RectangleShape staminaBar; // barre d'endurance du jetpack
+	RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
 
 	float jumpCount; // compteur de saut
 
@@ -25,7 +25,8 @@ protected :
 	Texture textureJump; // Texture du saut
 	Texture textureJetpack; // Texture du saut
 
-	Vector2i animRun;
+	// Vector d'animation qui compte les frames
+	Vector2i animRun; 
 	Vector2i animJump;
 	Vector2i animJetpack;
 
@@ -33,8 +34,11 @@ protected :
 
 	float volumeSound; // valeur du volume pour les sons
 
-	//SoundBuffer bufferJump; // comment marchent les sons ????
-	//SoundBuffer bufferDoubleJump;
+	SoundBuffer bufferRun; // son quand le perso va courir
+	SoundBuffer bufferJump; // son quand le perso va sauter
+	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
+
+	Sound sound;
 
 
 public :
@@ -45,7 +49,7 @@ public :
 	enum MoveState { RUNNING, JUMPING, JETPACKING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
 	MoveState stateMove;
 
-	Player(float xPos, float yPos);
+	Player();
 	~Player();
 
 	void playerMovement(float deltaTime, Map& map); // controle les mouvements du player

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 
 using namespace std;
 using namespace sf;
@@ -19,7 +20,7 @@ public :
 	enum State { NONE, GROUNDED, JUMP };
 	State state = NONE;
 
-	Entity(float posX, float posY);
+	Entity();
 	~Entity() {};
 
 	virtual void collision(Sprite& tile, float deltaTime);
