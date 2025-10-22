@@ -10,16 +10,13 @@ protected :
 
 	float jumpCount; // compteur de saut
 
-	Clock runClock;
-	Clock jumpClock; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
+	Clock runClock; // Clock qui permet de modifier la vitesse d'anim
+	Clock jumpClock; // Clock qui permet de modifier la vitesse d'anim
+	Clock secondJumpClock; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
 
 	Texture textureJump; // Texture du saut
 
 	bool isJumping = false; // le joueur saute ?
-
-	float animRunTimeDecr;
-	float animJumpTimeDecr;
-	float animDashTimeDecr;
 
 	float VolumeSound; // valeur du volume pour les sons
 

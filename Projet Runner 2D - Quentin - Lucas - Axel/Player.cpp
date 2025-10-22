@@ -19,8 +19,6 @@ Player::~Player()
 
 void Player::playerMovement(float deltaTime)
 {
-    stateMove = RUNNING;
-
 	position.x = 0;
 
 	velocity.y = gravity * deltaTime;
@@ -60,19 +58,15 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
-        //animRunTimeDecr = deltaTime; // se base sur le temps deltaTime
         anim_run.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
-        if (runClock.getElapsedTime().asMilliseconds() > 55) { // quand le deltaTime atteint 0.012
+        if (runClock.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
 
-            cout << "anim run ++" << endl;
             anim_run.x++; // on met +1 a notre anim donc change de "case"
-            //animRunTimeDecr = 0; // reset le compteur
-            runClock.restart();
+            runClock.restart(); // on restart la clock pour continuer
         }
         if (anim_run.x > 9) {// si on atteint la "fin de l'image" (la fin des "cases")
             anim_run.x = 0; // on reset l'image et on recommence
-            cout << "reset" << endl;
         }
 
         shape.setTextureRect(sf::IntRect({ anim_run.x * 120, anim_run.y * 80 }, { 120, 80 })); // on set le rect pour prendre que le 120x80
@@ -130,7 +124,7 @@ void Player::dash(float deltaTime)
 */
 void Player::update(float deltaTime)
 {
-	//playerMovement(deltaTime);
+	playerMovement(deltaTime);
     animationManager(deltaTime);
 }
 
