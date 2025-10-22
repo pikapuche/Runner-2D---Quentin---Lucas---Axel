@@ -3,10 +3,9 @@
 Player::Player(float xPos, float yPos) : Entity(xPos, yPos)
 {
 	shape.setPosition(position);
-	if (!texture.loadFromFile("Assets/Character/_Run.png")) cout << "prout" << endl << endl << endl << endl; // 120x80 pour une case
+	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "prout" << endl << endl << endl << endl;
 	shape.setTexture(&texture);
-	shape.setSize(Vector2f(120, 80)); // donc 120x80 ici
-	shape.setScale(Vector2f(3, 3)); // et ici on peut l'agrandir
+	shape.setSize(Vector2f(characterSpriteValue, characterSpriteValue)); // donc 128x128 ici
 	cout << "Joueur créé" << endl;
     stateMove = RUNNING;
     runClock.start();
@@ -65,11 +64,11 @@ void Player::animationManager(float deltaTime)
             anim_run.x++; // on met +1 a notre anim donc change de "case"
             runClock.restart(); // on restart la clock pour continuer
         }
-        if (anim_run.x > 9) {// si on atteint la "fin de l'image" (la fin des "cases")
+        if (anim_run.x > 6) {// si on atteint la "fin de l'image" (la fin des "cases")
             anim_run.x = 0; // on reset l'image et on recommence
         }
 
-        shape.setTextureRect(sf::IntRect({ anim_run.x * 120, anim_run.y * 80 }, { 120, 80 })); // on set le rect pour prendre que le 120x80
+        shape.setTextureRect(sf::IntRect({ anim_run.x * characterSpriteValue, anim_run.y * characterSpriteValue }, { characterSpriteValue, characterSpriteValue })); // on set le rect pour prendre que le 120x80
 
         break;
         /*

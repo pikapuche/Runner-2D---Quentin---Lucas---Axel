@@ -23,6 +23,8 @@ protected :
 	//SoundBuffer bufferJump; // comment marchent les sons ????
 	//SoundBuffer bufferDoubleJump;
 
+	int characterSpriteValue = 128;
+
 public :
 
 	enum State { GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
