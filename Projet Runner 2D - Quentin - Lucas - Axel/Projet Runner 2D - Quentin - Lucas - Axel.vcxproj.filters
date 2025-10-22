@@ -2,48 +2,60 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
-      <Filter>Fichiers sources\Entity</Filter>
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Fichiers sources\Game</Filter>
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources\Game</Filter>
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Fichiers sources\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>Fichiers sources\Map</Filter>
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
-      <Filter>Fichiers sources\Menu</Filter>
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Fichiers sources\Entity</Filter>
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Plateform.cpp">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Datas.hpp">
-      <Filter>Fichiers d%27en-tête\Map</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Entity.hpp">
-      <Filter>Fichiers d%27en-tête\Entity</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Game.hpp">
-      <Filter>Fichiers d%27en-tête\Game</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Map.hpp">
-      <Filter>Fichiers d%27en-tête\Map</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="menu.hpp">
-      <Filter>Fichiers d%27en-tête\Menu</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Obstacle.hpp">
-      <Filter>Fichiers d%27en-tête\Map</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
-      <Filter>Fichiers d%27en-tête\Entity</Filter>
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Plateform.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -52,30 +64,6 @@
     </Filter>
     <Filter Include="Fichiers sources">
       <UniqueIdentifier>{c125fef4-6aeb-4f7e-8e30-80019e47bc57}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Entity">
-      <UniqueIdentifier>{bf9590d0-9ab0-4f54-8864-c81f91e4496f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Game">
-      <UniqueIdentifier>{3a00924a-a47d-464b-8c08-4bf104148e74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Map">
-      <UniqueIdentifier>{087bda6a-095f-4983-b1a2-727f96500218}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Menu">
-      <UniqueIdentifier>{02914703-54f1-4978-97ff-b8ff994ff8a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Entity">
-      <UniqueIdentifier>{e4e351fe-246a-4a36-b13d-6cc61cd739af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Game">
-      <UniqueIdentifier>{b662f9df-fea2-4598-8d94-c3f3d368872d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Map">
-      <UniqueIdentifier>{9f7ea480-22ca-438c-abd1-d822b36f67a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Menu">
-      <UniqueIdentifier>{9cce7400-dc4b-49e9-a23b-0e22afb4bc46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

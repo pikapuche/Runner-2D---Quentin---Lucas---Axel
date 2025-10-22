@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Datas.hpp"
+#include "Obstacle.hpp"
 
-class Obstacle {
+class Plateform {
 private:
 
 	int sizeX, sizeY;
 	float velocity;
-	int line = 0; 
+	int line = 0;
 	sf::Texture shapeTexture;
 
 public:
-	Obstacle(float _velocity, int _line);
-	~Obstacle();
+	Plateform(float _velocity, int _line);
+	~Plateform();
 
 	sf::RectangleShape shape;
 	void render(sf::RenderWindow& window);
