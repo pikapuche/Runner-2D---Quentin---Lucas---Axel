@@ -102,8 +102,10 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
-        sound.setBuffer(bufferRun);
-        sound.play();
+        if (soundPlay == 0) {
+            sound.play();
+            soundPlay++;
+        }
         shape.setTexture(&texture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 

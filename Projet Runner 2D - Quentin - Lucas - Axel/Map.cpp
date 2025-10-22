@@ -4,7 +4,7 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 50;
+	score = 1;
 	makeGround();
 
 	if (!groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
