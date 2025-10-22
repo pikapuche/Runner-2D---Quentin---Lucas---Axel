@@ -84,7 +84,8 @@ void Map::run(float deltatime) {
 	}
 
 	//std::cout << "score : " << score << std::endl;
-	if (generateClock.getElapsedTime().asSeconds() > 0.8f) {
+
+	if (generateClock.getElapsedTime().asSeconds() > 0.8) {
 		generate();
 		generateClock.restart();
 	}
@@ -102,7 +103,7 @@ void Map::setObstacles() {
 	else
 		nbObstacles = 2;
 
-	if (waveType < 20) {
+	if (waveType < 33) {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
