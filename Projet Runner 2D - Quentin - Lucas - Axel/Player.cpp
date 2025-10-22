@@ -3,12 +3,16 @@
 Player::Player(float xPos, float yPos) : Entity(xPos, yPos)
 {
 	shape.setPosition(position);
-	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "prout" << endl << endl << endl << endl;
+	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "caca run" << endl << endl;
+    if (!textureJump.loadFromFile("Assets/Character/Astronaut_JumpV2.png")) cout << "caca jump" << endl << endl;
+    if (!textureJetpack.loadFromFile("Assets/Character/Astronaut_JetPack.png")) cout << "caca jump" << endl << endl;
 	shape.setTexture(&texture);
-	shape.setSize(Vector2f(characterSpriteValue, characterSpriteValue)); // donc 128x128 ici
+	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // donc 128x128 ici
 	cout << "Joueur créé" << endl;
     stateMove = RUNNING;
-    runClock.start();
+    clockRun.start();
+    staminaBarRect.setOutlineThickness(5.f);
+    staminaBarRect.setOutlineColor(Color::White);
 }
 
 Player::~Player()
@@ -16,20 +20,39 @@ Player::~Player()
 	cout << "Joueur détruit" << endl;
 }
 
-void Player::playerMovement(float deltaTime)
+void Player::playerMovement(float deltaTime, Map& map)
 {
 	position.x = 0;
 
-	velocity.y = gravity * deltaTime;
-    if (Keyboard::isKeyPressed(Keyboard::Key::Space)) {
-        //jump();
-        velocity.y = -JUMP_FORCE;
+    if (!collision(map)) {
+        velocity.y += gravity * deltaTime;
     }
-	position.y = velocity.y * deltaTime;
+    else {
+        stateMove = RUNNING;
+        if (jetpackStamina < 100) {
+            jetpackStamina++;
+        }
+    }
+
+    if (Keyboard::isKeyPressed(Keyboard::Key::Space)) {
+        clockJump.start();
+        jump(deltaTime);
+    }
+
+	position.y = velocity.y;
 	shape.move(position);
 }
 
-void Player::jump()
+bool Player::collision(Map& map)
+{
+    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        return true;
+    }
+}
+
+void Player::jump(float deltaTime)
 {
     if (state == GROUNDED) {  // Sauter uniquement si le joueur est sur le sol / saute pas
         //sound.setBuffer(bufferJump);
@@ -38,17 +61,17 @@ void Player::jump()
         //}
         state = JUMP;
         stateMove = JUMPING;
-        velocity.y = -JUMP_FORCE;  // Appliquer une force initiale vers le haut pour sauter 
-        jumpCount = 1;
-        jumpClock.restart();
+        velocity.y = -JUMP_FORCE; // Appliquer une force initiale vers le haut pour sauter 
+        clockSecondJump.restart();
     }
-    else if (jumpCount == 1 && jumpClock.getElapsedTime().asMilliseconds() >= 300 && state != GROUNDED) { // compteur permettant de savoir si on peut faire un deuxième saut
+    else if (clockSecondJump.getElapsedTime().asMilliseconds() >= 300 && state != GROUNDED && jetpackStamina >= 1.f) { // compteur permettant de savoir si on peut faire un deuxième saut
         //sound.setBuffer(bufferDoubleJump);
         //if (sound.getStatus() != sf::Sound::Playing) {
         //    sound.play();
         //}
-        velocity.y = -JUMP_FORCE;
-        jumpCount = 2;
+        stateMove = JETPACKING;
+        velocity.y = -JETPACK_FORCE;
+        jetpackStamina--;
     }
 }
 
@@ -57,77 +80,72 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
-        anim_run.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
+        shape.setTexture(&texture);
+        animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
-        if (runClock.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
-
-            anim_run.x++; // on met +1 a notre anim donc change de "case"
-            runClock.restart(); // on restart la clock pour continuer
+        if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
+            animRun.x++; // on met +1 a notre anim donc change de "case"
+            clockRun.restart(); // on restart la clock pour continuer
         }
-        if (anim_run.x > 5) {// si on atteint la "fin de l'image" (la fin des "cases")
-            anim_run.x = 0; // on reset l'image et on recommence
-        }
-
-        shape.setTextureRect(sf::IntRect({ anim_run.x * characterSpriteValue, anim_run.y * characterSpriteValue }, { characterSpriteValue, characterSpriteValue })); // on set le rect pour prendre que le 120x80
-
+        if (animRun.x > 5) // si on atteint la "fin de l'image" (la fin des "cases")
+            animRun.x = 0; // on reset l'image et on recommence
+        shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
-        /*
+        
     case JUMPING:
-        animJumpTimeDecr += deltaTime;
-        anim_jump.y = 0;
-        if (animJumpTimeDecr > 0.12f) {
-            anim_jump.x++;
-            animJumpTimeDecr = 0;
+        shape.setTexture(&textureJump);
+        animJump.y = 0;
+
+        if (clockJump.getElapsedTime().asMilliseconds() > 45) {
+            animJump.x++;
+            clockJump.restart();
         }
-        if (anim_jump.x > 1)
-            anim_jump.x = 0;
-        shape.setTextureRect(IntRect({ anim_jump.x * 64, anim_jump.y * 64 }, { 64, 64 }));
+        if (animJump.x > 5)
+            animJump.x = 0;
+        shape.setTextureRect(IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
-    case DASHING:
-        animJumpTimeDecr += deltaTime;
-        anim_jump.y = 0;
-        if (animJumpTimeDecr > 0.12f) {
-            anim_jump.x++;
-            animJumpTimeDecr = 0;
+    case JETPACKING:
+        shape.setTexture(&textureJetpack);
+        animJetpack.y = 0;
+
+        if (clockJetpack.getElapsedTime().asMilliseconds() > 45) {
+            animJetpack.x++;
+            clockJetpack.restart();
         }
-        if (anim_jump.x > 1)
-            anim_jump.x = 0;
-        shape.setTextureRect(IntRect({ anim_jump.x * 64, anim_jump.y * 64 }, { 64, 64 }));
+        if (animJetpack.x > 1)
+            animJetpack.x = 0;
+        shape.setTextureRect(IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
-        */
     }
 }
-/*
-void Player::dash(float deltaTime)
+
+void Player::jetpackStaminaGestion()
 {
-    if (isDashing) {
-        sprite.setColor(Color::Blue);
-        if (stateLook == LOOK_LEFT) {
-            SPEED = 2000;
-            position.x -= 2 + SPEED * deltaTime;
-        }
-        if (stateLook == LOOK_RIGHT) {
-            SPEED = 2000;
-            position.x += 2 + SPEED * deltaTime;
-        }
-        if (clock.getElapsedTime().asMilliseconds() >= 100) {
-            isDashing = false;
-            SPEED = 300.f;
-            coolDownDash.restart();
-        }
+    if (jetpackStamina >= 60) {
+        staminaBar.setFillColor(Color::Green);
     }
-    else {
-        sprite.setColor(Color::White);
+    else if (jetpackStamina < 30) {
+        staminaBar.setFillColor(Color::Red);
     }
+    else if (jetpackStamina < 60) {
+        staminaBar.setFillColor(Color::Yellow);
+    }
+    staminaBar.setSize(Vector2f(jetpackStamina, 10));
+    staminaBar.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+    staminaBarRect.setSize(Vector2f(100, 10));
+    staminaBarRect.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
 }
-*/
-void Player::update(float deltaTime)
+
+void Player::update(float deltaTime, Map& map)
 {
-	playerMovement(deltaTime);
+	playerMovement(deltaTime, map);
     animationManager(deltaTime);
+    jetpackStaminaGestion();
 }
 
 void Player::draw(RenderWindow& window)
 {
+    window.draw(staminaBarRect);
+    window.draw(staminaBar);
 	window.draw(shape);
 }

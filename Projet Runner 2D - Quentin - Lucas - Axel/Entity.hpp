@@ -12,11 +12,7 @@ protected :
 	Texture texture;
 	Vector2f position;
 	Vector2f velocity;
-	const float gravity = 981.0f; // Gravité en pixels par seconde carrée (simulation)
-
-	Vector2i anim_run;
-	Vector2i anim_jump;
-	Vector2i anim_dash;
+	const float gravity = 150.0f; // Gravité en pixels par seconde carrée (simulation)
 
 public : 
 
