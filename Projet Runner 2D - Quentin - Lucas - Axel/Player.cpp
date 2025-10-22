@@ -2,6 +2,21 @@
 
 Player::Player() : sound(bufferRun), Entity()
 {
+    // initialisation de tout
+    clockRun.start();
+    clockJump.start();
+    clockJetpack.start();
+    clockSecondJump.start();
+
+    velocity = { 0, 0 };
+    position = { 0,0 };
+    state = NOTHING;
+    stateMove = NONE;
+    jetpackStamina = 100;
+    animRun = { 0,0 };
+    animJump = { 0,0 };
+    animJetpack = { 0,0 };
+
     // chargement des textures
 	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "caca run" << endl << endl;
     if (!textureJump.loadFromFile("Assets/Character/Astronaut_JumpV2.png")) cout << "caca jump" << endl << endl;
@@ -36,6 +51,7 @@ bool Player::collision(Map& map)
         state = GROUNDED;
         return true;
     }
+    return false;
 }
 
 void Player::playerMovement(float deltaTime, Map& map)
@@ -51,15 +67,12 @@ void Player::playerMovement(float deltaTime, Map& map)
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Key::Space)) {
-        clockJump.start();
         jump(deltaTime);
     }
 
 	position.y = velocity.y;
 	shape.move(position);
 }
-
-
 
 void Player::jump(float deltaTime)
 {

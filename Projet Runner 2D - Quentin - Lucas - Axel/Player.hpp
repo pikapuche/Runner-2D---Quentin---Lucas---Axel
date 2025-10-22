@@ -14,13 +14,10 @@ protected :
 	RectangleShape staminaBar; // barre d'endurance du jetpack
 	RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
 
-	float jumpCount; // compteur de saut
-
 	Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
 	Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
 	Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
 	Clock clockJetpack; // Clock quand on est pour l'anim jetpack
-
 
 	Texture textureJump; // Texture du saut
 	Texture textureJetpack; // Texture du saut
@@ -30,23 +27,18 @@ protected :
 	Vector2i animJump;
 	Vector2i animJetpack;
 
-	bool isJumping = false; // le joueur saute ?
-
-	float volumeSound; // valeur du volume pour les sons
-
 	SoundBuffer bufferRun; // son quand le perso va courir
 	SoundBuffer bufferJump; // son quand le perso va sauter
 	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
 	Sound sound;
 
-
 public :
 
-	enum State { GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
+	enum State { NOTHING, GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
 	State state;
 
-	enum MoveState { RUNNING, JUMPING, JETPACKING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
 	MoveState stateMove;
 
 	Player();
