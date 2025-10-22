@@ -18,7 +18,7 @@ void Game::run() {
         while (const std::optional event = window.pollEvent())
         {
             // "close requested" event: we close the window
-            if (event->is<sf::Event::Closed>())
+            if (event->is<sf::Event::Closed>() || Keyboard::isKeyPressed(Keyboard::Key::Escape))
                 window.close();
         }
         map.run(deltaTime);
