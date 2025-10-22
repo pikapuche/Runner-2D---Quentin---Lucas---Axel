@@ -4,9 +4,9 @@ Game::Game() {}
 Game::~Game() {}
 
 void Game::run() {
-    sf::RenderWindow window(sf::VideoMode({ 1920, 1080 }), "My window");
-    window.setFramerateLimit(60);
-    map.init();
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
+    window.setVerticalSyncEnabled(true);
+    map.generate();
     sf::Clock clock;
 
     // run the program as long as the window is open
@@ -21,11 +21,10 @@ void Game::run() {
             if (event->is<sf::Event::Closed>())
                 window.close();
         }
-        map.run();
+        map.run(deltaTime);
 
         player->update(deltaTime); 
         render(window);
-
     }
 }
 

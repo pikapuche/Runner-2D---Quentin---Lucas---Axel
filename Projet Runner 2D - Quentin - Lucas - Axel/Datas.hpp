@@ -1,5 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <random>
+#include <algorithm>
 
 namespace STGS {
 
