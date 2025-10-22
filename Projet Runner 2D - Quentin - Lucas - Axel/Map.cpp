@@ -54,21 +54,19 @@ void Map::run(float deltatime) {
     }
 	//std::cout << "score : " << score << std::endl;
 
-	for (auto it = plateforms.begin(); it != plateforms.end(); )
-	{
+	for (auto it = plateforms.begin(); it != plateforms.end(); ) {
 		auto& plateform = *it;
 		plateform->move(deltatime);
 
-		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0)
-		{
+		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0) {
 			it = plateforms.erase(it);
 			score++;
 		}
-		else
-		{
+		else {
 			++it;
 		}
 	}
+
 	//std::cout << "score : " << score << std::endl;
 	if (generateClock.getElapsedTime().asSeconds() > 0.8f) {
 		generate();
@@ -82,35 +80,38 @@ void Map::setObstacles() {
 
 	int waveType = rand() % 100;
 
-	if (waveType < 20) 
-	{
+	if (waveType < 20) {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
 		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
-		tempPlatform->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y });
+		tempPlatform->shape.setSize({ STGS::WIDTH / 5, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
 		if (linePlatform == 1)
-			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 });
+			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 + ground.getSize().y });
 		else
-			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y });
+			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y + ground.getSize().y });
 
 		plateforms.push_back(tempPlatform);
 	}
-	else 
-	{
-		for (int i = 0; i < 2; ++i) {
+	else {
+		int nbObstacles;
+		if (seed % 2 == 0)
+			nbObstacles = 1;
+		else
+			nbObstacles = 2;
+		for (int i = 0; i < nbObstacles; ++i) {
 			int line = lines[i];
 
 			Obstacle* temp = new Obstacle(-500.f - score * 10.f, line);
-			temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y });
+			temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y  });
 
 			if (line == 0)
 				temp->shape.setPosition({ STGS::WIDTH, 0 + STGS::GAP_Y / 2 });
 			else if (line == 1)
-				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 });
+				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2  });
 			else
-				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y });
+				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2  });
 
 			obstacles.push_back(temp);
 		}
