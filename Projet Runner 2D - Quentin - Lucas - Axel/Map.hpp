@@ -8,13 +8,18 @@ public:
 	void run(float deltatime);
 	void render(sf::RenderWindow& window);
 	void generate();
-	void setObstacles();
-	void createSeed();
 
-	std::vector<Obstacle*> obstacles;
+	//getters/setters
+	sf::FloatRect getBounds();
 
 private:
+	std::vector<Obstacle*> obstacles;
 	int seed = 0;
 	std::mt19937 rng;
 	int score;
+	sf::RectangleShape ground;
+
+	void setObstacles();
+	void createSeed();
+	void makeGround();
 };

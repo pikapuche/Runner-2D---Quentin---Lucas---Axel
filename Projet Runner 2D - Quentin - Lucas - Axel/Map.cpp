@@ -5,6 +5,7 @@ Map::Map() {
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
 	score = 50;
+	makeGround();
 }
 
 Map::~Map() {
@@ -23,6 +24,7 @@ void Map::render(sf::RenderWindow& window) {
 	for (auto& obstacle : obstacles) {
 		obstacle->render(window);
 	}
+	window.draw(ground);
 }
 
 void Map::run(float deltatime) {
@@ -61,14 +63,14 @@ void Map::setObstacles() {
 		Obstacle* temp = new Obstacle(-500.0f - score * 10.0f, line);
 
 		temp->shape.setFillColor(sf::Color::Red);
-		temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y });
+		temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y});
 
 		if (temp->getLine() == 0)
 			temp->shape.setPosition({ STGS::WIDTH, 0 + STGS::GAP_Y / 2 });
 		else if (temp->getLine() == 1)
-			temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 1 / 3 + STGS::GAP_Y / 2 });
+			temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 1 / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2});
 		else if (temp->getLine() == 2)
-			temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 });
+			temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2  - ground.getSize().y });
 
 		obstacles.push_back(temp);
 	}
@@ -80,4 +82,14 @@ void Map::createSeed()
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<int> dist(100000, 999999);
 	seed = dist(gen);
+}
+
+void Map::makeGround() {
+	ground.setSize(sf::Vector2f(STGS::WIDTH, STGS::HEIGHT / 10));
+	ground.setFillColor(sf::Color::Green);
+	ground.setPosition(sf::Vector2f(0, STGS::HEIGHT - ground.getSize().y));
+}
+
+sf::FloatRect Map::getBounds() {
+	return ground.getGlobalBounds();
 }
