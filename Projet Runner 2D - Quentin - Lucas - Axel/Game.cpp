@@ -6,7 +6,7 @@ Game::~Game() {}
 void Game::run() {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
     window.setVerticalSyncEnabled(true);
-    map.init();
+    map.generate();
     sf::Clock clock;
 
     // run the program as long as the window is open

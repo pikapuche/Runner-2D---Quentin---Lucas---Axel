@@ -3,19 +3,19 @@
 Map::Map() {
 	createSeed();
 	rng.seed(seed);
-	score = 20;
+	std::cout << "seed : " << seed << std::endl;
+	score = 50;
 }
 
 Map::~Map() {
 
 }
 
-void Map::init() {
-	obstacles.clear();
-	generate();
+void Map::generate() {
+	//obstacles.clear();
+	setObstacles();
 
-	std::cout << "taille vec : " << obstacles.size() << std::endl;
-	std::cout << "seed : " << seed << std::endl;
+	//std::cout << "taille vec : " << obstacles.size() << std::endl;
 }
 
 
@@ -45,14 +45,14 @@ void Map::run(float deltatime) {
 	//std::cout << "score : " << score << std::endl;
 
 
-	if (obstacles[0]->shape.getPosition().x < 0 || obstacles.empty())
+	if (obstacles[obstacles.size()-1]->shape.getPosition().x < STGS::WIDTH / 2 || obstacles.empty())
 	{
-		init();
+		generate();
 	}
 }
 
 
-void Map::generate() {
+void Map::setObstacles() {
 	std::vector<int> lines = { 0, 1, 2 };
 	std::shuffle(lines.begin(), lines.end(), rng);
 
