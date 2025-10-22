@@ -6,6 +6,7 @@ Game::~Game() {}
 void Game::run() {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
     window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
     map.generate();
     sf::Clock clock;
 
@@ -23,7 +24,7 @@ void Game::run() {
         }
         map.run(deltaTime);
 
-        player->update(deltaTime); 
+        player_ptr->update(deltaTime, map); 
         render(window);
     }
 }
@@ -31,6 +32,6 @@ void Game::run() {
 void Game::render(sf::RenderWindow& window) {
     window.clear();
     map.render(window);
-    player->draw(window);
+    player_ptr->draw(window);
     window.display();
 }

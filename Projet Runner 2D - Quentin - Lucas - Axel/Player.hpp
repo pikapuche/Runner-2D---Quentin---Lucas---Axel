@@ -1,48 +1,60 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "Map.hpp"
 
 class Player : public Entity {
 protected : 
 
-	const float SPEED = 100.f; // vitesse du personnage
-	const float JUMP_FORCE = 100.f; // force initiale du saut
+	const float JUMP_FORCE = 40.f; // force initiale du saut
+	const float JETPACK_FORCE = 5.f; // force de propulsion du jetpack
+	const int CHARACTER_ASSET_SIZE = 128; // taille du character
 
-	float jumpCount; // compteur de saut
+	float jetpackStamina = 100.f; // endurance du jetpack
+	RectangleShape staminaBar; // barre d'endurance du jetpack
+	RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
 
-	Clock runClock; // Clock qui permet de modifier la vitesse d'anim
-	Clock jumpClock; // Clock qui permet de modifier la vitesse d'anim
-	Clock secondJumpClock; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
+	Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
+	Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
+	Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
+	Clock clockJetpack; // Clock quand on est pour l'anim jetpack
 
 	Texture textureJump; // Texture du saut
+	Texture textureJetpack; // Texture du saut
 
-	bool isJumping = false; // le joueur saute ?
+	// Vector d'animation qui compte les frames
+	Vector2i animRun; 
+	Vector2i animJump;
+	Vector2i animJetpack;
 
-	float VolumeSound; // valeur du volume pour les sons
+	SoundBuffer bufferRun; // son quand le perso va courir
+	SoundBuffer bufferJump; // son quand le perso va sauter
+	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
-	//SoundBuffer bufferJump; // comment marchent les sons ????
-	//SoundBuffer bufferDoubleJump;
-
-	int characterSpriteValue = 128;
+	Sound sound;
 
 public :
 
-	enum State { GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
+	enum State { NOTHING, GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
 	State state;
 
-	enum MoveState { RUNNING, JUMPING, DASHING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
 	MoveState stateMove;
 
-	Player(float xPos, float yPos);
+	Player();
 	~Player();
 
-	void playerMovement(float deltaTime); // controle les mouvements du player
+	void playerMovement(float deltaTime, Map& map); // controle les mouvements du player
+
+	bool collision(Map& map);
 
 	//void dash(float deltaTime);
 
-	void jump(); // fonction de saut
+	void jump(float deltaTime); // fonction de saut
 
 	void animationManager(float deltaTime); // gère les animations du personnage avec un switch et un enum
+
+	void jetpackStaminaGestion();
 
 	//Vector2f getVelocity();
 
@@ -54,7 +66,7 @@ public :
 
 	//void animationManager(float deltaTime);
 
-	void update(float deltaTime); // update les fonctions du player avec le deltaTime
+	void update(float deltaTime, Map& map); // update les fonctions du player avec le deltaTime
 
 	void draw(RenderWindow& window) override; // draw le player
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SFML/Graphics.hpp"
+#include "SFML/Audio.hpp"
 
 using namespace std;
 using namespace sf;
@@ -12,18 +13,14 @@ protected :
 	Texture texture;
 	Vector2f position;
 	Vector2f velocity;
-	const float gravity = 981.0f; // Gravité en pixels par seconde carrée (simulation)
-
-	Vector2i anim_run;
-	Vector2i anim_jump;
-	Vector2i anim_dash;
+	const float gravity = 150.0f; // Gravité en pixels par seconde carrée (simulation)
 
 public : 
 
 	enum State { NONE, GROUNDED, JUMP };
 	State state = NONE;
 
-	Entity(float posX, float posY);
+	Entity();
 	~Entity() {};
 
 	virtual void collision(Sprite& tile, float deltaTime);
