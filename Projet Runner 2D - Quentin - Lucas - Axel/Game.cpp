@@ -12,8 +12,7 @@ void Game::run() {
     // run the program as long as the window is open
     while (window.isOpen())
     {
-        float deltaTime = clock.getElapsedTime().asSeconds();
-        clock.restart();
+        float deltaTime = clock.restart().asSeconds();
 
         // check all the window's events that were triggered since the last iteration of the loop
         while (const std::optional event = window.pollEvent())

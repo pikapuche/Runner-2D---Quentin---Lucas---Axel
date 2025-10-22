@@ -2,6 +2,7 @@
 
 Entity::Entity(float posX, float posY)
 {
+	texture.setSmooth(true);
 	position.x = posX;
 	position.y = posY;
 }
