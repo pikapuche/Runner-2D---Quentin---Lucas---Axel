@@ -32,6 +32,9 @@ void Map::render(sf::RenderWindow& window) {
 	for (auto& plateform : plateforms) {
 		plateform->render(window);
 	}
+	for (auto& collectible : collectibles) {
+		collectible->render(window);
+	}
 	window.draw(ground);
 }
 
@@ -67,6 +70,19 @@ void Map::run(float deltatime) {
 		}
 	}
 
+	for (auto it = collectibles.begin(); it != collectibles.end(); ) {
+		auto& collectible = *it;
+		collectible->move(deltatime);
+
+		if (collectible->shape.getPosition().x + collectible->shape.getSize().x < 0) {
+			it = collectibles.erase(it);
+			score++;
+		}
+		else {
+			++it;
+		}
+	}
+
 	//std::cout << "score : " << score << std::endl;
 	if (generateClock.getElapsedTime().asSeconds() > 0.8f) {
 		generate();
@@ -80,6 +96,12 @@ void Map::setObstacles() {
 
 	int waveType = rand() % 100;
 
+	int nbObstacles;
+	if (seed % 2 == 0)
+		nbObstacles = 1;
+	else
+		nbObstacles = 2;
+
 	if (waveType < 20) {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
@@ -87,19 +109,28 @@ void Map::setObstacles() {
 		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
 		tempPlatform->shape.setSize({ STGS::WIDTH / 5, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
-		if (linePlatform == 1)
-			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 + ground.getSize().y });
-		else
-			tempPlatform->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y + ground.getSize().y });
+		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
+		tempCollectible->shape.setSize({ STGS::WIDTH / 8, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
+
+		float platformY;
+		if (linePlatform == 1) {
+			platformY = STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 + ground.getSize().y;
+		}
+		else {
+			platformY = STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y + ground.getSize().y;
+		}
+
+		tempPlatform->shape.setPosition({ STGS::WIDTH, platformY });
+
+		tempCollectible->shape.setPosition({
+			STGS::WIDTH + tempPlatform->shape.getSize().x / 2 - tempCollectible->shape.getSize().x / 2,
+			platformY - tempCollectible->shape.getSize().y - 10.f
+			});
 
 		plateforms.push_back(tempPlatform);
+		collectibles.push_back(tempCollectible);
 	}
 	else {
-		int nbObstacles;
-		if (seed % 2 == 0)
-			nbObstacles = 1;
-		else
-			nbObstacles = 2;
 		for (int i = 0; i < nbObstacles; ++i) {
 			int line = lines[i];
 
