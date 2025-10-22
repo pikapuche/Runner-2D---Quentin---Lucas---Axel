@@ -2,6 +2,13 @@
 
 Player::Player() : sound(bufferRun), Entity()
 {
+    /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
+       Collisions sur les trucs de la map
+       Faire les différents sons
+       Créer d'autres touches pour avoir certains bonus ?
+       créer des ennemis ?
+    */
+
     // initialisation de tout
     clockRun.start();
     clockJump.start();
