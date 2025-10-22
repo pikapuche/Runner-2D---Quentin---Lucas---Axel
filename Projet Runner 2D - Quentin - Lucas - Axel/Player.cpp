@@ -64,7 +64,7 @@ void Player::animationManager(float deltaTime)
             anim_run.x++; // on met +1 a notre anim donc change de "case"
             runClock.restart(); // on restart la clock pour continuer
         }
-        if (anim_run.x > 6) {// si on atteint la "fin de l'image" (la fin des "cases")
+        if (anim_run.x > 5) {// si on atteint la "fin de l'image" (la fin des "cases")
             anim_run.x = 0; // on reset l'image et on recommence
         }
 
