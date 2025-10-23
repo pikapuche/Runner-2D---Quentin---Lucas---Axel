@@ -23,8 +23,7 @@ void Game::run() {
                 window.close();
         }
         map.run(deltaTime);
-
-        player_ptr->update(deltaTime, map); 
+        player_ptr->update(deltaTime, map);
         render(window);
     }
 }

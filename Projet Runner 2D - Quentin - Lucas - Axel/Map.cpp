@@ -190,6 +190,11 @@ void Map::makeGround() {
 	ground2.setTexture(&groundTexture);
 }
 
+std::vector<Obstacle*> Map::getVectObs()
+{
+	return obstacles;
+}
+
 void Map::moveGround(float deltaTime)
 {
 	const float groundSpeed = 400.f;
@@ -203,6 +208,7 @@ void Map::moveGround(float deltaTime)
 	if (ground2.getPosition().x + ground2.getSize().x < 0)
 		ground2.setPosition({ ground.getPosition().x + ground.getSize().x, ground2.getPosition().y });
 }
+
 sf::FloatRect Map::getBounds() {
 	return ground.getGlobalBounds();
 }

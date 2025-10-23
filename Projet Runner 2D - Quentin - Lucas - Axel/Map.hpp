@@ -15,8 +15,10 @@ public:
 	sf::FloatRect getBounds();
 	int getScore();
 	int getDifficulty();
+	std::vector<Obstacle*> getVectObs();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
+
 
 private:
 	std::vector<Obstacle*> obstacles;
