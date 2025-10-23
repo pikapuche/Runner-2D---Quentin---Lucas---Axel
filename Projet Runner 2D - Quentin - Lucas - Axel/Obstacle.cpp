@@ -12,7 +12,7 @@ Obstacle::~Obstacle() {
 }
 
 void Obstacle::init() {
-	safePlaceShape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT * 0.02f});
+	safePlaceShape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT * 0.02f)});
 	safePlaceShape.setPosition({ shape.getPosition().x, shape.getPosition().y - safePlaceShape.getSize().y });
 	safePlaceShape.setFillColor(sf::Color::Green);
 }
