@@ -192,13 +192,11 @@ void Map::makeGround() {
 
 void Map::moveGround(float deltaTime)
 {
-	const float groundSpeed = 400.f; // ajustable selon la vitesse du jeu
+	const float groundSpeed = 400.f;
 
-	// Déplacer les deux sols vers la gauche
 	ground.move({ -groundSpeed * deltaTime, 0.f });
 	ground2.move({ -groundSpeed * deltaTime, 0.f });
 
-	// Si un sol sort complètement de l’écran, on le replace à droite de l’autre
 	if (ground.getPosition().x + ground.getSize().x < 0)
 		ground.setPosition({ ground2.getPosition().x + ground2.getSize().x, ground.getPosition().y });
 

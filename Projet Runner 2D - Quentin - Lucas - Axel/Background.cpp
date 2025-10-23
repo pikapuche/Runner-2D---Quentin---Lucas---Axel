@@ -30,7 +30,6 @@ void Background::move(float deltaTime) {
 	const float speedFar = 100.f;
 	const float speedNear = 200.f;
 
-	// === Déplacement ===
 	backboardFirstShape.move({ -speedFar * deltaTime, 0.f });
 	backboardFirstShape2.move({ -speedFar * deltaTime, 0.f });
 	backboardSecondShape.move({ -speedNear * deltaTime, 0.f });
