@@ -39,7 +39,7 @@ public:
 	/////////////////////////////////////////
 	/// \brief function to render obstacles
 	///
-	/// \param window The window
+	/// \param window
 	////////////////////////////////////////
 	void render(sf::RenderWindow& window);
 
