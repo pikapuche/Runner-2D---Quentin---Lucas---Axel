@@ -180,3 +180,11 @@ void Map::makeGround() {
 sf::FloatRect Map::getBounds() {
 	return ground.getGlobalBounds();
 }
+
+int Map::getScore() {
+	return score;
+}
+
+int Map::getDifficulty() {
+	return difficulty;
+}
