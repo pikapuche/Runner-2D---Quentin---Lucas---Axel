@@ -123,7 +123,7 @@ void Map::setObstacles() {
 		tempPlatform->shape.setSize({ STGS::WIDTH / 5, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
 		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
-		tempCollectible->shape.setSize({ STGS::WIDTH / 8, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
+		tempCollectible->shape.setSize({ STGS::WIDTH * 0.04f, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
 		float platformY;
 		if (linePlatform == 1) {
