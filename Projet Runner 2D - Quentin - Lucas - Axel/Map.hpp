@@ -13,6 +13,8 @@ public:
 
 	//getters/setters
 	sf::FloatRect getBounds();
+	int getScore();
+	int getDifficulty();
 
 private:
 	std::vector<Obstacle*> obstacles;
