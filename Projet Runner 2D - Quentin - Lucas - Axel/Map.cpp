@@ -4,7 +4,8 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 1;
+	score = 100;
+
 	makeGround();
 
 	if (!groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
@@ -44,6 +45,7 @@ void Map::run(float deltatime) {
     {
         auto& obstacle = *it;
         obstacle->move(deltatime);
+		obstacle->init();
 
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0)
         {
@@ -84,10 +86,19 @@ void Map::run(float deltatime) {
 	}
 
 	//std::cout << "score : " << score << std::endl;
-	if (generateClock.getElapsedTime().asSeconds() > 0.8f) {
+	delay = 2.0f * std::exp(-0.03f * (score - 1)) + 0.8f;
+	if (generateClock.getElapsedTime().asSeconds() > delay) {
 		generate();
 		generateClock.restart();
 	}
+	if (score < 50)
+		difficulty = 1;
+	else if (score < 100)
+		difficulty = 2;
+	else if (score < 200)
+		difficulty = 3;
+	else
+		difficulty = 4;
 }
 
 void Map::setObstacles() {
@@ -97,12 +108,15 @@ void Map::setObstacles() {
 	int waveType = rand() % 100;
 
 	int nbObstacles;
-	if (seed % 2 == 0)
+	if (waveType < 70 - difficulty * 10)
+		// difficulty 1 = 60% de chance d'avoir un seul obstacle //// 50% pour la difficulty 2 //// 40% de chance pour la difficult� 3 //// 30% de chance pour la difficult� 4
 		nbObstacles = 1;
 	else
 		nbObstacles = 2;
 
-	if (waveType < 20) {
+	waveType += difficulty * 5; // plus de chance d'avoir des plateforms en debut de partie
+
+	if (waveType < 33) {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
@@ -110,7 +124,7 @@ void Map::setObstacles() {
 		tempPlatform->shape.setSize({ STGS::WIDTH / 5, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
 		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
-		tempCollectible->shape.setSize({ STGS::WIDTH / 8, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
+		tempCollectible->shape.setSize({ STGS::WIDTH * 0.04f, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
 
 		float platformY;
 		if (linePlatform == 1) {
@@ -167,4 +181,12 @@ void Map::makeGround() {
 
 sf::FloatRect Map::getBounds() {
 	return ground.getGlobalBounds();
+}
+
+int Map::getScore() {
+	return score;
+}
+
+int Map::getDifficulty() {
+	return difficulty;
 }

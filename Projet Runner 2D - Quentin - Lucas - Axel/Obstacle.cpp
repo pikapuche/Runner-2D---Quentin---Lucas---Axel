@@ -12,16 +12,19 @@ Obstacle::~Obstacle() {
 }
 
 void Obstacle::init() {
-	std::cout << "line : " << line << std::endl;
-	std::cout << "pos : " << shape.getPosition().y << std::endl;
+	safePlaceShape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT * 0.02f});
+	safePlaceShape.setPosition({ shape.getPosition().x, shape.getPosition().y - safePlaceShape.getSize().y });
+	safePlaceShape.setFillColor(sf::Color::Green);
 }
 
 void Obstacle::move(float deltatime) {
 	shape.move({ velocity * deltatime, 0 });
+	safePlaceShape.move({ velocity * deltatime, 0 });
 }
 
 void Obstacle::render(sf::RenderWindow& window) {
 	window.draw(shape);
+	window.draw(safePlaceShape);
 }
 
 int Obstacle::getLine() {
@@ -30,4 +33,8 @@ int Obstacle::getLine() {
 
 void Obstacle::setPosition(sf::Vector2f pos) {
 	shape.setPosition(pos);
+}
+
+sf::FloatRect Obstacle::getSafePlaceBounds() {
+	return safePlaceShape.getGlobalBounds();
 }

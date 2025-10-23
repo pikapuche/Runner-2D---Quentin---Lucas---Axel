@@ -13,6 +13,8 @@ public:
 
 	//getters/setters
 	sf::FloatRect getBounds();
+	int getScore();
+	int getDifficulty();
 
 private:
 	std::vector<Obstacle*> obstacles;
@@ -29,4 +31,6 @@ private:
 	sf::Texture groundTexture;
 
 	sf::Clock generateClock;
+	float delay;
+	int difficulty;
 };
