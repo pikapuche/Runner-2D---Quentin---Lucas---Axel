@@ -14,11 +14,12 @@ public:
 	Obstacle(float _velocity, int _line);
 	~Obstacle();
 
-	sf::RectangleShape shape;
+	sf::RectangleShape shape, safePlaceShape;
 	void render(sf::RenderWindow& window);
 	void move(float deltatime);
 	void init();
 
 	int getLine();
+	sf::FloatRect getSafePlaceBounds();
 	void setPosition(sf::Vector2f pos);
 };
