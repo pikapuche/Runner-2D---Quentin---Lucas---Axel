@@ -4,7 +4,7 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 100;
+	score = 10;
 
 	makeGround();
 
