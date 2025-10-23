@@ -39,7 +39,7 @@ Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(buff
     staminaBarRect.setOutlineThickness(5.f);
     staminaBarRect.setOutlineColor(Color::White);
 
-    shape.setPosition(Vector2f(300, 800));
+    shape.setPosition(Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
 
     // initialisation des sons
     if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) cout << "caca son run" << endl << endl;
