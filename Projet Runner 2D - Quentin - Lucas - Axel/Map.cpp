@@ -190,3 +190,7 @@ int Map::getScore() {
 int Map::getDifficulty() {
 	return difficulty;
 }
+
+sf::RectangleShape Map::getGround() {
+	return ground;
+}
