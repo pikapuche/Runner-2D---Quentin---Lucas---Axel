@@ -27,6 +27,7 @@ void Map::generate() {
 
 
 void Map::render(sf::RenderWindow& window) {
+	bg.render(window);
 	for (auto& obstacle : obstacles) {
 		obstacle->render(window);
 	}
@@ -37,6 +38,7 @@ void Map::render(sf::RenderWindow& window) {
 		collectible->render(window);
 	}
 	window.draw(ground);
+	window.draw(ground2);
 }
 
 void Map::run(float deltatime) {
@@ -99,6 +101,9 @@ void Map::run(float deltatime) {
 		difficulty = 3;
 	else
 		difficulty = 4;
+
+	bg.move(deltatime);
+	moveGround(deltatime);
 }
 
 void Map::setObstacles() {
@@ -121,20 +126,20 @@ void Map::setObstacles() {
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
 		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
-		tempPlatform->shape.setSize({ STGS::WIDTH / 5, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
+		tempPlatform->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
 		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
-		tempCollectible->shape.setSize({ STGS::WIDTH * 0.04f, (STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2 });
+		tempCollectible->shape.setSize({ static_cast<float>(STGS::WIDTH * 0.04f), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
 		float platformY;
 		if (linePlatform == 1) {
-			platformY = STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 + ground.getSize().y;
+			platformY = static_cast<float>(STGS::HEIGHT / 3 + STGS::GAP_Y / 2 - ground.getSize().y / 2 + ground.getSize().y);
 		}
 		else {
-			platformY = STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y + ground.getSize().y;
+			platformY = static_cast<float>(STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2 - ground.getSize().y + ground.getSize().y);
 		}
 
-		tempPlatform->shape.setPosition({ STGS::WIDTH, platformY });
+		tempPlatform->shape.setPosition({ static_cast<float>(STGS::WIDTH), platformY });
 
 		tempCollectible->shape.setPosition({
 			STGS::WIDTH + tempPlatform->shape.getSize().x / 2 - tempCollectible->shape.getSize().x / 2,
@@ -149,14 +154,14 @@ void Map::setObstacles() {
 			int line = lines[i];
 
 			Obstacle* temp = new Obstacle(-500.f - score * 10.f, line);
-			temp->shape.setSize({ STGS::WIDTH / 5, STGS::HEIGHT / 3 - STGS::GAP_Y  });
+			temp->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y)  });
 
 			if (line == 0)
-				temp->shape.setPosition({ STGS::WIDTH, 0 + STGS::GAP_Y / 2 });
+				temp->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(0 + STGS::GAP_Y / 2) });
 			else if (line == 1)
-				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT / 3 + STGS::GAP_Y / 2  });
+				temp->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT / 3 + STGS::GAP_Y / 2)  });
 			else
-				temp->shape.setPosition({ STGS::WIDTH, STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2  });
+				temp->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2)  });
 
 			obstacles.push_back(temp);
 		}
@@ -177,11 +182,31 @@ void Map::makeGround() {
 
 	ground.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 32 })); // 1 tile = 32px //// 3 tiles = 96px
 	ground.setTexture(&groundTexture);
+
+	ground2.setSize(sf::Vector2f(STGS::WIDTH, STGS::HEIGHT / 10));
+	ground2.setPosition(sf::Vector2f(STGS::WIDTH, STGS::HEIGHT - ground.getSize().y));
+
+	ground2.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 32 })); // 1 tile = 32px //// 3 tiles = 96px
+	ground2.setTexture(&groundTexture);
 }
 
 std::vector<Obstacle*> Map::getVectObs()
 {
 	return obstacles;
+}
+
+void Map::moveGround(float deltaTime)
+{
+	const float groundSpeed = 400.f;
+
+	ground.move({ -groundSpeed * deltaTime, 0.f });
+	ground2.move({ -groundSpeed * deltaTime, 0.f });
+
+	if (ground.getPosition().x + ground.getSize().x < 0)
+		ground.setPosition({ ground2.getPosition().x + ground2.getSize().x, ground.getPosition().y });
+
+	if (ground2.getPosition().x + ground2.getSize().x < 0)
+		ground2.setPosition({ ground.getPosition().x + ground.getSize().x, ground2.getPosition().y });
 }
 
 sf::FloatRect Map::getBounds() {
@@ -198,4 +223,8 @@ int Map::getDifficulty() {
 
 sf::RectangleShape Map::getGround() {
 	return ground;
+}
+
+sf::RectangleShape Map::getGround2() {
+	return ground2;
 }

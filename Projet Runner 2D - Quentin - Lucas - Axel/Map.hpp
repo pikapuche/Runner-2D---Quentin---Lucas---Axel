@@ -17,6 +17,7 @@ public:
 	int getDifficulty();
 	std::vector<Obstacle*> getVectObs();
 	sf::RectangleShape getGround();
+	sf::RectangleShape getGround2();
 
 
 private:
@@ -26,11 +27,13 @@ private:
 	int seed = 0;
 	std::mt19937 rng;
 	int score;
-	sf::RectangleShape ground;
+	sf::RectangleShape ground, ground2;
+	Background bg;
 
 	void setObstacles();
 	void createSeed();
 	void makeGround();
+	void moveGround(float deltaTime);
 	sf::Texture groundTexture;
 
 	sf::Clock generateClock;
