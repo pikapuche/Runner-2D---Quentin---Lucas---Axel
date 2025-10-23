@@ -34,6 +34,8 @@ Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(buff
     textureJetpack.setSmooth(true);
 
 	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // 128x128 car la size du perso est 128 px
+    shape.setTexture(&texture);
+
 
     // préparation de la staminaBar pour le jetpack
     staminaBarRect.setOutlineThickness(5.f);
@@ -69,11 +71,16 @@ bool Player::collision(Map& map)
             state = GROUNDED;
             return true;
         }
-        if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
-            velocity.y = 0;
-            state = GROUNDED;
-            return true;
-        }
+    }
+    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        return true;
+    }
+    if (shape.getGlobalBounds().findIntersection(map.getBounds2())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        return true;
     }
     soundRun.stop();
     return false;
@@ -96,9 +103,6 @@ void Player::playerMovement(float deltaTime, Map& map)
     }
 
 	position.y = velocity.y;
-    if (shape.getPosition().y > 850) {
-        shape.setPosition({ shape.getPosition().x, 850 });
-    }
 	shape.move(position);
 }
 

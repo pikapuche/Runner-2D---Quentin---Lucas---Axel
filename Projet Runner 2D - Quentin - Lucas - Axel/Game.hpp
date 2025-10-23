@@ -1,7 +1,5 @@
 #pragma	once 
 #include "Map.hpp"
-#include <iostream>
-#include "SFML/Graphics.hpp"
 #include "Player.hpp"
 #include "menu.hpp"
 

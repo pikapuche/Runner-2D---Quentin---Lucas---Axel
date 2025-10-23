@@ -184,7 +184,7 @@ void Map::makeGround() {
 	ground.setTexture(&groundTexture);
 
 	ground2.setSize(sf::Vector2f(STGS::WIDTH, STGS::HEIGHT / 10));
-	ground2.setPosition(sf::Vector2f(STGS::WIDTH, STGS::HEIGHT - ground.getSize().y));
+	ground2.setPosition(sf::Vector2f(STGS::WIDTH * 0.9, STGS::HEIGHT - ground.getSize().y));
 
 	ground2.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 32 })); // 1 tile = 32px //// 3 tiles = 96px
 	ground2.setTexture(&groundTexture);
@@ -212,6 +212,11 @@ void Map::moveGround(float deltaTime)
 sf::FloatRect Map::getBounds() {
 	return ground.getGlobalBounds();
 }
+
+sf::FloatRect Map::getBounds2() {
+	return ground2.getGlobalBounds();
+}
+
 
 int Map::getScore() {
 	return score;
