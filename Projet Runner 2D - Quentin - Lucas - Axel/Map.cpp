@@ -5,6 +5,7 @@ Map::Map() {
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
 	score = 100;
+
 	makeGround();
 
 	if (!groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
@@ -108,7 +109,7 @@ void Map::setObstacles() {
 
 	int nbObstacles;
 	if (waveType < 70 - difficulty * 10)
-		// difficulty 1 = 60% de chance d'avoir un seul obstacle //// 50% pour la difficulty 2 //// 40% de chance pour la difficulté 3 //// 30% de chance pour la difficulté 4
+		// difficulty 1 = 60% de chance d'avoir un seul obstacle //// 50% pour la difficulty 2 //// 40% de chance pour la difficultï¿½ 3 //// 30% de chance pour la difficultï¿½ 4
 		nbObstacles = 1;
 	else
 		nbObstacles = 2;

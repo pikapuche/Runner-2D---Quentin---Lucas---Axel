@@ -2,6 +2,13 @@
 
 Player::Player() : sound(bufferRun), Entity()
 {
+    /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
+       Collisions sur les trucs de la map
+       Faire les différents sons
+       Créer d'autres touches pour avoir certains bonus ?
+       créer des ennemis ?
+    */
+
     // initialisation de tout
     clockRun.start();
     clockJump.start();
@@ -102,8 +109,10 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
-        sound.setBuffer(bufferRun);
-        sound.play();
+        if (soundPlay == 0) {
+            sound.play();
+            soundPlay++;
+        }
         shape.setTexture(&texture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
