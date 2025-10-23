@@ -1,7 +1,5 @@
 #pragma once
-
 #include "Game.hpp"
-#include <iostream>
 
 int main() {
 	Game game;
