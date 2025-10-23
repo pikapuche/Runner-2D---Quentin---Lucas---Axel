@@ -4,7 +4,7 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 100;
+	score = 10;
 
 	makeGround();
 
@@ -189,4 +189,8 @@ int Map::getScore() {
 
 int Map::getDifficulty() {
 	return difficulty;
+}
+
+sf::RectangleShape Map::getGround() {
+	return ground;
 }
