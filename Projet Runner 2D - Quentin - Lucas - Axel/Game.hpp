@@ -16,4 +16,5 @@ public:
 	~Game();
 	void run();
 	void render(sf::RenderWindow& window);
+	int score;
 };

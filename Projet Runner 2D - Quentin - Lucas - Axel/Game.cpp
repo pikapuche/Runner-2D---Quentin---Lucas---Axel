@@ -1,6 +1,9 @@
 #include "Game.hpp"
 
-Game::Game() {}
+Game::Game() {
+    score = 100;
+    map.setScore(score);
+}
 Game::~Game() {}
 
 void Game::run() {
