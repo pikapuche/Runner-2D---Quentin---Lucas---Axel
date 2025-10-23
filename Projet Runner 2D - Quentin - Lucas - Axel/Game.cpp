@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game() {
-    score = 100;
+    score = 1;
     collectible = 0;
     map.setScore(score);
 }
