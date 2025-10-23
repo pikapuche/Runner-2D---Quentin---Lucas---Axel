@@ -236,3 +236,7 @@ sf::RectangleShape Map::getGround2() {
 void Map::setScore(int score) {
 	_score = score;
 }
+
+std::vector<Plateform*> Map::getPlatformVector() {
+	return plateforms;
+}
