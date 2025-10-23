@@ -29,4 +29,5 @@ private:
 	sf::Texture groundTexture;
 
 	sf::Clock generateClock;
+	float delay;
 };

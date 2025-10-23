@@ -4,7 +4,7 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 50;
+	score = 100;
 	makeGround();
 
 	if (!groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
@@ -84,8 +84,8 @@ void Map::run(float deltatime) {
 	}
 
 	//std::cout << "score : " << score << std::endl;
-
-	if (generateClock.getElapsedTime().asSeconds() > 0.8) {
+	delay = 2.0f * std::exp(-0.03f * (score - 1)) + 0.8f;
+	if (generateClock.getElapsedTime().asSeconds() > delay) {
 		generate();
 		generateClock.restart();
 	}
