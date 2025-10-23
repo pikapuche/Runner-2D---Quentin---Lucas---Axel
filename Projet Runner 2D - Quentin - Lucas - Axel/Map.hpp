@@ -30,4 +30,5 @@ private:
 
 	sf::Clock generateClock;
 	float delay;
+	int difficulty;
 };

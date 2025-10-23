@@ -89,6 +89,14 @@ void Map::run(float deltatime) {
 		generate();
 		generateClock.restart();
 	}
+	if (score < 50)
+		difficulty = 1;
+	else if (score < 100)
+		difficulty = 2;
+	else if (score < 200)
+		difficulty = 3;
+	else
+		difficulty = 4;
 }
 
 void Map::setObstacles() {
@@ -98,10 +106,13 @@ void Map::setObstacles() {
 	int waveType = rand() % 100;
 
 	int nbObstacles;
-	if (seed % 2 == 0)
+	if (waveType < 70 - difficulty * 10)
+		// difficulty 1 = 60% de chance d'avoir un seul obstacle //// 50% pour la difficulty 2 //// 40% de chance pour la difficulté 3 //// 30% de chance pour la difficulté 4
 		nbObstacles = 1;
 	else
 		nbObstacles = 2;
+
+	waveType += difficulty * 5; // plus de chance d'avoir des plateforms en debut de partie
 
 	if (waveType < 33) {
 		std::vector<int> platformLines = { 1, 2 };
