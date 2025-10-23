@@ -53,11 +53,19 @@ Player::~Player() {}
 
 bool Player::collision(Map& map)
 {
-    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
-        velocity.y = 0;
-        position.y;
-        state = GROUNDED;
-        return true;
+    const std::vector<Obstacle*>& vectObs = map.getVectObs();
+    for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
+        auto& obstacle = *it;
+        if (shape.getGlobalBounds().findIntersection(obstacle->getSafePlaceBounds())) {
+            velocity.y = 0;
+            state = GROUNDED;
+            return true;
+        }
+        if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
+            velocity.y = 0;
+            state = GROUNDED;
+            return true;
+        }
     }
     return false;
 }
@@ -79,6 +87,9 @@ void Player::playerMovement(float deltaTime, Map& map)
     }
 
 	position.y = velocity.y;
+    if (shape.getPosition().y > 850) {
+        shape.setPosition({ shape.getPosition().x, 850 });
+    }
 	shape.move(position);
 }
 

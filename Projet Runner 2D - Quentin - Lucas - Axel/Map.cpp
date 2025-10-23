@@ -179,6 +179,11 @@ void Map::makeGround() {
 	ground.setTexture(&groundTexture);
 }
 
+std::vector<Obstacle*> Map::getVectObs()
+{
+	return obstacles;
+}
+
 sf::FloatRect Map::getBounds() {
 	return ground.getGlobalBounds();
 }
