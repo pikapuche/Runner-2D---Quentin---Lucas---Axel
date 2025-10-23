@@ -44,6 +44,7 @@ void Map::run(float deltatime) {
     {
         auto& obstacle = *it;
         obstacle->move(deltatime);
+		obstacle->init();
 
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0)
         {
