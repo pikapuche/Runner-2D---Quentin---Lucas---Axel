@@ -1,6 +1,8 @@
 #include "Game.hpp"
 
-Game::Game() {}
+Game::Game() {
+    
+}
 Game::~Game() {}
 
 void Game::run() {
@@ -9,7 +11,7 @@ void Game::run() {
     window.setFramerateLimit(60);
     map.generate();
     sf::Clock clock;
-
+    clockGame.start();
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -26,12 +28,15 @@ void Game::run() {
 
         player_ptr->update(deltaTime, map); 
         render(window);
+        myHud.update(clockGame);
     }
 }
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
+    
     map.render(window);
     player_ptr->draw(window);
+    myHud.drawHUD(window);
     window.display();
 }
