@@ -15,4 +15,5 @@ public:
 	void run();
 	void render(sf::RenderWindow& window);
 	int score;
+	int collectible;
 };
