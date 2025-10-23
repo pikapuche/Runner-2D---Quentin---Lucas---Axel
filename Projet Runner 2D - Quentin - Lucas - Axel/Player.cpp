@@ -55,6 +55,7 @@ bool Player::collision(Map& map)
 {
     if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
         velocity.y = 0;
+        position.y;
         state = GROUNDED;
         return true;
     }
