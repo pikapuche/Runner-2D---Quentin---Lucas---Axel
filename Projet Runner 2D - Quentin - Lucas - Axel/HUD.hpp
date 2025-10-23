@@ -17,7 +17,7 @@ public:
 	void drawHUD(RenderWindow& window);
 	void update(Clock& clock);
 	void calculateTimer(Clock& clock);
-
+	void initTexture();
 protected:
 
 	Text timer;
@@ -29,6 +29,7 @@ protected:
 	RectangleShape heart2;
 	RectangleShape heart3;
 	Map map;
-	
+	RectangleShape goldPiece;
+	Texture goldTexture;
 };
 

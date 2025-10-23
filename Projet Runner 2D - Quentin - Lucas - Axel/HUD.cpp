@@ -4,6 +4,7 @@
 
 
 HUD::HUD() : lvl(font),score(font), timer(font) {
+	initTexture();
 	initHUD();
 }
 
@@ -11,7 +12,15 @@ HUD::~HUD() {
 
 }
 
+void HUD::initTexture() {
+	if(!goldTexture.loadFromFile("Assets/Images/Gold.png"))
+		cout << "cc";
+	goldPiece.setTexture(&goldTexture);
+}
+
 void HUD::initHUD() {
+	goldPiece.setPosition({ 50, STGS::HEIGHT - 100 });
+	goldPiece.setSize({ 50,50 });
 	lifeholder.setPosition({ STGS::WIDTH / 2, 0 });
 	lifeholder.setSize({ 250,50 });
 	lvl.setPosition({ STGS::WIDTH/2,STGS::HEIGHT/2 });
@@ -21,9 +30,9 @@ void HUD::initHUD() {
 	score.setString("C'est le score");
 	lvl.setString("C'est le lvl");
 	
-	lvl.setCharacterSize({ 30});
-	score.setCharacterSize({ 30});
-	timer.setCharacterSize({ 30});
+	lvl.setCharacterSize({30});
+	score.setCharacterSize({30});
+	timer.setCharacterSize({30});
 
 	lvl.setFillColor(Color::White);
 	score.setFillColor(Color::White);
@@ -37,7 +46,7 @@ void HUD::drawHUD(RenderWindow& window) {
 	window.draw(score);
 	window.draw(timer);
 	window.draw(lifeholder);
-	cout << "tout est draw hihihih";
+	window.draw(goldPiece);
 	
 
 }
