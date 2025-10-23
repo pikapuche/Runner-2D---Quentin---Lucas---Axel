@@ -361,3 +361,21 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignorer les includes externes (SFML, etc.)
+
+/SFML-3.0.2/
+/include/
+/lib/
+
+# Ignorer uniquement les DLL dans le dossier x64
+
+/x64/**/*.dll
+
+# Ignorer les Assets 
+
+Assets/**/*.png
+Assets/**/*.jpg
+Assets/**/*.wav
+Assets/**/*.ogg
+Assets/**/*.ttf

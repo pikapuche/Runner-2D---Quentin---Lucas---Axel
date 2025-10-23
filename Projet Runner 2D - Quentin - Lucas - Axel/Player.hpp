@@ -7,7 +7,7 @@ class Player : public Entity {
 protected : 
 
 	const float JUMP_FORCE = 40.f; // force initiale du saut
-	const float JETPACK_FORCE = 5.f; // force de propulsion du jetpack
+	const float JETPACK_FORCE = 15.f; // force de propulsion du jetpack
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
 
 	float jetpackStamina = 100.f; // endurance du jetpack
@@ -32,6 +32,8 @@ protected :
 	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
 	Sound sound;
+
+	int soundPlay = 0;
 
 public :
 
