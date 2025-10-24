@@ -23,5 +23,6 @@ public:
 	void render(sf::RenderWindow& window);
 	int score;
 	int collectible;
+	bool playing;
 	GameState gameState;
 };

@@ -10,7 +10,7 @@ class Button
 public:
 	Button();
 	~Button();
-	void activate();
+	bool activate();
 	bool isHovering();
 	void drawButton(RenderWindow& window);
 

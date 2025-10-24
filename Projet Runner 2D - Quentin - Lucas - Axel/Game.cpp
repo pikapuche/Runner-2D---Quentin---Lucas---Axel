@@ -9,6 +9,7 @@ Game::Game() {
     collectible = 0;
     map.setScore(score);
     gameState = MenuStart;
+    playing = false;
 }
 Game::~Game() {}
 
@@ -19,6 +20,7 @@ void Game::run() {
     window.setFramerateLimit(60);
     sf::Clock clock;
     float deltaTime = clock.restart().asSeconds();
+	player_ptr = make_shared<Player>();
     while (window.isOpen())
     {
         switch (gameState)
@@ -31,16 +33,24 @@ void Game::run() {
                 if (event->is<sf::Event::Closed>() || Keyboard::isKeyPressed(Keyboard::Key::Escape))
                     window.close();
             }
-
+            if (menu.playButton.activate()) {
+                gameState = Game::Play;
+                
+			}
             render(window);
 
             break;
         case Game::Play:
-            map.generate();
-
-            clockGame.start();
-            // run the program as long as the window is open
-			deltaTime = clock.restart().asSeconds();
+            
+            if (playing == false) {
+                music.play();
+                clockGame.start();
+                map.generate();
+                playing = true;
+			}
+            
+            
+                deltaTime = clock.restart().asSeconds();
                 score = map.getScore();
                 
 
