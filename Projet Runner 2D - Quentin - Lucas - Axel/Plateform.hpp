@@ -8,7 +8,6 @@ private:
 	int sizeX, sizeY;
 	float velocity;
 	int line = 0;
-	sf::Texture shapeTexture;
 
 public:
 	Plateform(float _velocity, int _line);

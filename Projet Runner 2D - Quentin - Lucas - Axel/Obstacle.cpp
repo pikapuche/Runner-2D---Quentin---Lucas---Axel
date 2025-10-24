@@ -1,14 +1,12 @@
 #include "Obstacle.hpp"
 
 Obstacle::Obstacle(float _velocity, int _line) : line(_line), velocity(_velocity) {
-	if (!shapeTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
-		std::cerr << "Erreur chargement texture" << std::endl;
-	}
+	
 	shape.setTextureRect(sf::IntRect({ 0, 32 }, { 96, 64 })); // 1 tile = 32px //// 3 tiles = 96px
-	shape.setTexture(&shapeTexture);
+	shape.setTexture(&Shared::tileSetTexture);
 
 	safePlaceShape.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 32 }));
-	safePlaceShape.setTexture(&shapeTexture);
+	safePlaceShape.setTexture(&Shared::tileSetTexture);
 }
 
 Obstacle::~Obstacle() {

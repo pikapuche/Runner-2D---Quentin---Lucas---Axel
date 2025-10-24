@@ -22,4 +22,5 @@ public:
 	void render(sf::RenderWindow& window);
 	int score;
 	int collectible;
+	AssetManager assetManager;
 };

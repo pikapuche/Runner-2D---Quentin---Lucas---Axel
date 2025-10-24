@@ -1,39 +1,16 @@
 #include "Background.hpp"
 
-Background::Background()  { // TODO : ADD BIOMES (depend to game difficulty). 4 biomes / 3 transition textures 
-	// --- BIOME 1 : facile ---
-	if (!backboardFirstTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundFar.png"))
-		std::cerr << "Erreur : backgroundFar.png introuvable" << std::endl;
-	if (!backboardSecondTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundNear.png"))
-		std::cerr << "Erreur : backgroundNear.png introuvable" << std::endl;
+Background::Background()  {
 
-	// --- BIOME 2 : normal ---
-	if (!backboardFirstTextureDifficultyTwo.loadFromFile("Assets/tiles_map/backgroundFar_2.png"))
-		std::cerr << "Erreur : backgroundFar_2.png introuvable" << std::endl;
-	if (!backboardSecondTextureDifficultyTwo.loadFromFile("Assets/tiles_map/backgroundNear_2.png"))
-		std::cerr << "Erreur : backgroundNear_2.png introuvable" << std::endl;
-
-	// --- BIOME 3 : difficile ---
-	if (!backboardFirstTextureDifficultyThree.loadFromFile("Assets/tiles_map/backgroundFar_3.png"))
-		std::cerr << "Erreur : backgroundFar_3.png introuvable" << std::endl;
-	if (!backboardSecondTextureDifficultyThree.loadFromFile("Assets/tiles_map/backgroundNear_3.png"))
-		std::cerr << "Erreur : backgroundNear_3.png introuvable" << std::endl;
-
-	// --- BIOME 4 : extrême ---
-	if (!backboardFirstTextureDifficultyFour.loadFromFile("Assets/tiles_map/backgroundFar_4.png"))
-		std::cerr << "Erreur : backgroundFar_4.png introuvable" << std::endl;
-	if (!backboardSecondTextureDifficultyFour.loadFromFile("Assets/tiles_map/backgroundNear_4.png"))
-		std::cerr << "Erreur : backgroundNear_4.png introuvable" << std::endl;
-
-	backboardFirstShape.setTexture(&backboardFirstTextureDifficultyOne);
+	backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne);
 	backboardFirstShape.setPosition({ 0, 0 });
 	backboardFirstShape.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
 
 	backboardFirstShape2.setPosition({ static_cast<float>(STGS::WIDTH), 0 });
-	backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyOne);
+	backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyOne);
 	backboardFirstShape2.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
 
-	backboardSecondShape.setTexture(&backboardSecondTextureDifficultyOne);
+	backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyOne);
 	backboardSecondShape.setPosition({ 0, 0 });
 	backboardSecondShape.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
 
@@ -99,33 +76,33 @@ void Background::setBackgroundTexture(int difficulty) {
 	currentDifficulty = difficulty;
 	switch (difficulty) {
 	case 1:
-		backboardFirstShape.setTexture(&backboardFirstTextureDifficultyOne);
-		backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyOne);
-		backboardSecondShape.setTexture(&backboardSecondTextureDifficultyOne);
+		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne, true);
+		backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyOne, true);
+		backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyOne, true);
 		break;
 
 	case 2:
-		backboardFirstShape.setTexture(&backboardFirstTextureDifficultyTwo);
-		backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyTwo);
-		backboardSecondShape.setTexture(&backboardSecondTextureDifficultyTwo);
+		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyTwo);
+		backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyTwo);
+		backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyTwo);
 		break;
 
 	case 3:
-		backboardFirstShape.setTexture(&backboardFirstTextureDifficultyThree);
-		backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyThree);
-		backboardSecondShape.setTexture(&backboardSecondTextureDifficultyThree);
+		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyThree);
+		backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyThree);
+		backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyThree);
 		break;
 
 	case 4:
-		backboardFirstShape.setTexture(&backboardFirstTextureDifficultyFour);
-		backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyFour);
-		backboardSecondShape.setTexture(&backboardSecondTextureDifficultyFour);
+		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyFour);
+		backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyFour);
+		backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyFour);
 		break;
 
 	default:
-		backboardFirstShape.setTexture(&backboardFirstTextureDifficultyOne);
-		backboardFirstShape2.setTexture(&backboardFirstTextureDifficultyOne);
-		backboardSecondShape.setTexture(&backboardSecondTextureDifficultyOne);
+		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne);
+		backboardFirstShape2.setTexture(&Shared::backboardFirstTextureDifficultyOne);
+		backboardSecondShape.setTexture(&Shared::backboardSecondTextureDifficultyOne);
 		break;
 	}
 }

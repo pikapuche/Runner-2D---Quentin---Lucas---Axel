@@ -8,3 +8,15 @@ namespace STGS {
     static const int HEIGHT = sf::VideoMode::getDesktopMode().size.y;
     static const int GAP_Y = 60;
 }
+
+class Shared {
+public:
+    static sf::Texture tileSetTexture;
+    static sf::Texture collectibleTexture;
+
+    static sf::Texture backboardFirstTextureDifficultyOne, backboardSecondTextureDifficultyOne;
+    static sf::Texture backboardFirstTextureDifficultyTwo, backboardSecondTextureDifficultyTwo;
+    static sf::Texture backboardFirstTextureDifficultyThree, backboardSecondTextureDifficultyThree;
+    static sf::Texture backboardFirstTextureDifficultyFour, backboardSecondTextureDifficultyFour;
+    static sf::Texture transitionTextureOneTwo, transitionTextureTwoThree, transitionTextureThreeFour;
+};
