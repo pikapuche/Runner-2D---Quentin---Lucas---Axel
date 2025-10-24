@@ -4,9 +4,8 @@ Player::Player() : sound(bufferRun), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
        Collisions sur les trucs de la map
-       Faire les différents sons
-       Créer d'autres touches pour avoir certains bonus ?
-       créer des ennemis ?
+       collectibles
+       perte de vie
     */
 
     // initialisation de tout
@@ -60,6 +59,10 @@ bool Player::collision(Map& map)
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
+            return true;
+        }
+        if (getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+            //setLessLife();
             return true;
         }
     }
@@ -187,6 +190,36 @@ FloatRect Player::getFeetBounds() const
     return FloatRect(feetPos, feetSize);
 }
 
+int Player::getLife()
+{
+    return life;
+}
+
+void Player::setLife(int l)
+{
+    life = l;
+}
+
+void Player::setLessLife()
+{
+    if (life <= 0) {
+        life = 0;
+    }
+    else {
+        life--;
+    }
+}
+
+void Player::setUpLife()
+{
+    if (life >= 3) {
+        life = 3;
+    }
+    else {
+        life++;
+    }
+}
+
 void Player::soundManager(SoundBuffer& buffer)
 {
     const sf::SoundBuffer& currentBuffer = sound.getBuffer();
@@ -212,14 +245,18 @@ void Player::soundManager(SoundBuffer& buffer)
 
 void Player::update(float deltaTime, Map& map)
 {
-	playerMovement(deltaTime, map);
-    animationManager(deltaTime);
-    jetpackStaminaGestion();
+    if (life != 0) {
+        playerMovement(deltaTime, map);
+        animationManager(deltaTime);
+        jetpackStaminaGestion();
+    }
 }
 
 void Player::draw(RenderWindow& window)
 {
-    window.draw(staminaBarRect);
-    window.draw(staminaBar);
-	window.draw(shape);
+    if (life != 0) {
+        window.draw(staminaBarRect);
+        window.draw(staminaBar);
+        window.draw(shape);
+    }
 }

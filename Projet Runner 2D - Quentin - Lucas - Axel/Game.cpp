@@ -43,6 +43,6 @@ void Game::render(sf::RenderWindow& window) {
     
     map.render(window);
     player_ptr->draw(window);
-    myHud.drawHUD(window);
+    myHud.drawHUD(window, *player_ptr);
     window.display();
 }

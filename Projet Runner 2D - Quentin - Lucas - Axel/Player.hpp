@@ -35,6 +35,10 @@ protected :
 
 	Sound sound;
 
+	int life = 3;
+
+	bool isInvincible = false;
+
 public :
 
 	enum State { NOTHING, GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
@@ -48,19 +52,25 @@ public :
 
 	void playerMovement(float deltaTime, Map& map); // controle les mouvements du player
 
-	bool collision(Map& map);
-
 	void jump(float deltaTime); // fonction de saut
+
+	bool collision(Map& map);
 
 	void animationManager(float deltaTime); // gère les animations du personnage avec un switch et un enum
 
 	void jetpackStaminaGestion();
 
+	void death();
+
 	FloatRect getFeetBounds() const;
 
-	//Vector2f getVelocity();
+	int getLife();
 
-	//Vector2f setVelocity(float veloX, float veloY);
+	void setLife(int l);
+
+	void setLessLife();
+
+	void setUpLife();
 
 	void soundManager(SoundBuffer& buffer);
 
