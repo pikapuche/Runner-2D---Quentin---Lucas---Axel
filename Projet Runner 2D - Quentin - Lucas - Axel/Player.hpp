@@ -17,6 +17,7 @@ protected :
 	Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
 	Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
 	Clock clockJetpack; // Clock quand on est pour l'anim jetpack
+	Clock clockInvincible; // Clock qui permet de timer l'invincibilité
 
 	Texture textureJump; // Texture du saut
 	Texture textureJetpack; // Texture du saut
@@ -36,6 +37,7 @@ protected :
 	Sound sound;
 
 	int life = 3;
+	int pessos = 0;
 
 	bool isInvincible = false;
 
@@ -60,7 +62,7 @@ public :
 
 	void jetpackStaminaGestion();
 
-	void death();
+	void invincibility();
 
 	FloatRect getFeetBounds() const;
 
@@ -71,6 +73,8 @@ public :
 	void setLessLife();
 
 	void setUpLife();
+
+	int getPessos();
 
 	void soundManager(SoundBuffer& buffer);
 

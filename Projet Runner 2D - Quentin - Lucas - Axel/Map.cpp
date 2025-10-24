@@ -24,6 +24,19 @@ void Map::generate() {
 	//std::cout << "taille vec : " << obstacles.size() << std::endl;
 }
 
+void Map::removeObstacle(Obstacle* obs)
+{
+	auto& v = obstacles;
+	v.erase(std::remove(v.begin(), v.end(), obs), v.end());
+	delete obs;
+}
+
+void Map::removeCollectible(Collectible* col)
+{
+	auto& v = collectibles;
+	v.erase(std::remove(v.begin(), v.end(), col), v.end());
+	delete col;
+}
 
 void Map::render(sf::RenderWindow& window) {
 	bg.render(window);
@@ -212,6 +225,11 @@ void Map::makeGround() {
 std::vector<Obstacle*> Map::getVectObs()
 {
 	return obstacles;
+}
+
+std::vector<Collectible*> Map::getCollectible()
+{
+	return collectibles;
 }
 
 void Map::moveGround(float deltaTime)

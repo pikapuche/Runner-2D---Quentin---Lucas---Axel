@@ -1,6 +1,6 @@
 #include "HUD.hpp"
 
-HUD::HUD() : lvl(font),score(font), timer(font) {
+HUD::HUD() : lvl(font),score(font), timer(font), gold(font) {
 	initTexture();
 	initHUD();
 }
@@ -24,6 +24,7 @@ void HUD::initHUD() {
 	lvl.setPosition({ static_cast<float>(STGS::WIDTH/2),static_cast<float>(STGS::HEIGHT/2) });
 	score.setPosition({ 0,0 });
 	timer.setPosition({ static_cast<float>(STGS::WIDTH-250), 0 });
+	gold.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT - 100) });
 	if (!heart1Texture.loadFromFile("Assets/Images/Heart_Live.png"));
 	heart1.setPosition({ lifeholder.getPosition() });
 	heart1.setSize({ 32, 32 });
@@ -43,10 +44,12 @@ void HUD::initHUD() {
 	lvl.setCharacterSize({30});
 	score.setCharacterSize({30});
 	timer.setCharacterSize({30});
+	gold.setCharacterSize({ 30 });
 
 	lvl.setFillColor(Color::White);
 	score.setFillColor(Color::White);
 	timer.setFillColor(Color::White);
+	gold.setFillColor(Color::Yellow);
 
 	font.openFromFile("Assets/Fonts/Minecraft.ttf");
 }
@@ -56,6 +59,7 @@ void HUD::drawHUD(RenderWindow& window, Player& player) {
 	window.draw(score);
 	window.draw(timer);
 	window.draw(lifeholder);
+	window.draw(gold);
 	window.draw(goldPiece);
 
 
@@ -73,7 +77,8 @@ void HUD::drawHUD(RenderWindow& window, Player& player) {
 	}
 }
 
-void HUD::update(Clock& clock, int& scoreGame) {
+void HUD::update(Clock& clock, int& scoreGame, int& pessos) {
 	timer.setString(to_string(clock.getElapsedTime().asSeconds()));
 	score.setString(to_string(scoreGame));
+	gold.setString(to_string(pessos));
 }
