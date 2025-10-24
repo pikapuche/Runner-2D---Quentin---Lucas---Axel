@@ -21,7 +21,7 @@ public :
 	State state = NONE;
 
 	Entity();
-	~Entity() {};
+	~Entity();
 
 	virtual void collision(Sprite& tile, float deltaTime);
 	virtual void draw(RenderWindow& window) = 0;

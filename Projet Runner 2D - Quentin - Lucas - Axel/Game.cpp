@@ -1,7 +1,10 @@
 #include "Game.hpp"
 
 Game::Game() {
-    
+
+    score = 1;
+    collectible = 0;
+    map.setScore(score);
 }
 Game::~Game() {}
 
@@ -26,8 +29,7 @@ void Game::run() {
                 window.close();
         }
         map.run(deltaTime);
-
-        player_ptr->update(deltaTime, map); 
+        player_ptr->update(deltaTime, map);
         render(window);
         myHud.update(clockGame, score);
     }

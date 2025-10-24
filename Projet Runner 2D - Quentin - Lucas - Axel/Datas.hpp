@@ -4,8 +4,7 @@
 #include <algorithm>
 
 namespace STGS {
-
-	static const int WIDTH = 1920;
-	static const int HEIGHT = 1080;
-	static const int GAP_Y = 60;
+    static const int WIDTH = sf::VideoMode::getDesktopMode().size.x;
+    static const int HEIGHT = sf::VideoMode::getDesktopMode().size.y;
+    static const int GAP_Y = 60;
 }
