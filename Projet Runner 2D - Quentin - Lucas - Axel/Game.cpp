@@ -20,7 +20,6 @@ void Game::run() {
     window.setFramerateLimit(60);
     sf::Clock clock;
     float deltaTime = clock.restart().asSeconds();
-	player_ptr = make_shared<Player>();
     while (window.isOpen())
     {
         switch (gameState)
