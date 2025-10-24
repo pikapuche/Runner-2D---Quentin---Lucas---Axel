@@ -40,9 +40,9 @@ void Game::run() {
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
-    
-    map.render(window);
+    menu.drawMenu(window);
+    /*map.render(window);
     player_ptr->draw(window);
-    myHud.drawHUD(window);
+    myHud.drawHUD(window);*/
     window.display();
 }

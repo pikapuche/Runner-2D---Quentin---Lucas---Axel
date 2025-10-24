@@ -12,7 +12,8 @@ public:
 
 	Menu();
 	~Menu();
-	void Start(RenderWindow& window);
+	void initMenu();
+	void drawMenu(RenderWindow& window);
 	void createStartButton();
 
 	RectangleShape background;

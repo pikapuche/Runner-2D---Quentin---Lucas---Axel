@@ -16,6 +16,7 @@ public:
     Map map;
 	HUD myHud;
 	Clock clockGame;
+	Menu menu;
 	Game();
 	~Game();
 	void run();
