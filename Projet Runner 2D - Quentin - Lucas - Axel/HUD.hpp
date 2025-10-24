@@ -15,9 +15,10 @@ public:
 	~HUD();
 	void initHUD();
 	void drawHUD(RenderWindow& window);
-	void update(Clock& clock);
+	void update(Clock& clock, int& score);
 	void calculateTimer(Clock& clock);
 	void initTexture();
+	void setScore(int score);
 protected:
 
 	Text timer;

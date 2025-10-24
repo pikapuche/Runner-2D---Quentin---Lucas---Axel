@@ -12,6 +12,7 @@ HUD::~HUD() {
 
 }
 
+
 void HUD::initTexture() {
 	if(!goldTexture.loadFromFile("Assets/Images/Gold.png"))
 		cout << "cc";
@@ -19,14 +20,15 @@ void HUD::initTexture() {
 }
 
 void HUD::initHUD() {
-	goldPiece.setPosition({ 50, static_cast<float>(STGS::HEIGHT - 100 )});
+
+	goldPiece.setPosition({ 50, static_cast<float>(STGS::HEIGHT - 100) });
 	goldPiece.setSize({ 50,50 });
 	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2), 0 });
 	lifeholder.setSize({ 250,50 });
-	lvl.setPosition({ static_cast<float>(STGS::WIDTH/2), static_cast<float>(STGS::HEIGHT/2) });
+	lvl.setPosition({ static_cast<float>(STGS::WIDTH/2),static_cast<float>(STGS::HEIGHT/2) });
 	score.setPosition({ 0,0 });
-	timer.setPosition({ static_cast<float>(STGS::WIDTH - 250), 0 });
-	
+	timer.setPosition({ static_cast<float>(STGS::WIDTH-250), 0 });
+
 	score.setString("C'est le score");
 	lvl.setString("C'est le lvl");
 	
@@ -53,6 +55,7 @@ void HUD::drawHUD(RenderWindow& window) {
 void HUD::calculateTimer(Clock& clock) {
 	
 }
-void HUD::update(Clock& clock) {
+void HUD::update(Clock& clock, int& scoreGame) {
 	timer.setString(to_string(clock.getElapsedTime().asSeconds()));
+	score.setString(to_string(scoreGame));
 }
