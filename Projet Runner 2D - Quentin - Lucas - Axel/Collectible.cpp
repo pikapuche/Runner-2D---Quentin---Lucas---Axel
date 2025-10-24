@@ -3,12 +3,11 @@
 #include "Collectible.hpp"
 
 Collectible::Collectible(float _velocity, int _line) : line(_line), velocity(_velocity) {
-	if (!shapeTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
+	if (!shapeTexture.loadFromFile("Assets/Images/Gold.png")) {
 		std::cerr << "Erreur chargement texture" << std::endl;
 	}
-	shape.setTextureRect(sf::IntRect({ 32, 32 }, { 96, 96 })); // 1 tile = 32px //// 3 tiles = 96px
+
 	shape.setTexture(&shapeTexture);
-	shape.setFillColor(sf::Color::Green);
 }
 
 Collectible::~Collectible() {

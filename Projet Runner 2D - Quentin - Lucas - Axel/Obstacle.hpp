@@ -46,9 +46,10 @@ public:
 	/////////////////////////////////////////
 	/// \brief function to move obstacles
 	///
-	/// \param deltatime The deltatime
+	/// \param deltatime
+	/// \param difficulty
 	////////////////////////////////////////
-	void move(float deltatime);
+	void move(float deltatime, int difficulty);
 
 	/////////////////////////////////////////
 	/// \brief function to init obstacles composents

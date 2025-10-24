@@ -45,7 +45,7 @@ void Map::run(float deltatime) {
     for (auto it = obstacles.begin(); it != obstacles.end(); )
     {
         auto& obstacle = *it;
-        obstacle->move(deltatime);
+        obstacle->move(deltatime, difficulty);
 		obstacle->init();
 
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0) {
@@ -65,7 +65,7 @@ void Map::run(float deltatime) {
 
 	for (auto it = plateforms.begin(); it != plateforms.end(); ) {
 		auto& plateform = *it;
-		plateform->move(deltatime);
+		plateform->move(deltatime, difficulty);
 
 		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0) {
 			delete plateform;
@@ -148,7 +148,7 @@ void Map::setObstacles() {
 		tempPlatform->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
 		Collectible* tempCollectible = new Collectible(-500.f - _score * 10.f, linePlatform);
-		tempCollectible->shape.setSize({ static_cast<float>(STGS::WIDTH * 0.04f), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
+		tempCollectible->shape.setSize({ static_cast<float>(STGS::WIDTH * 0.04f), static_cast<float>(STGS::WIDTH * 0.04f) });
 
 		float platformY;
 		if (linePlatform == 1) {
