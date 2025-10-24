@@ -7,7 +7,8 @@ class Game {
 private : 
 
 public:
-
+	Music music;
+	int volumeMusic = 20;
 	shared_ptr<Player> player_ptr = make_shared<Player>();
     Map map;
 	Game();

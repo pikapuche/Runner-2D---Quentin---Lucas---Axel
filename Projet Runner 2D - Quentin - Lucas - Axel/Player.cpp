@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(bufferJetpack), Entity()
+Player::Player() : sound(bufferRun), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
        Collisions sur les trucs de la map
@@ -10,10 +10,10 @@ Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(buff
     */
 
     // initialisation de tout
-    clockRun.start();
-    clockJump.start();
-    clockJetpack.start();
-    clockSecondJump.start();
+    //clockRun.start();
+    //clockJump.start();
+    //clockJetpack.start();
+    //clockSecondJump.start();
 
     velocity = { 0, 0 };
     position = { 0,0 };
@@ -45,18 +45,9 @@ Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(buff
 
     // initialisation des sons
     if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) cout << "caca son run" << endl << endl;
-
-    soundRun.setBuffer(bufferRun);
-    soundRun.setLooping(true);
-    soundRun.setVolume(volumeSound);
-
-    soundJump.setBuffer(bufferJump);
-    soundJump.setLooping(false);
-    soundJump.setVolume(volumeSound);
-
-    soundJetpack.setBuffer(bufferJetpack);
-    soundJetpack.setLooping(true);
-    soundJetpack.setVolume(volumeSound);
+    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) cout << "caca son jump" << endl << endl;
+    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) cout << "caca son jetpack" << endl << endl;
+    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) cout << "caca son runGravel" << endl << endl;
 }
 
 Player::~Player() {}
@@ -66,23 +57,22 @@ bool Player::collision(Map& map)
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
         auto& obstacle = *it;
-        if (shape.getGlobalBounds().findIntersection(obstacle->getSafePlaceBounds())) {
+        if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
             return true;
         }
     }
-    if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
+    if (getFeetBounds().findIntersection(map.getBounds())) {
         velocity.y = 0;
         state = GROUNDED;
         return true;
     }
-    if (shape.getGlobalBounds().findIntersection(map.getBounds2())) {
+    if (getFeetBounds().findIntersection(map.getBounds2())) {
         velocity.y = 0;
         state = GROUNDED;
         return true;
     }
-    soundRun.stop();
     return false;
 }
 
@@ -109,23 +99,12 @@ void Player::playerMovement(float deltaTime, Map& map)
 void Player::jump(float deltaTime)
 {
     if (state == GROUNDED) {  // Sauter uniquement si le joueur est sur le sol / saute pas
-        //sound.setBuffer(bufferJump);
-        //if (sound.getStatus() != sf::Sound::Playing) {
-        //    sound.play();
-        //}
-        soundJump.play();
         state = JUMP;
         stateMove = JUMPING;
         velocity.y = -JUMP_FORCE; // Appliquer une force initiale vers le haut pour sauter 
         clockSecondJump.restart();
     }
     else if (clockSecondJump.getElapsedTime().asMilliseconds() >= 300 && state != GROUNDED && jetpackStamina >= 1.f) { // compteur permettant de savoir si on peut faire un deuxième saut
-        //sound.setBuffer(bufferDoubleJump);
-        //if (sound.getStatus() != sf::Sound::Playing) {
-        //    sound.play();
-        //}
-        soundJump.stop();
-        soundJetpack.play();
         stateMove = JETPACKING;
         velocity.y = -JETPACK_FORCE;
         jetpackStamina--;
@@ -137,6 +116,7 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
+        soundManager(bufferRun);
         shape.setTexture(&texture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -150,8 +130,7 @@ void Player::animationManager(float deltaTime)
         break;
         
     case JUMPING:
-        soundRun.setBuffer(bufferJump);
-        soundRun.play();
+        soundManager(bufferJump);
         shape.setTexture(&textureJump);
         animJump.y = 0;
 
@@ -164,8 +143,7 @@ void Player::animationManager(float deltaTime)
         shape.setTextureRect(IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
-        soundRun.setBuffer(bufferJetpack);
-        soundRun.play();
+        soundManager(bufferJetpack);
         shape.setTexture(&textureJetpack);
         animJetpack.y = 0;
 
@@ -197,9 +175,39 @@ void Player::jetpackStaminaGestion()
     staminaBarRect.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
 }
 
-void Player::soundManager()
+FloatRect Player::getFeetBounds() const
 {
-    soundRun.play();
+    FloatRect bounds = shape.getGlobalBounds();
+    float feet = bounds.size.y * 0.1f;
+
+    Vector2f feetPos(bounds.position.x, bounds.position.y + bounds.size.y - feet);
+
+    Vector2f feetSize(bounds.size.x, feet);
+
+    return FloatRect(feetPos, feetSize);
+}
+
+void Player::soundManager(SoundBuffer& buffer)
+{
+    const sf::SoundBuffer& currentBuffer = sound.getBuffer();
+
+    if (&currentBuffer != &buffer)
+    {
+        sound.stop();
+        sound.setBuffer(buffer);
+
+        if (&buffer == &bufferJump)
+            sound.setLooping(false);
+        else
+            sound.setLooping(true);
+
+        sound.setVolume(volumeSound);
+        sound.play();
+    }
+    else if (sound.getStatus() != sf::SoundSource::Status::Playing)
+    {
+        sound.play();
+    }
 }
 
 void Player::update(float deltaTime, Map& map)
