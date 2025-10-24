@@ -1,7 +1,10 @@
 #include "Game.hpp"
 
 Game::Game() {
-
+    if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) cout << "caca music" << endl << endl;
+    music.setVolume(volumeMusic);
+    music.setLooping(true);
+    music.play();
     score = 1;
     collectible = 0;
     map.setScore(score);

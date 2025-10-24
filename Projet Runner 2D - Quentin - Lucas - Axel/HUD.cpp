@@ -20,6 +20,7 @@ void HUD::initTexture() {
 }
 
 void HUD::initHUD() {
+
 	goldPiece.setPosition({ 50, static_cast<float>(STGS::HEIGHT - 100) });
 	goldPiece.setSize({ 50,50 });
 	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2), 0 });
@@ -27,7 +28,7 @@ void HUD::initHUD() {
 	lvl.setPosition({ static_cast<float>(STGS::WIDTH/2),static_cast<float>(STGS::HEIGHT/2) });
 	score.setPosition({ 0,0 });
 	timer.setPosition({ static_cast<float>(STGS::WIDTH-250), 0 });
-	
+
 	score.setString("C'est le score");
 	lvl.setString("C'est le lvl");
 	

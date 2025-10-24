@@ -58,7 +58,7 @@ void Map::run(float deltatime) {
             ++it;
         }
     }
-	//std::cout << "score : " << score << std::endl;
+	std::cout << "score : " << _score << std::endl;
 
 	for (auto it = plateforms.begin(); it != plateforms.end(); ) {
 		auto& plateform = *it;
