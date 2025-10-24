@@ -5,7 +5,7 @@ Game::Game() {
     music.setVolume(volumeMusic);
     music.setLooping(true);
     music.play();
-    score = 1;
+    score = 48;
     collectible = 0;
     map.setScore(score);
 }

@@ -6,7 +6,7 @@ Plateform::Plateform(float _velocity, int _line) : line(_line), velocity(_veloci
 	if (!shapeTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png")) {
 		std::cerr << "Erreur chargement texture" << std::endl;
 	}
-	shape.setTextureRect(sf::IntRect({ 32, 32 }, { 96, 96 })); // 1 tile = 32px //// 3 tiles = 96px
+	shape.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 32 })); // 1 tile = 32px //// 3 tiles = 96px
 	shape.setTexture(&shapeTexture);
 	shape.setFillColor(sf::Color::Green);
 }
@@ -19,8 +19,25 @@ void Plateform::init() {
 	std::cout << "pos : " << shape.getPosition().y << std::endl;
 }
 
-void Plateform::move(float deltatime) {
+void Plateform::move(float deltatime, int difficulty) {
 	shape.move({ velocity * deltatime, 0 });
+
+	switch (difficulty)
+	{
+	case 1:
+		shape.setFillColor(sf::Color(255, 0, 187, 215));
+		break;
+	case 2:
+		shape.setFillColor(sf::Color(21, 255, 0, 215));
+		break;
+	case 3:
+		break;
+	case 4:
+		shape.setFillColor(sf::Color(255, 166, 0, 215));
+		break;
+	default:
+		break;
+	}
 }
 
 void Plateform::render(sf::RenderWindow& window) {

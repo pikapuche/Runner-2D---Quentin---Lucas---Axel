@@ -16,7 +16,7 @@ public:
 
 	sf::RectangleShape shape;
 	void render(sf::RenderWindow& window);
-	void move(float deltatime);
+	void move(float deltatime, int difficulty);
 	void init();
 
 	int getLine();
