@@ -48,8 +48,8 @@ void Map::run(float deltatime) {
         obstacle->move(deltatime);
 		obstacle->init();
 
-        if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0)
-        {
+        if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0) {
+			delete obstacle;
             it = obstacles.erase(it);
 			_score++;
         }
@@ -58,13 +58,17 @@ void Map::run(float deltatime) {
             ++it;
         }
     }
-	std::cout << "score : " << _score << std::endl;
+	//std::cout << "score : " << _score << std::endl;
+	//std::cout << "vector obstacle : " << obstacles.size() << std::endl;
+	//std::cout << "vector plateforms : " << plateforms.size() << std::endl;
+	//std::cout << "vector collectibles : " << collectibles.size() << std::endl;
 
 	for (auto it = plateforms.begin(); it != plateforms.end(); ) {
 		auto& plateform = *it;
 		plateform->move(deltatime);
 
 		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0) {
+			delete plateform;
 			it = plateforms.erase(it);
 			_score++;
 		}
@@ -78,6 +82,7 @@ void Map::run(float deltatime) {
 		collectible->move(deltatime);
 
 		if (collectible->shape.getPosition().x + collectible->shape.getSize().x < 0) {
+			delete collectible;
 			it = collectibles.erase(it);
 			_score++;
 		}
@@ -94,13 +99,28 @@ void Map::run(float deltatime) {
 	}
 	if (_score < 50)
 		difficulty = 1;
-	else if (_score < 100)
+	else if (_score < 100) {
+		if (difficulty == 1) {
+			bg.startFlashTransition(2);
+		}
 		difficulty = 2;
-	else if (_score < 200)
-		difficulty = 3;
-	else
-		difficulty = 4;
+	}
+	else if (_score < 200) {
+		if (difficulty == 2) {
+			bg.startFlashTransition(3);
 
+		}
+		difficulty = 3;
+	}
+	else if (_score >= 200) {
+		if (difficulty == 3) {
+			bg.startFlashTransition(4);
+
+		}
+		difficulty = 4;
+	}
+
+	bg.setBackgroundTexture(difficulty);
 	bg.move(deltatime);
 	moveGround(deltatime);
 }
