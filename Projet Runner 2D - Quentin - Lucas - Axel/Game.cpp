@@ -15,22 +15,22 @@ void Game::run() {
     map.generate();
     sf::Clock clock;
     clockGame.start();
-    // run the program as long as the window is open
+
     while (window.isOpen())
     {
         float deltaTime = clock.restart().asSeconds();
 
-        // check all the window's events that were triggered since the last iteration of the loop
         while (const std::optional event = window.pollEvent())
         {
-            // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>() || Keyboard::isKeyPressed(Keyboard::Key::Escape))
                 window.close();
         }
         map.run(deltaTime);
+        score = map.getScore();
         player_ptr->update(deltaTime, map);
         render(window);
         myHud.update(clockGame);
+        //std::cout << "score : " << score << std::endl;
     }
 }
 

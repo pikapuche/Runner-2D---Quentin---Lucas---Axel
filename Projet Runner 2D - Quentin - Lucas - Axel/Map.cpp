@@ -58,7 +58,7 @@ void Map::run(float deltatime) {
             ++it;
         }
     }
-	std::cout << "score : " << _score << std::endl;
+	//std::cout << "score : " << _score << std::endl;
 	//std::cout << "vector obstacle : " << obstacles.size() << std::endl;
 	//std::cout << "vector plateforms : " << plateforms.size() << std::endl;
 	//std::cout << "vector collectibles : " << collectibles.size() << std::endl;
