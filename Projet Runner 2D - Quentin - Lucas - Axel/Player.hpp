@@ -1,13 +1,20 @@
 #pragma once
-#include "Entity.hpp"
 #include "Map.hpp"
 
-class Player : public Entity {
+class Player {
 protected : 
 
 	const float JUMP_FORCE = 40.f; // force initiale du saut
 	const float JETPACK_FORCE = 15.f; // force de propulsion du jetpack
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
+;
+	RectangleShape shape;
+	Vector2f position;
+	Vector2f velocity;
+	const float gravity = 150.0f; // Gravité en pixels par seconde carrée (simulation)
+	int life = 3;
+	int pessos = 0;
+	bool isInvincible = false;
 
 	float jetpackStamina = 100.f; // endurance du jetpack
 	RectangleShape staminaBar; // barre d'endurance du jetpack
@@ -18,9 +25,6 @@ protected :
 	Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
 	Clock clockJetpack; // Clock quand on est pour l'anim jetpack
 	Clock clockInvincible; // Clock qui permet de timer l'invincibilité
-
-	Texture textureJump; // Texture du saut
-	Texture textureJetpack; // Texture du saut
 
 	// Vector d'animation qui compte les frames
 	Vector2i animRun; 
@@ -35,11 +39,6 @@ protected :
 	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
 	Sound sound;
-
-	int life = 3;
-	int pessos = 0;
-
-	bool isInvincible = false;
 
 public :
 
@@ -80,5 +79,5 @@ public :
 
 	void update(float deltaTime, Map& map); // update les fonctions du player avec le deltaTime
 
-	void draw(RenderWindow& window) override; // draw le player
+	void draw(RenderWindow& window); // draw le player
 };

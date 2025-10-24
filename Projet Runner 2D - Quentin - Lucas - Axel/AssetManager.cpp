@@ -10,6 +10,9 @@ void AssetManager::loadAssetsFromFiles() {
 
 	Shared::tileSetTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png");
 	Shared::collectibleTexture.loadFromFile("Assets/Images/Gold.png");
+	Shared::playerRunTexture.loadFromFile("Assets/Character/Astronaut_RunV2.png");
+	Shared::playerJumpTexture.loadFromFile("Assets/Character/Astronaut_JumpV2.png");
+	Shared::playerJetpackTexture.loadFromFile("Assets/Character/Astronaut_JetPack.png");
 
 	// --- BIOME 1 : facile ---
 	Shared::backboardFirstTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundFar.png");

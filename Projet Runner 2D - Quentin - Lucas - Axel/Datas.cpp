@@ -8,3 +8,4 @@ sf::Texture Shared::backboardFirstTextureDifficultyTwo, Shared::backboardSecondT
 sf::Texture Shared::backboardFirstTextureDifficultyThree, Shared::backboardSecondTextureDifficultyThree;
 sf::Texture Shared::backboardFirstTextureDifficultyFour, Shared::backboardSecondTextureDifficultyFour;
 sf::Texture Shared::transitionTextureOneTwo, Shared::transitionTextureTwoThree, transitionTextureThreeFour;
+sf::Texture Shared::playerRunTexture, Shared::playerJumpTexture, Shared::playerJetpackTexture;

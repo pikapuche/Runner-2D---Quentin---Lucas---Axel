@@ -3,7 +3,7 @@
 Player::Player() : sound(bufferRun), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-       
+       mettre les sons dans l'asset manager
     */
 
     // initialisation de tout
@@ -21,17 +21,13 @@ Player::Player() : sound(bufferRun), Entity()
     animJump = { 0,0 };
     animJetpack = { 0,0 };
 
-    // chargement des textures
-	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "caca run" << endl << endl;
-    if (!textureJump.loadFromFile("Assets/Character/Astronaut_JumpV2.png")) cout << "caca jump" << endl << endl;
-    if (!textureJetpack.loadFromFile("Assets/Character/Astronaut_JetPack.png")) cout << "caca jetpack" << endl << endl;
-
     // setSmooth pour des images plus nette 
-    textureJump.setSmooth(true);
-    textureJetpack.setSmooth(true);
+    Shared::playerJetpackTexture.setSmooth(true);
+    Shared::playerJumpTexture.setSmooth(true);
+    Shared::playerRunTexture.setSmooth(true);
 
 	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // 128x128 car la size du perso est 128 px
-    shape.setTexture(&texture);
+    shape.setTexture(&Shared::playerRunTexture, true);
 
 
     // préparation de la staminaBar pour le jetpack
@@ -125,7 +121,7 @@ void Player::animationManager(float deltaTime)
     {
     case RUNNING:
         soundManager(bufferRun);
-        shape.setTexture(&texture);
+        shape.setTexture(&Shared::playerRunTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
         if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
@@ -139,7 +135,7 @@ void Player::animationManager(float deltaTime)
         
     case JUMPING:
         soundManager(bufferJump);
-        shape.setTexture(&textureJump);
+        shape.setTexture(&Shared::playerJumpTexture);
         animJump.y = 0;
 
         if (clockJump.getElapsedTime().asMilliseconds() > 45) {
@@ -152,7 +148,7 @@ void Player::animationManager(float deltaTime)
         break;
     case JETPACKING:
         soundManager(bufferJetpack);
-        shape.setTexture(&textureJetpack);
+        shape.setTexture(&Shared::playerJetpackTexture);
         animJetpack.y = 0;
 
         if (clockJetpack.getElapsedTime().asMilliseconds() > 45) {

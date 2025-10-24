@@ -9,16 +9,7 @@ using namespace sf;
 class Entity {
 protected : 
 
-	RectangleShape shape;
-	Texture texture;
-	Vector2f position;
-	Vector2f velocity;
-	const float gravity = 150.0f; // Gravité en pixels par seconde carrée (simulation)
 
-public : 
-
-	enum State { NONE, GROUNDED, JUMP };
-	State state = NONE;
 
 	Entity();
 	~Entity();
