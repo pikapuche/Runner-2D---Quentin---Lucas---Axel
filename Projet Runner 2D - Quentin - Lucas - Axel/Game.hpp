@@ -8,7 +8,7 @@ private :
 
 public:
 	enum GameState {
-		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop
+		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop, Play
 	};
   Music music;
 	int volumeMusic = 20;
@@ -23,4 +23,5 @@ public:
 	void render(sf::RenderWindow& window);
 	int score;
 	int collectible;
+	GameState gameState;
 };

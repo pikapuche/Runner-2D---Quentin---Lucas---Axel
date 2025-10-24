@@ -12,7 +12,9 @@ public:
 	~Button();
 	void activate();
 	bool isHovering();
+	void drawButton(RenderWindow& window);
 
+	void setState();
 	enum ButtonState {
 		NOTHING, PLAY, QUIT, SETTINGS
 	};
@@ -22,5 +24,6 @@ public:
 	Font buttonFont;
 	String buttonTextContent;
 	Texture buttonTexture;
+	ButtonState buttonState;
 };
 
