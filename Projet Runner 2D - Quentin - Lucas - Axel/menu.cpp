@@ -1,4 +1,4 @@
-#include "menu.hpp"
+#include "Menu.hpp"
 Menu::Menu()
 {
 	circle.setRadius(50);
