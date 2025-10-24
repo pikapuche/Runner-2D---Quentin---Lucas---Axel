@@ -1,7 +1,5 @@
 #pragma	once 
 #include "Map.hpp"
-#include <iostream>
-#include "SFML/Graphics.hpp"
 #include "Player.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
@@ -20,4 +18,6 @@ public:
 	~Game();
 	void run();
 	void render(sf::RenderWindow& window);
+	int score;
+	int collectible;
 };

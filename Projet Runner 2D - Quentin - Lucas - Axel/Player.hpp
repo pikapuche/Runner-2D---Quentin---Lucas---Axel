@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Entity.hpp"
 #include "Map.hpp"
 
@@ -27,13 +26,15 @@ protected :
 	Vector2i animJump;
 	Vector2i animJetpack;
 
+	int volumeSound = 100;
+
 	SoundBuffer bufferRun; // son quand le perso va courir
 	SoundBuffer bufferJump; // son quand le perso va sauter
 	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
-	Sound sound;
-
-	int soundPlay = 0;
+	Sound soundRun;
+	Sound soundJump;
+	Sound soundJetpack;
 
 public :
 
@@ -50,8 +51,6 @@ public :
 
 	bool collision(Map& map);
 
-	//void dash(float deltaTime);
-
 	void jump(float deltaTime); // fonction de saut
 
 	void animationManager(float deltaTime); // gère les animations du personnage avec un switch et un enum
@@ -62,11 +61,7 @@ public :
 
 	//Vector2f setVelocity(float veloX, float veloY);
 
-	//void soundManager();
-
-	//void setColliderMap(float left, float right);
-
-	//void animationManager(float deltaTime);
+	void soundManager();
 
 	void update(float deltaTime, Map& map); // update les fonctions du player avec le deltaTime
 

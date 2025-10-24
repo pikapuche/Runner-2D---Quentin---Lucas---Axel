@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun), Entity()
+Player::Player() : soundRun(bufferRun), soundJump(bufferJump), soundJetpack(bufferJetpack), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
        Collisions sur les trucs de la map
@@ -34,30 +34,55 @@ Player::Player() : sound(bufferRun), Entity()
     textureJetpack.setSmooth(true);
 
 	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // 128x128 car la size du perso est 128 px
+    shape.setTexture(&texture);
+
 
     // préparation de la staminaBar pour le jetpack
     staminaBarRect.setOutlineThickness(5.f);
     staminaBarRect.setOutlineColor(Color::White);
 
-    shape.setPosition(Vector2f(300, 800));
+    shape.setPosition(Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
 
     // initialisation des sons
     if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) cout << "caca son run" << endl << endl;
 
-    sound.setBuffer(bufferRun);
-    sound.setLooping(true);
-    sound.setVolume(100);
+    soundRun.setBuffer(bufferRun);
+    soundRun.setLooping(true);
+    soundRun.setVolume(volumeSound);
+
+    soundJump.setBuffer(bufferJump);
+    soundJump.setLooping(false);
+    soundJump.setVolume(volumeSound);
+
+    soundJetpack.setBuffer(bufferJetpack);
+    soundJetpack.setLooping(true);
+    soundJetpack.setVolume(volumeSound);
 }
 
 Player::~Player() {}
 
 bool Player::collision(Map& map)
 {
+    const std::vector<Obstacle*>& vectObs = map.getVectObs();
+    for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
+        auto& obstacle = *it;
+        if (shape.getGlobalBounds().findIntersection(obstacle->getSafePlaceBounds())) {
+            velocity.y = 0;
+            state = GROUNDED;
+            return true;
+        }
+    }
     if (shape.getGlobalBounds().findIntersection(map.getBounds())) {
         velocity.y = 0;
         state = GROUNDED;
         return true;
     }
+    if (shape.getGlobalBounds().findIntersection(map.getBounds2())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        return true;
+    }
+    soundRun.stop();
     return false;
 }
 
@@ -88,6 +113,7 @@ void Player::jump(float deltaTime)
         //if (sound.getStatus() != sf::Sound::Playing) {
         //    sound.play();
         //}
+        soundJump.play();
         state = JUMP;
         stateMove = JUMPING;
         velocity.y = -JUMP_FORCE; // Appliquer une force initiale vers le haut pour sauter 
@@ -98,6 +124,8 @@ void Player::jump(float deltaTime)
         //if (sound.getStatus() != sf::Sound::Playing) {
         //    sound.play();
         //}
+        soundJump.stop();
+        soundJetpack.play();
         stateMove = JETPACKING;
         velocity.y = -JETPACK_FORCE;
         jetpackStamina--;
@@ -109,10 +137,6 @@ void Player::animationManager(float deltaTime)
     switch (stateMove)
     {
     case RUNNING:
-        if (soundPlay == 0) {
-            sound.play();
-            soundPlay++;
-        }
         shape.setTexture(&texture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -126,8 +150,8 @@ void Player::animationManager(float deltaTime)
         break;
         
     case JUMPING:
-        sound.setBuffer(bufferJump);
-        sound.play();
+        soundRun.setBuffer(bufferJump);
+        soundRun.play();
         shape.setTexture(&textureJump);
         animJump.y = 0;
 
@@ -140,8 +164,8 @@ void Player::animationManager(float deltaTime)
         shape.setTextureRect(IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
-        sound.setBuffer(bufferJetpack);
-        sound.play();
+        soundRun.setBuffer(bufferJetpack);
+        soundRun.play();
         shape.setTexture(&textureJetpack);
         animJetpack.y = 0;
 
@@ -171,6 +195,11 @@ void Player::jetpackStaminaGestion()
     staminaBar.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
     staminaBarRect.setSize(Vector2f(100, 10));
     staminaBarRect.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+}
+
+void Player::soundManager()
+{
+    soundRun.play();
 }
 
 void Player::update(float deltaTime, Map& map)
