@@ -3,9 +3,7 @@
 Player::Player() : sound(bufferRun), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-       Collisions sur les trucs de la map
        collectibles
-       perte de vie
     */
 
     // initialisation de tout
@@ -54,24 +52,22 @@ Player::~Player() {}
 bool Player::collision(Map& map)
 {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
-    for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
-        auto& obstacle = *it;
+    //for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
+    //    auto& obstacle = *it;
+    for(auto& obstacle : vectObs) {
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
             return true;
         }
-        if (getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
-            //setLessLife();
+        if (!isInvincible && getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+            setLessLife();
+            isInvincible = true;
+            clockInvincible.restart();
             return true;
         }
     }
-    if (getFeetBounds().findIntersection(map.getBounds())) {
-        velocity.y = 0;
-        state = GROUNDED;
-        return true;
-    }
-    if (getFeetBounds().findIntersection(map.getBounds2())) {
+    if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
         velocity.y = 0;
         state = GROUNDED;
         return true;
@@ -178,6 +174,26 @@ void Player::jetpackStaminaGestion()
     staminaBarRect.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
 }
 
+void Player::invincibility()
+{
+    if (clockInvincible.getElapsedTime().asSeconds() >= 2) {
+        clockInvincible.stop();
+        isInvincible = false;
+    }
+
+    if (isInvincible) {
+        // ici, on transforme notre clock invisible en int pour utiliser % qui ne marche pas bien sur les floats
+        // donc ca fais 1,2,3 au lieu de 100 ms, 200 ms etc et le % 2 va faire 0,1,0,1,0,1
+        if (((int)(clockInvincible.getElapsedTime().asMilliseconds() / 100)) % 2 == 0)
+            shape.setFillColor(Color(255, 255, 255, 0));
+        else
+            shape.setFillColor(Color::White); 
+    }
+    else {
+        shape.setFillColor(Color::White);
+    }
+}
+
 FloatRect Player::getFeetBounds() const
 {
     FloatRect bounds = shape.getGlobalBounds();
@@ -208,6 +224,7 @@ void Player::setLessLife()
     else {
         life--;
     }
+    cout << life << endl;
 }
 
 void Player::setUpLife()
@@ -224,7 +241,7 @@ void Player::soundManager(SoundBuffer& buffer)
 {
     const sf::SoundBuffer& currentBuffer = sound.getBuffer();
 
-    if (&currentBuffer != &buffer)
+    if (&currentBuffer != &buffer && life != 0)
     {
         sound.stop();
         sound.setBuffer(buffer);
@@ -237,7 +254,7 @@ void Player::soundManager(SoundBuffer& buffer)
         sound.setVolume(volumeSound);
         sound.play();
     }
-    else if (sound.getStatus() != sf::SoundSource::Status::Playing)
+    else if (sound.getStatus() != sf::SoundSource::Status::Playing && life != 0)
     {
         sound.play();
     }
@@ -246,6 +263,7 @@ void Player::soundManager(SoundBuffer& buffer)
 void Player::update(float deltaTime, Map& map)
 {
     if (life != 0) {
+        invincibility();
         playerMovement(deltaTime, map);
         animationManager(deltaTime);
         jetpackStaminaGestion();

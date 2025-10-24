@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Button.hpp"
+
 using namespace std;
 using namespace sf;
 
@@ -16,9 +17,9 @@ public:
 	void createStartButton();
 
 	RectangleShape background;
-	Button playButton;
-	Button quitButton;
-	Button settingsButton;
+	//Button playButton;
+	//Button quitButton;
+	//Button settingsButton;
 
 };
 
