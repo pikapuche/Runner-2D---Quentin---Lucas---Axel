@@ -2,7 +2,7 @@
 
 Game::Game() {
 
-    score = 1;
+    score = 48;
     collectible = 0;
     map.setScore(score);
 }
