@@ -37,6 +37,7 @@ protected :
 	Sound sound;
 
 	int life = 3;
+	int pessos = 0;
 
 	bool isInvincible = false;
 
@@ -72,6 +73,8 @@ public :
 	void setLessLife();
 
 	void setUpLife();
+
+	int getPessos();
 
 	void soundManager(SoundBuffer& buffer);
 

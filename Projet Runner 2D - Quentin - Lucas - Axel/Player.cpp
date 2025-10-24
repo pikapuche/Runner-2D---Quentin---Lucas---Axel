@@ -3,7 +3,7 @@
 Player::Player() : sound(bufferRun), Entity()
 {
     /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-       collectibles
+       
     */
 
     // initialisation de tout
@@ -52,9 +52,10 @@ Player::~Player() {}
 bool Player::collision(Map& map)
 {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
-    //for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
-    //    auto& obstacle = *it;
-    for(auto& obstacle : vectObs) {
+    const std::vector<Collectible*>& vectCollectible = map.getCollectible();
+
+    for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
+        auto& obstacle = *it;
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
@@ -64,13 +65,21 @@ bool Player::collision(Map& map)
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
+            map.removeObstacle(obstacle);
             return true;
-        }
+        } 
     }
     if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
         velocity.y = 0;
         state = GROUNDED;
         return true;
+    }
+    for (auto& collectible : vectCollectible) {
+        if (shape.getGlobalBounds().findIntersection(collectible->shape.getGlobalBounds())) {
+            pessos++;
+            map.removeCollectible(collectible);
+            return true;
+        }
     }
     return false;
 }
@@ -235,6 +244,11 @@ void Player::setUpLife()
     else {
         life++;
     }
+}
+
+int Player::getPessos()
+{
+    return pessos;
 }
 
 void Player::soundManager(SoundBuffer& buffer)

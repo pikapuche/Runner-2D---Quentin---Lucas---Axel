@@ -15,13 +15,14 @@ public:
 	~HUD();
 	void initHUD();
 	void drawHUD(RenderWindow& window, Player& player);
-	void update(Clock& clock, int& score);
+	void update(Clock& clock, int& score, int& pessos);
 	void initTexture();
 protected:
 
 	Text timer;
 	Text score;
 	Text lvl;
+	Text gold;
 	Font font;
 	RectangleShape lifeholder;
 	RectangleShape heart1;

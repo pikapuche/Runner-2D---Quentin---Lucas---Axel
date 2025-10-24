@@ -16,10 +16,10 @@ public:
 		NOTHING, PLAY, QUIT, SETTINGS
 	};
 
-	RectangleShape buttonBack;
-	Text buttonText;
-	Font buttonFont;
-	String buttonTextContent;
-	Texture buttonTexture;
+	//RectangleShape buttonBack;
+	//Text buttonText;
+	//Font buttonFont;
+	//String buttonTextContent;
+	//Texture buttonTexture;
 };
 

@@ -22,6 +22,7 @@ void Game::run() {
     while (window.isOpen())
     {
         score = map.getScore();
+        collectible = player_ptr->getPessos();
         float deltaTime = clock.restart().asSeconds();
 
         while (const std::optional event = window.pollEvent())
@@ -33,7 +34,7 @@ void Game::run() {
         score = map.getScore();
         player_ptr->update(deltaTime, map);
         render(window);
-        myHud.update(clockGame, score);
+        myHud.update(clockGame, score, collectible);
     }
 }
 

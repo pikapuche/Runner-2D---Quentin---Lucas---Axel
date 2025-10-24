@@ -10,14 +10,17 @@ public:
 	void run(float deltatime);
 	void render(sf::RenderWindow& window);
 	void generate();
+	void removeObstacle(Obstacle* obs);
+	void removeCollectible(Collectible* col);
 
 	//getters/setters
 	sf::FloatRect getBounds();
 	sf::FloatRect getBounds2();
 	std::vector<Plateform*> getPlatformVector();
+	std::vector<Obstacle*> getVectObs();
+	std::vector<Collectible*> getCollectible();
 	int getScore();
 	int getDifficulty();
-	std::vector<Obstacle*> getVectObs();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
 	void setScore(int score);
