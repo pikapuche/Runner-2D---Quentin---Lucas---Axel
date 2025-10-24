@@ -10,6 +10,8 @@ public:
 	enum GameState {
 		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop
 	};
+  Music music;
+	int volumeMusic = 20;
 	shared_ptr<Player> player_ptr = make_shared<Player>();
     Map map;
 	HUD myHud;
