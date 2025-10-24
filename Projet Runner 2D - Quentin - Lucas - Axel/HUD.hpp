@@ -14,9 +14,8 @@ public:
 	
 	~HUD();
 	void initHUD();
-	void drawHUD(RenderWindow& window);
-	void update(Clock& clock);
-	void calculateTimer(Clock& clock);
+	void drawHUD(RenderWindow& window, Player& player);
+	void update(Clock& clock, int& score);
 	void initTexture();
 protected:
 
@@ -28,8 +27,12 @@ protected:
 	RectangleShape heart1;
 	RectangleShape heart2;
 	RectangleShape heart3;
+	Texture heart1Texture;
+	Texture heart2Texture;
+	Texture heart3Texture;
 	Map map;
 	RectangleShape goldPiece;
 	Texture goldTexture;
+
 };
 

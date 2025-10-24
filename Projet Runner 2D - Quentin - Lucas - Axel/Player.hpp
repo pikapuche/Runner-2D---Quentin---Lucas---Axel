@@ -27,14 +27,17 @@ protected :
 	Vector2i animJetpack;
 
 	int volumeSound = 100;
-
+	
+	SoundBuffer bufferRunGravel; // son quand le perso va courir
 	SoundBuffer bufferRun; // son quand le perso va courir
 	SoundBuffer bufferJump; // son quand le perso va sauter
 	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 
-	Sound soundRun;
-	Sound soundJump;
-	Sound soundJetpack;
+	Sound sound;
+
+	int life = 3;
+
+	bool isInvincible = false;
 
 public :
 
@@ -49,19 +52,27 @@ public :
 
 	void playerMovement(float deltaTime, Map& map); // controle les mouvements du player
 
-	bool collision(Map& map);
-
 	void jump(float deltaTime); // fonction de saut
+
+	bool collision(Map& map);
 
 	void animationManager(float deltaTime); // gère les animations du personnage avec un switch et un enum
 
 	void jetpackStaminaGestion();
 
-	//Vector2f getVelocity();
+	void death();
 
-	//Vector2f setVelocity(float veloX, float veloY);
+	FloatRect getFeetBounds() const;
 
-	void soundManager();
+	int getLife();
+
+	void setLife(int l);
+
+	void setLessLife();
+
+	void setUpLife();
+
+	void soundManager(SoundBuffer& buffer);
 
 	void update(float deltaTime, Map& map); // update les fonctions du player avec le deltaTime
 

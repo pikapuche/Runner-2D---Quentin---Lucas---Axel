@@ -1,8 +1,11 @@
 #include "Game.hpp"
 
 Game::Game() {
-
-    score = 48;
+    if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) cout << "caca music" << endl << endl;
+    music.setVolume(volumeMusic);
+    music.setLooping(true);
+    music.play();
+    score = 1;
     collectible = 0;
     map.setScore(score);
 }
@@ -18,6 +21,7 @@ void Game::run() {
 
     while (window.isOpen())
     {
+        score = map.getScore();
         float deltaTime = clock.restart().asSeconds();
 
         while (const std::optional event = window.pollEvent())
@@ -29,8 +33,7 @@ void Game::run() {
         score = map.getScore();
         player_ptr->update(deltaTime, map);
         render(window);
-        myHud.update(clockGame);
-        //std::cout << "score : " << score << std::endl;
+        myHud.update(clockGame, score);
     }
 }
 
@@ -39,6 +42,6 @@ void Game::render(sf::RenderWindow& window) {
     
     map.render(window);
     player_ptr->draw(window);
-    myHud.drawHUD(window);
+    myHud.drawHUD(window, *player_ptr);
     window.display();
 }
