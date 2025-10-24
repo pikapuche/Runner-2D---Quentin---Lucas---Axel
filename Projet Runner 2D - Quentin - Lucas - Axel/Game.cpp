@@ -5,6 +5,9 @@ Game::Game() {
     music.setVolume(volumeMusic);
     music.setLooping(true);
     music.play();
+    score = 1;
+    collectible = 0;
+    map.setScore(score);
 }
 Game::~Game() {}
 
@@ -14,7 +17,7 @@ void Game::run() {
     window.setFramerateLimit(60);
     map.generate();
     sf::Clock clock;
-
+    clockGame.start();
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -30,12 +33,15 @@ void Game::run() {
         map.run(deltaTime);
         player_ptr->update(deltaTime, map);
         render(window);
+        myHud.update(clockGame);
     }
 }
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
+    
     map.render(window);
     player_ptr->draw(window);
+    myHud.drawHUD(window);
     window.display();
 }

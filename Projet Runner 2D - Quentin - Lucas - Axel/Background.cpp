@@ -1,6 +1,6 @@
 #include "Background.hpp"
 
-Background::Background()  {
+Background::Background()  { // TODO : ADD BIOMES (depend to game difficulty). 4 biomes / 3 transition textures 
 	if (!backboardFirstTexture.loadFromFile("Assets/tiles_map/backgroundFar.png"))
 		std::cerr << "backboardFirstTexture not found" << std::endl;
 	if (!backboardSecondTexture.loadFromFile("Assets/tiles_map/backgroundNear.png"))

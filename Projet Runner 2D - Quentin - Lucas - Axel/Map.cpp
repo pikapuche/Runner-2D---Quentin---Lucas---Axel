@@ -4,7 +4,6 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	std::cout << "seed : " << seed << std::endl;
-	score = 10;
 
 	makeGround();
 
@@ -52,14 +51,14 @@ void Map::run(float deltatime) {
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0)
         {
             it = obstacles.erase(it);
-			score++;
+			_score++;
         }
         else
         {
             ++it;
         }
     }
-	//std::cout << "score : " << score << std::endl;
+	std::cout << "score : " << _score << std::endl;
 
 	for (auto it = plateforms.begin(); it != plateforms.end(); ) {
 		auto& plateform = *it;
@@ -67,7 +66,7 @@ void Map::run(float deltatime) {
 
 		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0) {
 			it = plateforms.erase(it);
-			score++;
+			_score++;
 		}
 		else {
 			++it;
@@ -80,7 +79,7 @@ void Map::run(float deltatime) {
 
 		if (collectible->shape.getPosition().x + collectible->shape.getSize().x < 0) {
 			it = collectibles.erase(it);
-			score++;
+			_score++;
 		}
 		else {
 			++it;
@@ -88,16 +87,16 @@ void Map::run(float deltatime) {
 	}
 
 	//std::cout << "score : " << score << std::endl;
-	delay = 2.0f * std::exp(-0.03f * (score - 1)) + 0.8f;
+	delay = 2.0f * std::exp(-0.03f * (_score - 1)) + 0.8f;
 	if (generateClock.getElapsedTime().asSeconds() > delay) {
 		generate();
 		generateClock.restart();
 	}
-	if (score < 50)
+	if (_score < 50)
 		difficulty = 1;
-	else if (score < 100)
+	else if (_score < 100)
 		difficulty = 2;
-	else if (score < 200)
+	else if (_score < 200)
 		difficulty = 3;
 	else
 		difficulty = 4;
@@ -125,10 +124,10 @@ void Map::setObstacles() {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
-		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
+		Plateform* tempPlatform = new Plateform(-500.f - _score * 10.f, linePlatform);
 		tempPlatform->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
-		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
+		Collectible* tempCollectible = new Collectible(-500.f - _score * 10.f, linePlatform);
 		tempCollectible->shape.setSize({ static_cast<float>(STGS::WIDTH * 0.04f), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
 		float platformY;
@@ -153,7 +152,7 @@ void Map::setObstacles() {
 		for (int i = 0; i < nbObstacles; ++i) {
 			int line = lines[i];
 
-			Obstacle* temp = new Obstacle(-500.f - score * 10.f, line);
+			Obstacle* temp = new Obstacle(-500.f - _score * 10.f, line);
 			temp->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y)  });
 
 			if (line == 0)
@@ -219,7 +218,7 @@ sf::FloatRect Map::getBounds2() {
 
 
 int Map::getScore() {
-	return score;
+	return _score;
 }
 
 int Map::getDifficulty() {
@@ -232,4 +231,12 @@ sf::RectangleShape Map::getGround() {
 
 sf::RectangleShape Map::getGround2() {
 	return ground2;
+}
+
+void Map::setScore(int score) {
+	_score = score;
+}
+
+std::vector<Plateform*> Map::getPlatformVector() {
+	return plateforms;
 }

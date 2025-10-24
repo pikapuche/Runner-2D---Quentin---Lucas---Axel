@@ -14,12 +14,13 @@ public:
 	//getters/setters
 	sf::FloatRect getBounds();
 	sf::FloatRect getBounds2();
+	std::vector<Plateform*> getPlatformVector();
 	int getScore();
 	int getDifficulty();
 	std::vector<Obstacle*> getVectObs();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
-
+	void setScore(int score);
 
 private:
 	std::vector<Obstacle*> obstacles;
@@ -27,7 +28,7 @@ private:
 	std::vector<Collectible*> collectibles;
 	int seed = 0;
 	std::mt19937 rng;
-	int score;
+	int _score;
 	sf::RectangleShape ground, ground2;
 	Background bg;
 

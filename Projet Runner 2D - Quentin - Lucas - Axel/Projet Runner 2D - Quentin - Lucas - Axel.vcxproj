@@ -86,6 +86,7 @@
     <ClCompile Include="Collectible.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Plateform.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Background.hpp" />
     <ClInclude Include="Collectible.hpp" />
     <ClInclude Include="Datas.hpp" />
+    <ClInclude Include="HUD.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Entity.hpp" />
