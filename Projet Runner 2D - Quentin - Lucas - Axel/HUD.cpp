@@ -12,6 +12,7 @@ HUD::~HUD() {
 
 }
 
+
 void HUD::initTexture() {
 	if(!goldTexture.loadFromFile("Assets/Images/Gold.png"))
 		cout << "cc";
@@ -53,6 +54,7 @@ void HUD::drawHUD(RenderWindow& window) {
 void HUD::calculateTimer(Clock& clock) {
 	
 }
-void HUD::update(Clock& clock) {
+void HUD::update(Clock& clock, int& scoreGame) {
 	timer.setString(to_string(clock.getElapsedTime().asSeconds()));
+	score.setString(to_string(scoreGame));
 }

@@ -15,6 +15,7 @@ void Game::run() {
     // run the program as long as the window is open
     while (window.isOpen())
     {
+        score = map.getScore();
         float deltaTime = clock.restart().asSeconds();
 
         // check all the window's events that were triggered since the last iteration of the loop
@@ -28,7 +29,7 @@ void Game::run() {
 
         player_ptr->update(deltaTime, map); 
         render(window);
-        myHud.update(clockGame);
+        myHud.update(clockGame, score);
     }
 }
 
