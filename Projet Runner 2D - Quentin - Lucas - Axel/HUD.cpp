@@ -15,38 +15,40 @@ void HUD::initHUD() {
 	heart2.setTexture(&Shared::heart2Texture, true);
 	heart3.setTexture(&Shared::heart3Texture, true);
 
-	goldPiece.setPosition({ 50, static_cast<float>(STGS::HEIGHT - 100) });
-	goldPiece.setSize({ 50,50 });
+	goldPiece.setSize({ STGS::WIDTH * 0.04f, STGS::WIDTH * 0.04f });
+	goldPiece.setPosition({ static_cast<float>(STGS::WIDTH * 0.03f), static_cast<float>(STGS::HEIGHT * 0.9f) });
 
-	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2), 200 });
-	lifeholder.setSize({ 250,50 });
+	lifeholder.setSize({ STGS::WIDTH / 4.f, STGS::HEIGHT / 10.f + 75.f });
+	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2.f - lifeholder.getSize().x / 2.f), 0 });
 
-	lvl.setPosition({ static_cast<float>(STGS::WIDTH/2),static_cast<float>(STGS::HEIGHT/2) });
 	lvl.setString("C'est le lvl");
-	lvl.setCharacterSize({30});
+	lvl.setCharacterSize(60);
 	lvl.setFillColor(sf::Color::White);
+	lvl.setPosition({ static_cast<float>(STGS::WIDTH - lvl.getGlobalBounds().size.x - 10.f ), 10.f });
 
-	score.setPosition({ 0,0 });
-	score.setString("C'est le score");
-	score.setCharacterSize({30});
-	score.setFillColor(sf::Color::White);
-
-	timer.setPosition({ static_cast<float>(STGS::WIDTH-250), 0 });
-	timer.setCharacterSize({30});
+	timer.setString("0");
+	timer.setCharacterSize({60});
 	timer.setFillColor(sf::Color::White);
+	timer.setPosition({ 10, 10 });
 
-	gold.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT - 100) });
-	gold.setCharacterSize({ 30 });
+	score.setString("0");
+	score.setCharacterSize(60);
+	score.setFillColor(sf::Color::White);
+	score.setPosition({ 10.f, timer.getGlobalBounds().size.y + timer.getPosition().y + 20.f });
+
+	gold.setString("0");
+	gold.setCharacterSize({ 60 });
 	gold.setFillColor(sf::Color::Yellow);
+	gold.setPosition({ goldPiece.getPosition().x - gold.getGlobalBounds().size.x, static_cast<float>(STGS::HEIGHT * 0.9f) });
 
-	heart1.setPosition({ lifeholder.getPosition() });
-	heart1.setSize({ 32, 32 });
+	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
+	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });
 
-	heart2.setPosition({ lifeholder.getPosition().x + 48, lifeholder.getPosition().y });
-	heart2.setSize({ 32, 32 });
+	heart2.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
+	heart2.setPosition({ lifeholder.getPosition().x + lifeholder.getGlobalBounds().size.x / 2 - heart2.getGlobalBounds().size.x / 2, lifeholder.getPosition().y + 25.f });
 
-	heart3.setPosition({ lifeholder.getPosition().x + 82, lifeholder.getPosition().y });
-	heart3.setSize({ 32, 32 });
+	heart3.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
+	heart3.setPosition({ lifeholder.getPosition().x + lifeholder.getGlobalBounds().size.x - heart3.getGlobalBounds().size.x, lifeholder.getPosition().y + 25.f });
 }
 
 void HUD::drawHUD(sf::RenderWindow& window, Player& player) {
