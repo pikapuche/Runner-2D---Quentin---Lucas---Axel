@@ -22,10 +22,6 @@ void Collectible::render(sf::RenderWindow& window) {
 	window.draw(shape);
 }
 
-int Collectible::getLine() {
-	return line;
-}
-
-void Collectible::setPosition(sf::Vector2f pos) {
-	shape.setPosition(pos);
-}
+int Collectible::getLine() { return line; }
+sf::RectangleShape& Collectible::getShape() { return shape; }
+void Collectible::setPosition(sf::Vector2f pos) { shape.setPosition(pos); }

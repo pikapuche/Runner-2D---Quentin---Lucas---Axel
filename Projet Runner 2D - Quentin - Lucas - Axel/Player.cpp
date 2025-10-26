@@ -1,10 +1,7 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun), Entity()
-{
-    /* CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-       
-    */
+Player::Player() : sound(bufferRun) {
+    //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
 
     // initialisation de tout
     //clockRun.start();
@@ -22,35 +19,32 @@ Player::Player() : sound(bufferRun), Entity()
     animJetpack = { 0,0 };
 
     // chargement des textures
-	if (!texture.loadFromFile("Assets/Character/Astronaut_RunV2.png")) cout << "caca run" << endl << endl;
-    if (!textureJump.loadFromFile("Assets/Character/Astronaut_JumpV2.png")) cout << "caca jump" << endl << endl;
-    if (!textureJetpack.loadFromFile("Assets/Character/Astronaut_JetPack.png")) cout << "caca jetpack" << endl << endl;
 
     // setSmooth pour des images plus nette 
-    textureJump.setSmooth(true);
-    textureJetpack.setSmooth(true);
+    Shared::playerJumpTexture.setSmooth(true);
+    Shared::playerJetpackTexture.setSmooth(true);
 
-	shape.setSize(Vector2f(CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE)); // 128x128 car la size du perso est 128 px
-    shape.setTexture(&texture);
+    shape.setSize(sf::Vector2f(static_cast<float>(CHARACTER_ASSET_SIZE),
+        static_cast<float>(CHARACTER_ASSET_SIZE)));
 
+    shape.setTexture(&Shared::playerTexture);
 
     // préparation de la staminaBar pour le jetpack
     staminaBarRect.setOutlineThickness(5.f);
-    staminaBarRect.setOutlineColor(Color::White);
+    staminaBarRect.setOutlineColor(sf::Color::White);
 
-    shape.setPosition(Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
+    shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
 
     // initialisation des sons
-    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) cout << "caca son run" << endl << endl;
-    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) cout << "caca son jump" << endl << endl;
-    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) cout << "caca son jetpack" << endl << endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) cout << "caca son runGravel" << endl << endl;
+    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
+    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
+    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
+    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
 }
 
 Player::~Player() {}
 
-bool Player::collision(Map& map)
-{
+bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     const std::vector<Collectible*>& vectCollectible = map.getCollectible();
 
@@ -75,7 +69,7 @@ bool Player::collision(Map& map)
         return true;
     }
     for (auto& collectible : vectCollectible) {
-        if (shape.getGlobalBounds().findIntersection(collectible->shape.getGlobalBounds())) {
+        if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
             pessos++;
             map.removeCollectible(collectible);
             return true;
@@ -84,28 +78,23 @@ bool Player::collision(Map& map)
     return false;
 }
 
-void Player::playerMovement(float deltaTime, Map& map)
-{
-    if (!collision(map)) {
+void Player::playerMovement(float deltaTime, Map& map) {
+    if (!collision(map)) 
         velocity.y += gravity * deltaTime;
-    }
     else {
         stateMove = RUNNING;
-        if (jetpackStamina < 100) {
+        if (jetpackStamina < 100) 
             jetpackStamina++;
-        }
     }
 
-    if (Keyboard::isKeyPressed(Keyboard::Key::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) 
         jump(deltaTime);
-    }
 
 	position.y = velocity.y;
 	shape.move(position);
 }
 
-void Player::jump(float deltaTime)
-{
+void Player::jump(float deltaTime) {
     if (state == GROUNDED) {  // Sauter uniquement si le joueur est sur le sol / saute pas
         state = JUMP;
         stateMove = JUMPING;
@@ -119,13 +108,11 @@ void Player::jump(float deltaTime)
     }
 }
 
-void Player::animationManager(float deltaTime)
-{
-    switch (stateMove)
-    {
+void Player::animationManager(float deltaTime) {
+    switch (stateMove) {
     case RUNNING:
         soundManager(bufferRun);
-        shape.setTexture(&texture);
+        shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
         if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
@@ -136,10 +123,9 @@ void Player::animationManager(float deltaTime)
             animRun.x = 0; // on reset l'image et on recommence
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
-        
     case JUMPING:
         soundManager(bufferJump);
-        shape.setTexture(&textureJump);
+        shape.setTexture(&Shared::playerJumpTexture);
         animJump.y = 0;
 
         if (clockJump.getElapsedTime().asMilliseconds() > 45) {
@@ -148,11 +134,11 @@ void Player::animationManager(float deltaTime)
         }
         if (animJump.x > 5)
             animJump.x = 0;
-        shape.setTextureRect(IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
+        shape.setTextureRect(sf::IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
         soundManager(bufferJetpack);
-        shape.setTexture(&textureJetpack);
+        shape.setTexture(&Shared::playerJetpackTexture);
         animJetpack.y = 0;
 
         if (clockJetpack.getElapsedTime().asMilliseconds() > 45) {
@@ -161,30 +147,26 @@ void Player::animationManager(float deltaTime)
         }
         if (animJetpack.x > 1)
             animJetpack.x = 0;
-        shape.setTextureRect(IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
+        shape.setTextureRect(sf::IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     }
 }
 
-void Player::jetpackStaminaGestion()
-{
-    if (jetpackStamina >= 60) {
-        staminaBar.setFillColor(Color::Green);
-    }
-    else if (jetpackStamina < 30) {
-        staminaBar.setFillColor(Color::Red);
-    }
-    else if (jetpackStamina < 60) {
-        staminaBar.setFillColor(Color::Yellow);
-    }
-    staminaBar.setSize(Vector2f(jetpackStamina, 10));
-    staminaBar.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
-    staminaBarRect.setSize(Vector2f(100, 10));
-    staminaBarRect.setPosition(Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+void Player::jetpackStaminaGestion() {
+    if (jetpackStamina >= 60)
+        staminaBar.setFillColor(sf::Color::Green);
+    else if (jetpackStamina < 30) 
+        staminaBar.setFillColor(sf::Color::Red);
+    else if (jetpackStamina < 60) 
+        staminaBar.setFillColor(sf::Color::Yellow);
+
+    staminaBar.setSize(sf::Vector2f(jetpackStamina, 10));
+    staminaBar.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+    staminaBarRect.setSize(sf::Vector2f(100, 10));
+    staminaBarRect.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
 }
 
-void Player::invincibility()
-{
+void Player::invincibility() {
     if (clockInvincible.getElapsedTime().asSeconds() >= 2) {
         clockInvincible.stop();
         isInvincible = false;
@@ -194,69 +176,18 @@ void Player::invincibility()
         // ici, on transforme notre clock invisible en int pour utiliser % qui ne marche pas bien sur les floats
         // donc ca fais 1,2,3 au lieu de 100 ms, 200 ms etc et le % 2 va faire 0,1,0,1,0,1
         if (((int)(clockInvincible.getElapsedTime().asMilliseconds() / 100)) % 2 == 0)
-            shape.setFillColor(Color(255, 255, 255, 0));
+            shape.setFillColor(sf::Color(255, 255, 255, 0));
         else
-            shape.setFillColor(Color::White); 
+            shape.setFillColor(sf::Color::White);
     }
-    else {
-        shape.setFillColor(Color::White);
-    }
+    else
+        shape.setFillColor(sf::Color::White);
 }
 
-FloatRect Player::getFeetBounds() const
-{
-    FloatRect bounds = shape.getGlobalBounds();
-    float feet = bounds.size.y * 0.1f;
-
-    Vector2f feetPos(bounds.position.x, bounds.position.y + bounds.size.y - feet);
-
-    Vector2f feetSize(bounds.size.x, feet);
-
-    return FloatRect(feetPos, feetSize);
-}
-
-int Player::getLife()
-{
-    return life;
-}
-
-void Player::setLife(int l)
-{
-    life = l;
-}
-
-void Player::setLessLife()
-{
-    if (life <= 0) {
-        life = 0;
-    }
-    else {
-        life--;
-    }
-    cout << life << endl;
-}
-
-void Player::setUpLife()
-{
-    if (life >= 3) {
-        life = 3;
-    }
-    else {
-        life++;
-    }
-}
-
-int Player::getPessos()
-{
-    return pessos;
-}
-
-void Player::soundManager(SoundBuffer& buffer)
-{
+void Player::soundManager(sf::SoundBuffer& buffer) {
     const sf::SoundBuffer& currentBuffer = sound.getBuffer();
 
-    if (&currentBuffer != &buffer && life != 0)
-    {
+    if (&currentBuffer != &buffer && life != 0) {
         sound.stop();
         sound.setBuffer(buffer);
 
@@ -269,13 +200,10 @@ void Player::soundManager(SoundBuffer& buffer)
         sound.play();
     }
     else if (sound.getStatus() != sf::SoundSource::Status::Playing && life != 0)
-    {
         sound.play();
-    }
 }
 
-void Player::update(float deltaTime, Map& map)
-{
+void Player::update(float deltaTime, Map& map) {
     if (life != 0) {
         invincibility();
         playerMovement(deltaTime, map);
@@ -284,11 +212,36 @@ void Player::update(float deltaTime, Map& map)
     }
 }
 
-void Player::draw(RenderWindow& window)
-{
+void Player::draw(sf::RenderWindow& window) {
     if (life != 0) {
         window.draw(staminaBarRect);
         window.draw(staminaBar);
         window.draw(shape);
     }
 }
+
+sf::FloatRect Player::getFeetBounds() const {
+    sf::FloatRect bounds = shape.getGlobalBounds();
+    float feet = bounds.size.y * 0.1f;
+    sf::Vector2f feetPos(bounds.position.x, bounds.position.y + bounds.size.y - feet);
+    sf::Vector2f feetSize(bounds.size.x, feet);
+    return sf::FloatRect(feetPos, feetSize);
+}
+
+void Player::setLessLife() {
+    if (life <= 0) 
+        life = 0;
+    else 
+        life--;
+}
+
+void Player::setUpLife() {
+    if (life >= 3) 
+        life = 3;
+    else 
+        life++;
+}
+
+int Player::getLife() { return life; }
+void Player::setLife(int l) { life = l; }
+int Player::getPessos() {  return pessos; }

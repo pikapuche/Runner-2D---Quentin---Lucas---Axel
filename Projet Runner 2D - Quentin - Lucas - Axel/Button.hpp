@@ -1,14 +1,11 @@
 #pragma once
 #include "Map.hpp"
 
-using namespace std;
-using namespace sf;
-
-class Button
-{
+class Button {
 public:
 	Button();
 	~Button();
+
 	void activate();
 	bool isHovering();
 
@@ -16,6 +13,7 @@ public:
 		NOTHING, PLAY, QUIT, SETTINGS
 	};
 
+private:
 	//RectangleShape buttonBack;
 	//Text buttonText;
 	//Font buttonFont;

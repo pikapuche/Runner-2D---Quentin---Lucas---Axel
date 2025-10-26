@@ -1,84 +1,69 @@
 #pragma once
-#include "Entity.hpp"
+
 #include "Map.hpp"
 
-class Player : public Entity {
-protected : 
+class Player {
+public :
+	Player();
+	~Player();
+
+	void playerMovement(float deltaTime, Map& map);
+	void jump(float deltaTime);
+	bool collision(Map& map);
+	void animationManager(float deltaTime); 
+	void jetpackStaminaGestion();
+	void invincibility();
+	void soundManager(sf::SoundBuffer& buffer);
+	void update(float deltaTime, Map& map);
+	void draw(sf::RenderWindow& window);
+
+	//getters/setters
+	sf::FloatRect getFeetBounds() const;
+	int getLife();
+	void setLife(int l);
+	void setLessLife();
+	void setUpLife();
+	int getPessos();
+
+	enum State { NOTHING, GROUNDED, JUMP };
+	State state;
+
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING };
+	MoveState stateMove;
+
+private : 
+	sf::RectangleShape staminaBar; // barre d'endurance du jetpack
+	sf::RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
+
+	sf::Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
+	sf::Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
+	sf::Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
+	sf::Clock clockJetpack; // Clock quand on est pour l'anim jetpack
+	sf::Clock clockInvincible; // Clock qui permet de timer l'invincibilité
+
+	sf::Vector2i animRun;
+	sf::Vector2i animJump;
+	sf::Vector2i animJetpack;
+
+	sf::SoundBuffer bufferRunGravel; // son quand le perso va courir
+	sf::SoundBuffer bufferRun; // son quand le perso va courir
+	sf::SoundBuffer bufferJump; // son quand le perso va sauter
+	sf::SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
+
+	sf::Sound sound;
+
+	sf::RectangleShape shape;
+	sf::Vector2f position;
+	sf::Vector2f velocity;
 
 	const float JUMP_FORCE = 40.f; // force initiale du saut
 	const float JETPACK_FORCE = 15.f; // force de propulsion du jetpack
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
-
 	float jetpackStamina = 100.f; // endurance du jetpack
-	RectangleShape staminaBar; // barre d'endurance du jetpack
-	RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
-
-	Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
-	Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
-	Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
-	Clock clockJetpack; // Clock quand on est pour l'anim jetpack
-	Clock clockInvincible; // Clock qui permet de timer l'invincibilité
-
-	Texture textureJump; // Texture du saut
-	Texture textureJetpack; // Texture du saut
-
-	// Vector d'animation qui compte les frames
-	Vector2i animRun; 
-	Vector2i animJump;
-	Vector2i animJetpack;
-
 	int volumeSound = 100;
-	
-	SoundBuffer bufferRunGravel; // son quand le perso va courir
-	SoundBuffer bufferRun; // son quand le perso va courir
-	SoundBuffer bufferJump; // son quand le perso va sauter
-	SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
-
-	Sound sound;
-
 	int life = 3;
 	int pessos = 0;
-
 	bool isInvincible = false;
+	const float gravity = 150.0f;
 
-public :
-
-	enum State { NOTHING, GROUNDED, JUMP }; // enum qui permet de savoir si le joueur est au sol ou non
-	State state;
-
-	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING }; // enum qui permet de savoir si le joueur cours, saute ou dash (sert aux anim)
-	MoveState stateMove;
-
-	Player();
-	~Player();
-
-	void playerMovement(float deltaTime, Map& map); // controle les mouvements du player
-
-	void jump(float deltaTime); // fonction de saut
-
-	bool collision(Map& map);
-
-	void animationManager(float deltaTime); // gère les animations du personnage avec un switch et un enum
-
-	void jetpackStaminaGestion();
-
-	void invincibility();
-
-	FloatRect getFeetBounds() const;
-
-	int getLife();
-
-	void setLife(int l);
-
-	void setLessLife();
-
-	void setUpLife();
-
-	int getPessos();
-
-	void soundManager(SoundBuffer& buffer);
-
-	void update(float deltaTime, Map& map); // update les fonctions du player avec le deltaTime
-
-	void draw(RenderWindow& window) override; // draw le player
 };

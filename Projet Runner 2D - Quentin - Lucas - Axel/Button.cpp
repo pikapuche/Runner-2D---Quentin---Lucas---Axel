@@ -1,15 +1,15 @@
 #include "Button.hpp"
 
-//Button::Button() : buttonText(buttonFont){ 
-//
-//}
-//Button::~Button() {
-//
-//}
-//void Button::activate() {
-//
-//}
-//
-//bool Button::isHovering() {
-//
-//}
+Button::Button() { 
+
+}
+Button::~Button() {
+
+}
+void Button::activate() {
+
+}
+
+bool Button::isHovering() {
+	return true;
+}

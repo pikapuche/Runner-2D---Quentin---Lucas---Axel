@@ -5,6 +5,7 @@ Animation::Animation(sf::Texture& texture, int frameWidth, int frameHeight, int 
     currentFrame = 0;
     elapsedTime = 0.f;
 }
+Animation::~Animation() {}
 
 void Animation::update(float deltaTime) {
     elapsedTime += deltaTime;

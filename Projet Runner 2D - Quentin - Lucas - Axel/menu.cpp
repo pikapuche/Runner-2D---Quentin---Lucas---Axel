@@ -1,16 +1,12 @@
 #include "Menu.hpp"
-Menu::Menu()
-{
+Menu::Menu() {
 	circle.setRadius(50);
-	circle.setFillColor(Color::Red);
+	circle.setFillColor(sf::Color::Red);
 }
 
-Menu::~Menu()
-{
-}
+Menu::~Menu() {}
 
-void Menu::Start(RenderWindow& window) {
-
+void Menu::Start(sf::RenderWindow& window) {
 	window.draw(circle);
 }
 

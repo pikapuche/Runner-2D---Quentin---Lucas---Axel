@@ -1,24 +1,17 @@
-
 #include "Button.hpp"
 
-using namespace std;
-using namespace sf;
-
-
-class Menu
-{
+class Menu {
 public:
-	CircleShape circle;
-
 	Menu();
 	~Menu();
-	void Start(RenderWindow& window);
+
+	void Start(sf::RenderWindow& window);
 	void createStartButton();
 
-	RectangleShape background;
+	sf::RectangleShape background;
+	sf::CircleShape circle;
 	//Button playButton;
 	//Button quitButton;
 	//Button settingsButton;
-
 };
 

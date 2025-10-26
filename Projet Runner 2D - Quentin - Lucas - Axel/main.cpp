@@ -1,8 +1,10 @@
 #pragma once
+
 #include "Game.hpp"
 
 int main() {
-	Game game;
-	game.run();
-   	return 0;
+    Game* game = new Game();
+    game->run();
+    delete game;
+    return 0;
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Obstacle.hpp"
 #include "Plateform.hpp"
 #include "Collectible.hpp"
@@ -7,9 +8,9 @@ class Map {
 public:
 	Map();
 	~Map();
+
 	void run(float deltatime);
 	void render(sf::RenderWindow& window);
-	void generate();
 	void removeObstacle(Obstacle* obs);
 	void removeCollectible(Collectible* col);
 
@@ -19,29 +20,29 @@ public:
 	std::vector<Plateform*> getPlatformVector();
 	std::vector<Obstacle*> getVectObs();
 	std::vector<Collectible*> getCollectible();
-	int getScore();
-	int getDifficulty();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
+	int getScore();
+	int getDifficulty();
 	void setScore(int score);
+	void setObstacles();
 
 private:
-	std::vector<Obstacle*> obstacles;
-	std::vector<Plateform*> plateforms;
-	std::vector<Collectible*> collectibles;
-	int seed = 0;
-	std::mt19937 rng;
-	int _score;
-	sf::RectangleShape ground, ground2;
-	Background bg;
-
-	void setObstacles();
 	void createSeed();
 	void makeGround();
 	void moveGround(float deltaTime);
-	sf::Texture groundTexture;
 
+	std::vector<Obstacle*> obstacles;
+	std::vector<Plateform*> plateforms;
+	std::vector<Collectible*> collectibles;
+	std::mt19937 rng;
+	sf::RectangleShape ground, ground2;
 	sf::Clock generateClock;
+
+	Background bg;
+
+	int _score;
+	int seed = 0;
 	float delay;
 	int difficulty;
 };

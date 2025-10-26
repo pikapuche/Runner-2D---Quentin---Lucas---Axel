@@ -4,7 +4,7 @@
 
 Plateform::Plateform(float _velocity, int _line) : line(_line), velocity(_velocity) {
 	shape.setTexture(&Shared::tileSetTexture);
-	shape.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 16 })); // 1 tile = 32px //// 3 tiles = 96px
+	shape.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 16 }));
 	shape.setFillColor(sf::Color::Green);
 }
 
@@ -19,8 +19,7 @@ void Plateform::init() {
 void Plateform::move(float deltatime, int difficulty) {
 	shape.move({ velocity * deltatime, 0 });
 
-	switch (difficulty)
-	{
+	switch (difficulty) {
 	case 1:
 		shape.setFillColor(sf::Color(255, 0, 187, 215));
 		break;
@@ -37,14 +36,9 @@ void Plateform::move(float deltatime, int difficulty) {
 	}
 }
 
-void Plateform::render(sf::RenderWindow& window) {
-	window.draw(shape);
+void Plateform::render(sf::RenderWindow& window) { 
+	window.draw(shape); 
 }
 
-int Plateform::getLine() {
-	return line;
-}
-
-void Plateform::setPosition(sf::Vector2f pos) {
-	shape.setPosition(pos);
-}
+int Plateform::getLine() { return line; }
+void Plateform::setPosition(sf::Vector2f pos) { shape.setPosition(pos); }

@@ -18,12 +18,7 @@ Background::Background()  {
 	flashOverlay.setFillColor(sf::Color(255, 255, 255, 0));
 }
 
-Background::~Background() {
-}
-
-void Background::init() {
-
-}
+Background::~Background() {}
 
 void Background::move(float deltaTime) {
 	const float speedFar = 100.f;
