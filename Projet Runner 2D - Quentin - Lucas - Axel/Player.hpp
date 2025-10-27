@@ -65,7 +65,7 @@ private :
 	int volumeSound = 100;
 	int life = 3;
 	int pessos = 0;
-	bool isInvincible;
+	bool isInvincible = false;
 	const float gravity = 150.0f;
-	bool takeDamageBool;
+	bool takeDamageBool = false;
 };

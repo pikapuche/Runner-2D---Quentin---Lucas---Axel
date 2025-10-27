@@ -2,12 +2,12 @@
 
 Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
 
-    // fix bug collision
+    // fix bug collision du perso qui va dans le sol
+    // jauge de glissade 
+    // faire en sorte de pas pouvoir faire de glissade en saut 
 }
 
 Player::~Player() {}
-
-
 
 bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
@@ -17,24 +17,13 @@ bool Player::collision(Map& map) {
     for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
         auto& obstacle = *it;
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
+            shape.setPosition({ shape.getPosition().x, obstacle->getSafePlaceBounds().position.y - shape.getSize().y });
             velocity.y = 0;
             state = GROUNDED;
             stateMove = PLATEFORMING;
             return true;
         }
-        if (stateMove == SLIDING) {
-            if (!isInvincible && getSlideBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
-                setLessLife();
-                isInvincible = true;
-                clockInvincible.restart();
-                map.removeObstacle(obstacle);
-                soundDeath.play();
-                takeDamageBool = true;
-                takeDamageClock.restart();
-                return true;
-            }
-        }
-        else if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+        else if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds()) && stateMove != SLIDING) {
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
@@ -56,13 +45,22 @@ bool Player::collision(Map& map) {
     for (auto it = vectPlat.begin(); it != vectPlat.end(); ++it) {
         auto& plateform = *it;
         if (getFeetBounds().findIntersection(plateform->shape.getGlobalBounds())) {
+            shape.setPosition({ shape.getPosition().x, plateform->shape.getGlobalBounds().position.y - shape.getSize().y });
             velocity.y = 0;
             state = GROUNDED;
             stateMove = PLATEFORMING;
             return true;
         }
     }
-    if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
+    if (getFeetBounds().findIntersection(map.getBounds())) {
+        shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y});
+        velocity.y = 0;
+        state = GROUNDED;
+        stateMove = RUNNING;
+        return true;
+    }
+    else if (getFeetBounds().findIntersection(map.getBounds2())) {
+        shape.setPosition({ shape.getPosition().x, map.getBounds2().position.y - shape.getSize().y });
         velocity.y = 0;
         state = GROUNDED;
         stateMove = RUNNING;
@@ -139,24 +137,19 @@ void Player::initPlayer()
 }
 
 void Player::playerMovement(float deltaTime, Map& map) {
-    if (!collision(map)) 
-        velocity.y += gravity * deltaTime;
-    else if (collision(map) && stateMove == PLATEFORMING) {
-        if (jetpackStamina < 100) 
-            jetpackStamina++;
-    }
-    else {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            stateMove = SLIDING;
-        }
-        else {
-            stateMove = RUNNING;
-        }
-        if (jetpackStamina < 100)
-            jetpackStamina++;
+
+    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100) {
+        jetpackStamina++;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) 
+    if (!collision(map))
+        velocity.y += gravity * deltaTime;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED) {
+        stateMove = SLIDING;
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
         jump(deltaTime);
 
 	position.y = velocity.y;
@@ -235,7 +228,6 @@ void Player::animationManager(float deltaTime) {
         soundManager(Shared::bufferSlide);
         shape.setTexture(&Shared::playerSlideTexture);
         shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
-
         break;
     }
 }
@@ -333,7 +325,7 @@ sf::FloatRect Player::getFeetBounds() const {
 
 sf::FloatRect Player::getSlideBounds() const {
     sf::FloatRect bounds = shape.getGlobalBounds();
-    float slide = bounds.size.y * 0.5f;
+    float slide = bounds.size.y * 0.0001f;
     sf::Vector2f slidePos(bounds.position.x, bounds.position.y + bounds.size.y - slide);
     sf::Vector2f slideSize(bounds.size.x, slide);
     return sf::FloatRect(slidePos, slideSize);
