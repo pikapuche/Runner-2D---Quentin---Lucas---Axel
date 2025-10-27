@@ -11,12 +11,12 @@ Game::Game() {
     clockGame.start();
     score = 0;
     collectible = 0;
+    currentState = GameState::Playing;
 }
 Game::~Game() {}
 
 void Game::run() {
-    
-    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen) ;
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
     sf::Clock clock;
@@ -100,7 +100,33 @@ void Game::run() {
         default:
             break;
         }
-
+        switch (currentState)
+        {
+        case Game::Playing:
+            map.run(deltaTime);
+            score = map.getScore();
+            player_ptr->update(deltaTime, map);
+            myHud.update(clockGame, score, collectible);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
+                currentState = GameState::Shop;
+            break;
+        case Game::MenuStart:
+            break;
+        case Game::Pause:
+            break;
+        case Game::MenuEndWin:
+            break;
+        case Game::MenuEndLose:
+            break;
+        case Game::Settings:
+            break;
+        case Game::Shop:
+            shop.update();
+            break;
+        default:
+            break;
+        }
+        render(window);
     }
 
     
@@ -111,10 +137,15 @@ void Game::run() {
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
-    switch (gameState)
+   
+    switch (currentState)
     {
+    case Game::Playing:
+        map.render(window);
+        player_ptr->draw(window);
+        myHud.drawHUD(window, *player_ptr);
+        break;
     case Game::MenuStart:
-        
         menu.drawMenu(window);
         break;
     case Game::Pause:
@@ -126,11 +157,7 @@ void Game::render(sf::RenderWindow& window) {
     case Game::Settings:
         break;
     case Game::Shop:
-        break;
-    case Game::Play:
-        map.render(window);
-        player_ptr->draw(window);
-        myHud.drawHUD(window, *player_ptr);
+        shop.render(window);
         break;
     default:
         break;

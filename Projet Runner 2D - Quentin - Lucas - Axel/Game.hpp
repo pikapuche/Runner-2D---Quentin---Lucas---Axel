@@ -1,15 +1,12 @@
 #pragma	once 
 
 #include "Map.hpp"
-#include "Player.hpp"
+#include "Shop.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
 
 class Game {
 public:
-	enum GameState {
-		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop, Play
-	};
 	void createStartButton();
 	sf::Music music;
 	int volumeMusic = 20;
@@ -21,6 +18,17 @@ public:
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
 	sf::Clock clockGame;
 	sf::Clock clock;
+	Shop shop; 
+
+	enum GameState {
+		Playing,
+		MenuStart, 
+		Pause, 
+		MenuEndWin, 
+		MenuEndLose, 
+		Settings, 
+		Shop
+	};
 	Menu menu;
 
 	Game();
