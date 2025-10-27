@@ -8,6 +8,7 @@
 class Game {
 public:
 	void createStartButton();
+	AssetManager assetManager;
 	sf::Music music;
 	int volumeMusic = 20;
 	int score;
@@ -41,7 +42,6 @@ public:
 	void render(sf::RenderWindow& window);
 	void restart();
 	GameState gameState;
-	AssetManager assetManager;
 	
 	
 };
