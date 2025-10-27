@@ -2,6 +2,8 @@
 
 Player::Player() : sound(bufferRun) {
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
+    // collisions plateforme piece 
+    // changement du sound effect de course quand on marche sur la plateforme
 
     // initialisation de tout
     //clockRun.start();
