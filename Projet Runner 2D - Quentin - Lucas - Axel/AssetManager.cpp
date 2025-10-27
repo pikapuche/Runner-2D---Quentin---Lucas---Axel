@@ -54,4 +54,5 @@ void AssetManager::loadAssetsFromFiles() {
         std::cerr << "Erreur : Astronaut_JetPack.png\n";
     if (!Shared::playerSlideTexture.loadFromFile("Assets/Character/Astronaut_Slide.png"))
         std::cerr << "Erreur : Astronaut_JetPack.png\n";
+
 }
