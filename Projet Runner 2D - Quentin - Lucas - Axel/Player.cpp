@@ -40,6 +40,36 @@ Player::Player() : sound(bufferRun) {
     if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
     if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
     if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
+
+    isInvincible = false;
+    takeDamageBool = false;
+
+    float w = static_cast<float>(STGS::WIDTH);
+    float h = static_cast<float>(STGS::HEIGHT);
+    float border = 50.f;
+
+    sf::Color redOpaque(255, 0, 0, 180);
+    sf::Color redTransparent(255, 0, 0, 0);
+
+    takeDamageLeft[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageLeft[1] = sf::Vertex({ border, 0.f }, redTransparent);
+    takeDamageLeft[2] = sf::Vertex({ border, h }, redTransparent);
+    takeDamageLeft[3] = sf::Vertex({ 0.f, h }, redOpaque);
+
+    takeDamageRight[0] = sf::Vertex({ w - border, 0.f }, redTransparent);
+    takeDamageRight[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageRight[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageRight[3] = sf::Vertex({ w - border, h }, redTransparent);
+
+    takeDamageTop[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageTop[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageTop[2] = sf::Vertex({ w, border }, redTransparent);
+    takeDamageTop[3] = sf::Vertex({ 0.f, border }, redTransparent);
+
+    takeDamageBottom[0] = sf::Vertex({ 0.f, h - border }, redTransparent);
+    takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
+    takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
 }
 
 Player::~Player() {}
@@ -60,6 +90,8 @@ bool Player::collision(Map& map) {
             isInvincible = true;
             clockInvincible.restart();
             map.removeObstacle(obstacle);
+            takeDamageBool = true;
+            takeDamageClock.restart();
             return true;
         } 
     }
@@ -206,6 +238,7 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
 void Player::update(float deltaTime, Map& map) {
     if (life != 0) {
         invincibility();
+        animationTakeDamage();
         playerMovement(deltaTime, map);
         animationManager(deltaTime);
         jetpackStaminaGestion();
@@ -218,6 +251,14 @@ void Player::draw(sf::RenderWindow& window) {
         window.draw(staminaBar);
         window.draw(shape);
     }
+
+    if (takeDamageBool) {
+        window.draw(takeDamageLeft, 4, sf::PrimitiveType::TriangleFan);
+        window.draw(takeDamageRight, 4, sf::PrimitiveType::TriangleFan);
+        window.draw(takeDamageTop, 4, sf::PrimitiveType::TriangleFan);
+        window.draw(takeDamageBottom, 4, sf::PrimitiveType::TriangleFan);
+    }
+   
 }
 
 sf::FloatRect Player::getFeetBounds() const {
@@ -245,3 +286,13 @@ void Player::setUpLife() {
 int Player::getLife() { return life; }
 void Player::setLife(int l) { life = l; }
 int Player::getPessos() {  return pessos; }
+
+void Player::animationTakeDamage() {
+    if (takeDamageClock.getElapsedTime().asSeconds() >= 2.f) {
+        takeDamageClock.stop();
+        takeDamageBool = false;
+        return;
+    }
+    if (!takeDamageBool)
+        return;
+}

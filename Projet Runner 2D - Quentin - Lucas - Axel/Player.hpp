@@ -13,6 +13,7 @@ public :
 	void animationManager(float deltaTime); 
 	void jetpackStaminaGestion();
 	void invincibility();
+	void animationTakeDamage();
 	void soundManager(sf::SoundBuffer& buffer);
 	void update(float deltaTime, Map& map);
 	void draw(sf::RenderWindow& window);
@@ -34,12 +35,14 @@ public :
 private : 
 	sf::RectangleShape staminaBar; // barre d'endurance du jetpack
 	sf::RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
+	sf::Vertex takeDamageLeft[4], takeDamageRight[4], takeDamageTop[4], takeDamageBottom[4];
 
 	sf::Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
 	sf::Clock clockJump; // Clock qui permet de modifier la vitesse d'anim
 	sf::Clock clockSecondJump; // Clock qui permet de modifier le temps entre le premier et le deuxieme saut
 	sf::Clock clockJetpack; // Clock quand on est pour l'anim jetpack
 	sf::Clock clockInvincible; // Clock qui permet de timer l'invincibilité
+	sf::Clock takeDamageClock;
 
 	sf::Vector2i animRun;
 	sf::Vector2i animJump;
@@ -63,7 +66,7 @@ private :
 	int volumeSound = 100;
 	int life = 3;
 	int pessos = 0;
-	bool isInvincible = false;
+	bool isInvincible;
 	const float gravity = 150.0f;
-
+	bool takeDamageBool;
 };
