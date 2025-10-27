@@ -7,25 +7,27 @@
 
 class Game {
 public:
+	enum GameState {
+		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop, Play
+	};
+	void createStartButton();
+	sf::Music music;
+	int volumeMusic = 20;
+	int score;
+	int collectible;
+	bool playing;
+	Map map;
+	HUD myHud;
+	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
+	sf::Clock clockGame;
+	sf::Clock clock;
+	Menu menu;
+
 	Game();
 	~Game();
 
 	void run();
 	void render(sf::RenderWindow& window);
-
-	int score;
-	int collectible;
-	int volumeMusic = 10;
-
+	GameState gameState;
 	AssetManager assetManager;
-    Map map;
-	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
-	HUD myHud;
-	sf::Clock clockGame;
-	sf::Clock clock;
-	sf::Music music;
-
-	enum GameState {
-		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop
-	};
 };
