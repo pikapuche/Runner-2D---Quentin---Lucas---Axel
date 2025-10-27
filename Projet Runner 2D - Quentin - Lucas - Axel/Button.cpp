@@ -21,9 +21,7 @@ bool Button::activate() {
 	return false;
 }
 
-bool Button::isHovering() {
 
-}
 void Button::drawButton(RenderWindow& window) {
 	window.draw(buttonBack);
 	window.draw(buttonText);

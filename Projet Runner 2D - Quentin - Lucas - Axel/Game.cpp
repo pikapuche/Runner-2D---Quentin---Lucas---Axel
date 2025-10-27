@@ -36,6 +36,14 @@ void Game::run() {
                 gameState = Game::Play;
                 
 			}
+
+            if (menu.quitButton.activate()) {
+                window.close();
+            }
+
+            if (menu.settingsButton.activate()) {
+                gameState = Game::Settings;
+			}
             render(window);
 
             break;

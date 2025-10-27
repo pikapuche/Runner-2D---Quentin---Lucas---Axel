@@ -11,7 +11,6 @@ public:
 	Button();
 	~Button();
 	bool activate();
-	bool isHovering();
 	void drawButton(RenderWindow& window);
 
 	void setState();
