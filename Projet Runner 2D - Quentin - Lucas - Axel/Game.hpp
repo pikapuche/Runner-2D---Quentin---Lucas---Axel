@@ -4,7 +4,7 @@
 #include "Shop.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
-
+#include "EndMenu.hpp"
 class Game {
 public:
 	void createStartButton();
@@ -30,6 +30,7 @@ public:
 		Shop
 	};
 	Menu menu;
+	EndMenu endMenu;
 
 	Game();
 	~Game();

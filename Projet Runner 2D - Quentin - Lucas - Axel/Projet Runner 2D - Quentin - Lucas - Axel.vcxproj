@@ -87,6 +87,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Collectible.cpp" />
     <ClCompile Include="Datas.cpp" />
+    <ClCompile Include="EndMenu.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Button.hpp" />
     <ClInclude Include="Collectible.hpp" />
     <ClInclude Include="Datas.hpp" />
+    <ClInclude Include="EndMenu.hpp" />
     <ClInclude Include="HUD.hpp" />
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Obstacle.hpp" />

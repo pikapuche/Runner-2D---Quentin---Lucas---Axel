@@ -9,7 +9,7 @@ public:
 	void drawButton(sf::RenderWindow& window);
 	bool isHovering();
 	enum ButtonState {
-		NOTHING, PLAY, QUIT, SETTINGS
+		NOTHING, PLAY, QUIT, SETTINGS, BACK, RESTART
 	};
 
 

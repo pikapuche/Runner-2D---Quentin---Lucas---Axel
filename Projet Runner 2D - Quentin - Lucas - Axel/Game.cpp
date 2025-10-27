@@ -73,6 +73,12 @@ void Game::run() {
             player_ptr->update(deltaTime, map);
             myHud.update(clockGame, score, collectible);
 
+            if (player_ptr->getLife() <= 0) {
+                gameState = Game::MenuEndLose;
+                playing = false;
+                music.stop();
+			}
+
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
                 gameState = GameState::Shop;
             break;
@@ -84,7 +90,14 @@ void Game::run() {
             std::cout << "Pause";
             break;
         case Game::MenuEndLose:
-            std::cout << "Pause";
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+                    window.close();
+            }
+            if (endMenu.backButton.activate()) {
+				gameState = Game::MenuStart;
+            }
             break;
         case Game::Settings:
             while (const std::optional event = window.pollEvent())
@@ -123,6 +136,7 @@ void Game::render(sf::RenderWindow& window) {
     case Game::MenuEndWin:
         break;
     case Game::MenuEndLose:
+		endMenu.drawMenu(window);
         break;
     case Game::Settings:
         break;
