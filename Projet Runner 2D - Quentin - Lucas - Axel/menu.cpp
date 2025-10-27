@@ -1,8 +1,5 @@
 #include "Menu.hpp"
-Menu::Menu()
-{
-	circle.setRadius(50);
-	circle.setFillColor(Color::Red);
+Menu::Menu() {
 	initMenu();
 }
 

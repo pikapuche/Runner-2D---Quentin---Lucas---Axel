@@ -1,36 +1,31 @@
 #pragma once
+
 #include <iostream>
 #include "SFML/Graphics.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
 
-using namespace sf;
-using namespace std;
-using namespace STGS;
-class HUD
-{
+class HUD {
 public:
 	HUD();
-	
 	~HUD();
-	void initHUD();
-	void drawHUD(RenderWindow& window);
-	void update(Clock& clock, int& score);
-	void calculateTimer(Clock& clock);
-	void initTexture();
-	void setScore(int score);
-protected:
 
-	Text timer;
-	Text score;
-	Text lvl;
-	Font font;
-	RectangleShape lifeholder;
-	RectangleShape heart1;
-	RectangleShape heart2;
-	RectangleShape heart3;
+	void initHUD();
+	void drawHUD(sf::RenderWindow& window, Player& player);
+	void update(sf::Clock& clock, int& score, int& pessos);
+
+private:
+	sf::Text timer;
+	sf::Text score;
+	sf::Text lvl;
+	sf::Text gold;
+	sf::Font font;
+	sf::RectangleShape lifeholder;
+	sf::RectangleShape heart1;
+	sf::RectangleShape heart2;
+	sf::RectangleShape heart3;
+	sf::RectangleShape goldPiece;
+
 	Map map;
-	RectangleShape goldPiece;
-	Texture goldTexture;
 };
 

@@ -3,22 +3,21 @@
 #include "Obstacle.hpp"
 
 class Plateform {
-private:
-
-	int sizeX, sizeY;
-	float velocity;
-	int line = 0;
-	sf::Texture shapeTexture;
-
 public:
 	Plateform(float _velocity, int _line);
 	~Plateform();
 
-	sf::RectangleShape shape;
 	void render(sf::RenderWindow& window);
-	void move(float deltatime);
+	void move(float deltatime, int difficulty);
 	void init();
 
+	//getters/setters
 	int getLine();
 	void setPosition(sf::Vector2f pos);
+
+	sf::RectangleShape shape;
+
+private:
+	float velocity;
+	int line = 0;
 };

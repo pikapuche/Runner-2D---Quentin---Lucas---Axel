@@ -1,25 +1,20 @@
-#include <iostream>
-#include "SFML/Graphics.hpp"
 #include "Button.hpp"
-using namespace std;
-using namespace sf;
 
-
-class Menu
-{
+class Menu {
 public:
-	CircleShape circle;
-
 	Menu();
 	~Menu();
+
 	void initMenu();
 	void drawMenu(RenderWindow& window);
 	void createStartButton();
+	void Start(sf::RenderWindow& window);
+	void createStartButton();
 
-	RectangleShape background;
+	sf::RectangleShape background;
+	sf::CircleShape circle;
 	Button playButton;
 	Button quitButton;
 	Button settingsButton;
-
 };
 

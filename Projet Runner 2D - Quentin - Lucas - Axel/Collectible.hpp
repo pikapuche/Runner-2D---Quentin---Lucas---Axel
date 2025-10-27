@@ -3,22 +3,22 @@
 #include "Obstacle.hpp"
 
 class Collectible {
-private:
-
-	int sizeX, sizeY;
-	float velocity;
-	int line = 0;
-	sf::Texture shapeTexture;
-
 public:
 	Collectible(float _velocity, int _line);
 	~Collectible();
 
-	sf::RectangleShape shape;
 	void render(sf::RenderWindow& window);
 	void move(float deltatime);
 	void init();
 
+	//getters/setters
 	int getLine();
+	sf::RectangleShape& getShape();
 	void setPosition(sf::Vector2f pos);
+
+private:
+	sf::RectangleShape shape;
+
+	float velocity;
+	int line = 0;
 };

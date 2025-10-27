@@ -1,15 +1,16 @@
 #include "Game.hpp"
 
 Game::Game() {
-    if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) cout << "caca music" << endl << endl;
-    music.setVolume(volumeMusic);
-    music.setLooping(true);
-    
-    score = 1;
-    collectible = 0;
-    map.setScore(score);
+    if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) std::cout << "caca music" << std::endl << std::endl;
+    music.setVolume(static_cast<int>(volumeMusic));
+    music.setLooping(true); 
     gameState = MenuStart;
     playing = false;
+    map.setScore(score);
+    map.setObstacles();
+    clockGame.start();
+    score = 0;
+    collectible = 0;
 }
 Game::~Game() {}
 
@@ -59,6 +60,7 @@ void Game::run() {
             
                 deltaTime = clock.restart().asSeconds();
                 score = map.getScore();
+                collectible = player_ptr->getPessos();
                 
 
                 // check all the window's events that were triggered since the last iteration of the loop
@@ -71,7 +73,7 @@ void Game::run() {
                 map.run(deltaTime);
                 player_ptr->update(deltaTime, map);
                 render(window);
-                myHud.update(clockGame, score);
+                myHud.update(clockGame, score, collectible);
             break;
         case Game::Pause:
             cout << "Pause";
@@ -92,7 +94,7 @@ void Game::run() {
         default:
             break;
         }
-    
+
     }
 
     
@@ -103,8 +105,6 @@ void Game::run() {
 
 void Game::render(sf::RenderWindow& window) {
     window.clear();
-    
-    
     switch (gameState)
     {
     case Game::MenuStart:
@@ -124,7 +124,7 @@ void Game::render(sf::RenderWindow& window) {
     case Game::Play:
         map.render(window);
         player_ptr->draw(window);
-        myHud.drawHUD(window);
+        myHud.drawHUD(window, *player_ptr);
         break;
     default:
         break;

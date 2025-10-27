@@ -1,22 +1,17 @@
 #pragma once
-#include <iostream>
-#include "SFML/Graphics.hpp"
+#include "Map.hpp"
 
-using namespace std;
-using namespace sf;
-
-class Button
-{
+class Button {
 public:
 	Button();
 	~Button();
 	bool activate();
 	void drawButton(RenderWindow& window);
-
-	void setState();
+	bool isHovering();
 	enum ButtonState {
 		NOTHING, PLAY, QUIT, SETTINGS
 	};
+
 
 	RectangleShape buttonBack;
 	Text buttonText;

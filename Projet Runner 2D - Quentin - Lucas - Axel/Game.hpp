@@ -1,28 +1,37 @@
 #pragma	once 
+
 #include "Map.hpp"
 #include "Player.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
-class Game {
-private : 
 
+class Game {
 public:
 	enum GameState {
 		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop, Play
 	};
   Music music;
 	int volumeMusic = 20;
-	shared_ptr<Player> player_ptr = make_shared<Player>();
-    Map map;
+  int score;
+  int collectible;
+  bool playing;
+  Map map;
 	HUD myHud;
-	Clock clockGame;
+  std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
+  sf::Clock clockGame;
+	sf::Clock clock;
 	Menu menu;
+  	sf::Music music;
+
 	Game();
 	~Game();
+
 	void run();
 	void render(sf::RenderWindow& window);
-	int score;
-	int collectible;
-	bool playing;
 	GameState gameState;
+	AssetManager assetManager;
+
+	
+
+
 };

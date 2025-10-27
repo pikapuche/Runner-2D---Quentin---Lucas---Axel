@@ -1,18 +1,18 @@
 #include "Button.hpp"
 
+
 Button::Button() : buttonText(buttonFont){
 	buttonState = NOTHING;
-	
 }
 Button::~Button() {
 
 }
 bool Button::activate() {
-	// Récupère la position de la souris (coordonnées écran)
+	// Rï¿½cupï¿½re la position de la souris (coordonnï¿½es ï¿½cran)
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	// Si le bouton gauche est pressé et que la souris est dans le rectangle -> true
+	// Si le bouton gauche est pressï¿½ et que la souris est dans le rectangle -> true
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		if (buttonBack.getGlobalBounds().contains(mousePosF)) {
 			return true;
@@ -28,6 +28,7 @@ void Button::drawButton(RenderWindow& window) {
 
 }
 
-void Button::setState() {
 
+bool Button::isHovering() {
+	return true;
 }
