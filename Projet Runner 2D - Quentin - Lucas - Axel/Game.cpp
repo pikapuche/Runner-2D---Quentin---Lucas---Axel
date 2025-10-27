@@ -22,6 +22,8 @@ void Game::run() {
     float deltaTime = clock.restart().asSeconds();
     while (window.isOpen())
     {
+        deltaTime = clock.restart().asSeconds();
+
         switch (gameState)
         {
         case Game::MenuStart:
@@ -34,8 +36,8 @@ void Game::run() {
             }
             if (menu.playButton.activate()) {
                 gameState = Game::Playing;
-                
-			}
+
+            }
 
             if (menu.quitButton.activate()) {
                 window.close();
@@ -43,41 +45,40 @@ void Game::run() {
 
             if (menu.settingsButton.activate()) {
                 gameState = Game::Settings;
-			}
-            render(window);
-
+            }
             break;
         case Game::Playing:
-            
-            if (playing == false) {
-                player_ptr->shape.setPosition({ 100.f, 100.f });
+
+            if (!playing) {
+                player_ptr->initPlayer();
+                myHud.initHUD();
                 music.play();
                 clockGame.start();
                 map.setObstacles();
                 playing = true;
-			}
-            
-            
-                deltaTime = clock.restart().asSeconds();
-                score = map.getScore();
-                collectible = player_ptr->getPessos();
-                
+            }
 
-                // check all the window's events that were triggered since the last iteration of the loop
-                while (const std::optional event = window.pollEvent())
-                {
-                    // "close requested" event: we close the window
-                    if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-                        window.close();
-                }
-                map.run(deltaTime);
-                player_ptr->update(deltaTime, map);
-                render(window);
-                myHud.update(clockGame, score, collectible);
+            score = map.getScore();
+            collectible = player_ptr->getPessos();
+
+
+            // check all the window's events that were triggered since the last iteration of the loop
+            while (const std::optional event = window.pollEvent())
+            {
+                // "close requested" event: we close the window
+                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+                    window.close();
+            }
+            map.run(deltaTime);
+            player_ptr->update(deltaTime, map);
+            myHud.update(clockGame, score, collectible);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
+                gameState = GameState::Shop;
             break;
         case Game::Pause:
             std::cout << "Pause";
-            
+
             break;
         case Game::MenuEndWin:
             std::cout << "Pause";
@@ -94,44 +95,14 @@ void Game::run() {
             }
             break;
         case Game::Shop:
-            std::cout << "Pause";
-            break;
-        default:
-            break;
-        }
-        switch (gameState)
-        {
-        case Game::Playing:
-            map.run(deltaTime);
-            score = map.getScore();
-            player_ptr->update(deltaTime, map);
-            myHud.update(clockGame, score, collectible);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
-                gameState = GameState::Shop;
-            break;
-        case Game::MenuStart:
-            break;
-        case Game::Pause:
-            break;
-        case Game::MenuEndWin:
-            break;
-        case Game::MenuEndLose:
-            break;
-        case Game::Settings:
-            break;
-        case Game::Shop:
             shop.update();
+            std::cout << "Pause";
             break;
         default:
             break;
         }
         render(window);
     }
-
-    
-    
-    
-    
 }
 
 void Game::render(sf::RenderWindow& window) {
