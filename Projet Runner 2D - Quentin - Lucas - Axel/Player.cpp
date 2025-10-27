@@ -1,10 +1,11 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun) {
+Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHurt) {
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-    // collisions plateforme piece 
-    // changement du sound effect de course quand on marche sur la plateforme
-
+    //
+    // buffer dans asset manager
+    // glissade 
+    // 
     // initialisation de tout
     //clockRun.start();
     //clockJump.start();
@@ -19,6 +20,10 @@ Player::Player() : sound(bufferRun) {
     animRun = { 0,0 };
     animJump = { 0,0 };
     animJetpack = { 0,0 };
+
+    sound.setVolume(volumeSound);
+    soundCoin.setVolume(volumeSound);
+    soundDeath.setVolume(volumeSound);
 
     // chargement des textures
 
@@ -41,7 +46,10 @@ Player::Player() : sound(bufferRun) {
     if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
     if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
     if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
+    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
+
+    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
+    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
 }
 
 Player::~Player() {}
@@ -49,6 +57,7 @@ Player::~Player() {}
 bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     const std::vector<Collectible*>& vectCollectible = map.getCollectible();
+    const std::vector<Plateform*>& vectPlat = map.getPlateform();
 
     for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
         auto& obstacle = *it;
@@ -58,26 +67,37 @@ bool Player::collision(Map& map) {
             stateMove = PLATEFORMING;
             return true;
         }
-        if (!isInvincible && getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+        if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
             map.removeObstacle(obstacle);
+            soundDeath.play();
             return true;
         } 
+    }
+    for (auto& collectible : vectCollectible) {
+        if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
+            pessos++;
+            map.removeCollectible(collectible);
+            soundCoin.play();
+            return true;
+        }
+    }
+    for (auto it = vectPlat.begin(); it != vectPlat.end(); ++it) {
+        auto& plateform = *it;
+        if (getFeetBounds().findIntersection(plateform->shape.getGlobalBounds())) {
+            velocity.y = 0;
+            state = GROUNDED;
+            stateMove = PLATEFORMING;
+            return true;
+        }
     }
     if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
         velocity.y = 0;
         state = GROUNDED;
         stateMove = RUNNING;
         return true;
-    }
-    for (auto& collectible : vectCollectible) {
-        if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
-            pessos++;
-            map.removeCollectible(collectible);
-            return true;
-        }
     }
     return false;
 }

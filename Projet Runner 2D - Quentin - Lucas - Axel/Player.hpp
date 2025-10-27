@@ -49,8 +49,12 @@ private :
 	sf::SoundBuffer bufferRun; // son quand le perso va courir
 	sf::SoundBuffer bufferJump; // son quand le perso va sauter
 	sf::SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
+	sf::SoundBuffer bufferCoin;
+	sf::SoundBuffer bufferHurt;
 
 	sf::Sound sound;
+	sf::Sound soundCoin;
+	sf::Sound soundDeath;
 
 	sf::RectangleShape shape;
 	sf::Vector2f position;
