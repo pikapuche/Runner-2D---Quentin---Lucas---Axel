@@ -1,10 +1,8 @@
 #include "Player.hpp"
 
 Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
-    //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-    //
+
     // fix bug collision
-    // collision glissade
 }
 
 Player::~Player() {}
@@ -24,7 +22,19 @@ bool Player::collision(Map& map) {
             stateMove = PLATEFORMING;
             return true;
         }
-        if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+        if (stateMove == SLIDING) {
+            if (!isInvincible && getSlideBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+                setLessLife();
+                isInvincible = true;
+                clockInvincible.restart();
+                map.removeObstacle(obstacle);
+                soundDeath.play();
+                takeDamageBool = true;
+                takeDamageClock.restart();
+                return true;
+            }
+        }
+        else if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
@@ -33,7 +43,7 @@ bool Player::collision(Map& map) {
             takeDamageBool = true;
             takeDamageClock.restart();
             return true;
-        } 
+        }
     }
     for (auto& collectible : vectCollectible) {
         if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
@@ -290,6 +300,11 @@ void Player::update(float deltaTime, Map& map) {
         animationManager(deltaTime);
         jetpackStaminaGestion();
     }
+    else {
+        sound.stop();
+        soundCoin.stop();
+        soundDeath.stop();
+    }
 }
 
 void Player::draw(sf::RenderWindow& window) {
@@ -314,6 +329,14 @@ sf::FloatRect Player::getFeetBounds() const {
     sf::Vector2f feetPos(bounds.position.x, bounds.position.y + bounds.size.y - feet);
     sf::Vector2f feetSize(bounds.size.x, feet);
     return sf::FloatRect(feetPos, feetSize);
+}
+
+sf::FloatRect Player::getSlideBounds() const {
+    sf::FloatRect bounds = shape.getGlobalBounds();
+    float slide = bounds.size.y * 0.5f;
+    sf::Vector2f slidePos(bounds.position.x, bounds.position.y + bounds.size.y - slide);
+    sf::Vector2f slideSize(bounds.size.x, slide);
+    return sf::FloatRect(slidePos, slideSize);
 }
 
 void Player::setLessLife() {

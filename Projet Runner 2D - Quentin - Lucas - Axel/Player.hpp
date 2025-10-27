@@ -21,6 +21,7 @@ public :
 
 	//getters/setters
 	sf::FloatRect getFeetBounds() const;
+	sf::FloatRect getSlideBounds() const;
 	int getLife();
 	void setLife(int l);
 	void setLessLife();
