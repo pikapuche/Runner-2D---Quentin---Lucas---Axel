@@ -53,7 +53,7 @@ bool Player::collision(Map& map) {
         }
     }
     if (getFeetBounds().findIntersection(map.getBounds())) {
-        shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y});
+        shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y });
         velocity.y = 0;
         state = GROUNDED;
         stateMove = RUNNING;
@@ -145,15 +145,15 @@ void Player::playerMovement(float deltaTime, Map& map) {
     if (!collision(map))
         velocity.y += gravity * deltaTime;
 
+    position.y = velocity.y;
+    shape.move({ position });
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED) {
         stateMove = SLIDING;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
         jump(deltaTime);
-
-	position.y = velocity.y;
-	shape.move(position);
 }
 
 void Player::jump(float deltaTime) {
