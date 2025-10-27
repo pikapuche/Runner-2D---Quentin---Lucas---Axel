@@ -20,6 +20,7 @@ public:
 	std::vector<Plateform*> getPlatformVector();
 	std::vector<Obstacle*> getVectObs();
 	std::vector<Collectible*> getCollectible();
+	std::vector<Plateform*> getPlateform();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
 	int getScore();

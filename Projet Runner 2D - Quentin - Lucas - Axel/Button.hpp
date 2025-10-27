@@ -5,19 +5,19 @@ class Button {
 public:
 	Button();
 	~Button();
-
-	void activate();
+	bool activate();
+	void drawButton(sf::RenderWindow& window);
 	bool isHovering();
-
 	enum ButtonState {
 		NOTHING, PLAY, QUIT, SETTINGS
 	};
 
-private:
-	//RectangleShape buttonBack;
-	//Text buttonText;
-	//Font buttonFont;
-	//String buttonTextContent;
-	//Texture buttonTexture;
+
+	sf::RectangleShape buttonBack;
+	sf::Text buttonText;
+	sf::Font buttonFont;
+	sf::String buttonTextContent;
+	sf::Texture buttonTexture;
+	ButtonState buttonState;
 };
 

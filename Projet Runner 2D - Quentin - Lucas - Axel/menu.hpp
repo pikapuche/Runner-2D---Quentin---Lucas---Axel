@@ -5,13 +5,14 @@ public:
 	Menu();
 	~Menu();
 
-	void Start(sf::RenderWindow& window);
+	void initMenu();
+	void drawMenu(sf::RenderWindow& window);
 	void createStartButton();
 
 	sf::RectangleShape background;
 	sf::CircleShape circle;
-	//Button playButton;
-	//Button quitButton;
-	//Button settingsButton;
+	Button playButton;
+	Button quitButton;
+	Button settingsButton;
 };
 

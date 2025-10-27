@@ -110,8 +110,8 @@
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Plateform.hpp" />
     <ClInclude Include="Player.hpp" />
-    <ClInclude Include="menu.hpp" />
     <ClInclude Include="Shop.hpp" />
+    <ClInclude Include="Menu.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
