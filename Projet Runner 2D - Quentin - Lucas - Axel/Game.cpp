@@ -4,14 +4,13 @@ Game::Game() {
     if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) std::cout << "caca music" << std::endl << std::endl;
     music.setVolume(static_cast<int>(volumeMusic));
     music.setLooping(true); 
-    gameState = MenuStart;
     playing = false;
     map.setScore(score);
     map.setObstacles();
     clockGame.start();
     score = 0;
     collectible = 0;
-    currentState = GameState::Playing;
+    gameState = GameState::MenuStart;
 }
 Game::~Game() {}
 
@@ -34,7 +33,7 @@ void Game::run() {
                     window.close();
             }
             if (menu.playButton.activate()) {
-                gameState = Game::Play;
+                gameState = Game::Playing;
                 
 			}
 
@@ -48,7 +47,7 @@ void Game::run() {
             render(window);
 
             break;
-        case Game::Play:
+        case Game::Playing:
             
             if (playing == false) {
                 player_ptr->shape.setPosition({ 100.f, 100.f });
@@ -100,7 +99,7 @@ void Game::run() {
         default:
             break;
         }
-        switch (currentState)
+        switch (gameState)
         {
         case Game::Playing:
             map.run(deltaTime);
@@ -108,7 +107,7 @@ void Game::run() {
             player_ptr->update(deltaTime, map);
             myHud.update(clockGame, score, collectible);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
-                currentState = GameState::Shop;
+                gameState = GameState::Shop;
             break;
         case Game::MenuStart:
             break;
@@ -138,7 +137,7 @@ void Game::run() {
 void Game::render(sf::RenderWindow& window) {
     window.clear();
    
-    switch (currentState)
+    switch (gameState)
     {
     case Game::Playing:
         map.render(window);
