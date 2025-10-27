@@ -28,7 +28,7 @@ public :
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
 
-	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING, PLATEFORMING };
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING, PLATEFORMING, SLIDING };
 	MoveState stateMove;
 
 private : 
@@ -51,6 +51,7 @@ private :
 	sf::SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
 	sf::SoundBuffer bufferCoin;
 	sf::SoundBuffer bufferHurt;
+	sf::SoundBuffer bufferSlide;
 
 	sf::Sound sound;
 	sf::Sound soundCoin;

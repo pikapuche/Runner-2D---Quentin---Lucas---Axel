@@ -4,13 +4,7 @@ Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHur
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
     //
     // buffer dans asset manager
-    // glissade 
     // 
-    // initialisation de tout
-    //clockRun.start();
-    //clockJump.start();
-    //clockJetpack.start();
-    //clockSecondJump.start();
 
     velocity = { 0, 0 };
     position = { 0,0 };
@@ -50,6 +44,7 @@ Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHur
 
     if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
     if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
+    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
 }
 
 Player::~Player() {}
@@ -110,7 +105,12 @@ void Player::playerMovement(float deltaTime, Map& map) {
             jetpackStamina++;
     }
     else {
-        stateMove = RUNNING;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+            stateMove = SLIDING;
+        }
+        else {
+            stateMove = RUNNING;
+        }
         if (jetpackStamina < 100)
             jetpackStamina++;
     }
@@ -189,6 +189,11 @@ void Player::animationManager(float deltaTime) {
         if (animRun.x > 5) // si on atteint la "fin de l'image" (la fin des "cases")
             animRun.x = 0; // on reset l'image et on recommence
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
+        break;
+    case SLIDING:
+        soundManager(bufferSlide);
+        shape.setTexture(&Shared::playerSlideTexture);
+        shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
         break;
     }
 }
