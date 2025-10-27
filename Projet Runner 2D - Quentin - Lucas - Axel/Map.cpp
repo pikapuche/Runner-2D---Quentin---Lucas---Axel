@@ -10,37 +10,30 @@ Map::Map() {
 Map::~Map() {}
 
 void Map::reset() {
-	// delete et clear obstacles
 	for (auto* o : obstacles) {
 		delete o;
 	}
 	obstacles.clear();
 
-	// delete et clear plateforms
 	for (auto* p : plateforms) {
 		delete p;
 	}
 	plateforms.clear();
 
-	// delete et clear collectibles
 	for (auto* c : collectibles) {
 		delete c;
 	}
 	collectibles.clear();
 
-	// reset des paramètres de la map
 	_score = 0;
 	difficulty = 1;
 	delay = 0.f;
 
-	// nouvelle seed et reseed rng pour diversité après reset
 	createSeed();
 	rng.seed(seed);
 
-	// re-créer / repositionner le ground
 	makeGround();
 
-	// restart du timer de génération
 	generateClock.restart();
 }
 

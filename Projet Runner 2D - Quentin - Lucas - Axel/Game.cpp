@@ -79,10 +79,8 @@ void Game::run() {
             collectible = player_ptr->getPessos();
 
 
-            // check all the window's events that were triggered since the last iteration of the loop
             while (const std::optional event = window.pollEvent())
             {
-                // "close requested" event: we close the window
                 if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
             }
@@ -123,7 +121,6 @@ void Game::run() {
         case Game::Settings:
             while (const std::optional event = window.pollEvent())
             {
-                // "close requested" event: we close the window
                 if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
             }
