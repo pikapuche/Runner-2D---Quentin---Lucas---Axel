@@ -19,6 +19,7 @@ public:
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
 	sf::Clock clockGame;
 	sf::Clock clock;
+	sf::Clock shopDelay;
 	Shop shop; 
 
 	enum GameState {

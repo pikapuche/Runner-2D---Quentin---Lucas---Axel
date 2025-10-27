@@ -4,7 +4,7 @@ Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHur
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
     //
     // buffer dans asset manager
-    // 
+    // collision glissade
 }
 
 Player::~Player() {}
