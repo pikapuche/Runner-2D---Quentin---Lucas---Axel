@@ -28,7 +28,7 @@ public :
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
 
-	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING };
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING, PLATEFORMING };
 	MoveState stateMove;
 
 private : 

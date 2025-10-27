@@ -53,6 +53,7 @@ bool Player::collision(Map& map) {
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
+            stateMove = PLATEFORMING;
             return true;
         }
         if (!isInvincible && getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
@@ -66,6 +67,7 @@ bool Player::collision(Map& map) {
     if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
         velocity.y = 0;
         state = GROUNDED;
+        stateMove = RUNNING;
         return true;
     }
     for (auto& collectible : vectCollectible) {
@@ -81,9 +83,13 @@ bool Player::collision(Map& map) {
 void Player::playerMovement(float deltaTime, Map& map) {
     if (!collision(map)) 
         velocity.y += gravity * deltaTime;
+    else if (collision(map) && stateMove == PLATEFORMING) {
+        if (jetpackStamina < 100) 
+            jetpackStamina++;
+    }
     else {
         stateMove = RUNNING;
-        if (jetpackStamina < 100) 
+        if (jetpackStamina < 100)
             jetpackStamina++;
     }
 
@@ -148,6 +154,19 @@ void Player::animationManager(float deltaTime) {
         if (animJetpack.x > 1)
             animJetpack.x = 0;
         shape.setTextureRect(sf::IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
+        break;
+    case PLATEFORMING:
+        soundManager(bufferRunGravel);
+        shape.setTexture(&Shared::playerTexture);
+        animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
+
+        if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
+            animRun.x++; // on met +1 a notre anim donc change de "case"
+            clockRun.restart(); // on restart la clock pour continuer
+        }
+        if (animRun.x > 5) // si on atteint la "fin de l'image" (la fin des "cases")
+            animRun.x = 0; // on reset l'image et on recommence
+        shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     }
 }

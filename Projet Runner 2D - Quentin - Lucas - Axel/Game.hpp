@@ -15,7 +15,7 @@ public:
 
 	int score;
 	int collectible;
-	int volumeMusic = 20;
+	int volumeMusic = 10;
 
 	AssetManager assetManager;
     Map map;
