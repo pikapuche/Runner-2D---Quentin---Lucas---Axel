@@ -209,6 +209,7 @@ void Map::setObstacles() {
 
 std::vector<Obstacle*> Map::getVectObs() { return obstacles; }
 std::vector<Collectible*> Map::getCollectible() { return collectibles; }
+std::vector<Plateform*> Map::getPlateform() { return plateforms; }
 sf::FloatRect Map::getBounds() { return ground.getGlobalBounds(); }
 sf::FloatRect Map::getBounds2() { return ground2.getGlobalBounds(); }
 int Map::getScore() { return _score; }

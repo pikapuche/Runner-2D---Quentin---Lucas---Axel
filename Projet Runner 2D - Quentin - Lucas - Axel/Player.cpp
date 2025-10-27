@@ -1,13 +1,10 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun) {
+Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHurt) {
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-
-    // initialisation de tout
-    //clockRun.start();
-    //clockJump.start();
-    //clockJetpack.start();
-    //clockSecondJump.start();
+    //
+    // buffer dans asset manager
+    // 
 
     velocity = { 0, 0 };
     position = { 0,0 };
@@ -17,6 +14,10 @@ Player::Player() : sound(bufferRun) {
     animRun = { 0,0 };
     animJump = { 0,0 };
     animJetpack = { 0,0 };
+
+    sound.setVolume(volumeSound);
+    soundCoin.setVolume(volumeSound);
+    soundDeath.setVolume(volumeSound);
 
     // chargement des textures
 
@@ -29,7 +30,7 @@ Player::Player() : sound(bufferRun) {
 
     shape.setTexture(&Shared::playerTexture);
 
-    // préparation de la staminaBar pour le jetpack
+    // prÃ©paration de la staminaBar pour le jetpack
     staminaBarRect.setOutlineThickness(5.f);
     staminaBarRect.setOutlineColor(sf::Color::White);
 
@@ -39,8 +40,12 @@ Player::Player() : sound(bufferRun) {
     if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
     if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
     if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
+    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
 
+    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
+    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
+    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
+  
     isInvincible = false;
     takeDamageBool = false;
 
@@ -77,35 +82,49 @@ Player::~Player() {}
 bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     const std::vector<Collectible*>& vectCollectible = map.getCollectible();
+    const std::vector<Plateform*>& vectPlat = map.getPlateform();
 
     for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
         auto& obstacle = *it;
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
             velocity.y = 0;
             state = GROUNDED;
+            stateMove = PLATEFORMING;
             return true;
         }
-        if (!isInvincible && getFeetBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+        if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
             map.removeObstacle(obstacle);
+            soundDeath.play();
             takeDamageBool = true;
             takeDamageClock.restart();
             return true;
         } 
     }
-    if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
-        velocity.y = 0;
-        state = GROUNDED;
-        return true;
-    }
     for (auto& collectible : vectCollectible) {
         if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
             pessos++;
             map.removeCollectible(collectible);
+            soundCoin.play();
             return true;
         }
+    }
+    for (auto it = vectPlat.begin(); it != vectPlat.end(); ++it) {
+        auto& plateform = *it;
+        if (getFeetBounds().findIntersection(plateform->shape.getGlobalBounds())) {
+            velocity.y = 0;
+            state = GROUNDED;
+            stateMove = PLATEFORMING;
+            return true;
+        }
+    }
+    if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
+        velocity.y = 0;
+        state = GROUNDED;
+        stateMove = RUNNING;
+        return true;
     }
     return false;
 }
@@ -113,9 +132,18 @@ bool Player::collision(Map& map) {
 void Player::playerMovement(float deltaTime, Map& map) {
     if (!collision(map)) 
         velocity.y += gravity * deltaTime;
-    else {
-        stateMove = RUNNING;
+    else if (collision(map) && stateMove == PLATEFORMING) {
         if (jetpackStamina < 100) 
+            jetpackStamina++;
+    }
+    else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
+            stateMove = SLIDING;
+        }
+        else {
+            stateMove = RUNNING;
+        }
+        if (jetpackStamina < 100)
             jetpackStamina++;
     }
 
@@ -133,7 +161,7 @@ void Player::jump(float deltaTime) {
         velocity.y = -JUMP_FORCE; // Appliquer une force initiale vers le haut pour sauter 
         clockSecondJump.restart();
     }
-    else if (clockSecondJump.getElapsedTime().asMilliseconds() >= 300 && state != GROUNDED && jetpackStamina >= 1.f) { // compteur permettant de savoir si on peut faire un deuxième saut
+    else if (clockSecondJump.getElapsedTime().asMilliseconds() >= 300 && state != GROUNDED && jetpackStamina >= 1.f) { // compteur permettant de savoir si on peut faire un deuxiÃ¨me saut
         stateMove = JETPACKING;
         velocity.y = -JETPACK_FORCE;
         jetpackStamina--;
@@ -180,6 +208,24 @@ void Player::animationManager(float deltaTime) {
         if (animJetpack.x > 1)
             animJetpack.x = 0;
         shape.setTextureRect(sf::IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
+        break;
+    case PLATEFORMING:
+        soundManager(bufferRunGravel);
+        shape.setTexture(&Shared::playerTexture);
+        animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
+
+        if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
+            animRun.x++; // on met +1 a notre anim donc change de "case"
+            clockRun.restart(); // on restart la clock pour continuer
+        }
+        if (animRun.x > 5) // si on atteint la "fin de l'image" (la fin des "cases")
+            animRun.x = 0; // on reset l'image et on recommence
+        shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
+        break;
+    case SLIDING:
+        soundManager(bufferSlide);
+        shape.setTexture(&Shared::playerSlideTexture);
+        shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
         break;
     }
 }

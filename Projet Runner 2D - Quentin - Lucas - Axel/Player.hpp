@@ -29,7 +29,7 @@ public :
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
 
-	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING };
+	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING, PLATEFORMING, SLIDING };
 	MoveState stateMove;
 
 	sf::RectangleShape shape;
@@ -53,8 +53,13 @@ private :
 	sf::SoundBuffer bufferRun; // son quand le perso va courir
 	sf::SoundBuffer bufferJump; // son quand le perso va sauter
 	sf::SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
+	sf::SoundBuffer bufferCoin;
+	sf::SoundBuffer bufferHurt;
+	sf::SoundBuffer bufferSlide;
 
 	sf::Sound sound;
+	sf::Sound soundCoin;
+	sf::Sound soundDeath;
 
 	sf::Vector2f position;
 	sf::Vector2f velocity;

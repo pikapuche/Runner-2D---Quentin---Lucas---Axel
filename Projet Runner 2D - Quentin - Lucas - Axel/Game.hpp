@@ -30,8 +30,4 @@ public:
 	void render(sf::RenderWindow& window);
 	GameState gameState;
 	AssetManager assetManager;
-
-	
-
-
 };

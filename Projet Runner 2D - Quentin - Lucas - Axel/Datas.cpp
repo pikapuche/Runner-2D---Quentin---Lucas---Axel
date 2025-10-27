@@ -10,4 +10,4 @@ sf::Texture Shared::backboardFirstTextureDifficultyFour, Shared::backboardSecond
 
 sf::Texture Shared::goldTexture, Shared::heart1Texture, Shared::heart2Texture, Shared::heart3Texture;
 sf::Texture Shared::groundTexture;
-sf::Texture Shared::playerTexture, Shared::playerJumpTexture, Shared::playerJetpackTexture;
+sf::Texture Shared::playerTexture, Shared::playerJumpTexture, Shared::playerJetpackTexture, Shared::playerSlideTexture;
