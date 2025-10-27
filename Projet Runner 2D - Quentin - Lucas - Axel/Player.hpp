@@ -7,6 +7,7 @@ public :
 	Player();
 	~Player();
 
+	void initPlayer();
 	void playerMovement(float deltaTime, Map& map);
 	void jump(float deltaTime);
 	bool collision(Map& map);
@@ -32,8 +33,8 @@ public :
 	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING, PLATEFORMING, SLIDING };
 	MoveState stateMove;
 
-	sf::RectangleShape shape;
 private : 
+	sf::RectangleShape shape;
 	sf::RectangleShape staminaBar; // barre d'endurance du jetpack
 	sf::RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
 	sf::Vertex takeDamageLeft[4], takeDamageRight[4], takeDamageTop[4], takeDamageBottom[4];

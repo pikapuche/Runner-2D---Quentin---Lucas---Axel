@@ -1,7 +1,6 @@
 #include "HUD.hpp"
 
 HUD::HUD() : lvl(font),score(font), timer(font), gold(font) {
-	initHUD();
 }
 
 HUD::~HUD() {}
@@ -40,6 +39,7 @@ void HUD::initHUD() {
 	gold.setCharacterSize({ 60 });
 	gold.setFillColor(sf::Color::Yellow);
 	gold.setPosition({ goldPiece.getPosition().x - gold.getGlobalBounds().size.x, static_cast<float>(STGS::HEIGHT * 0.9f) });
+	std::cout << goldPiece.getPosition().x << goldPiece.getPosition().y;
 
 	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
 	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });

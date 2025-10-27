@@ -5,76 +5,6 @@ Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHur
     //
     // buffer dans asset manager
     // 
-
-    velocity = { 0, 0 };
-    position = { 0,0 };
-    state = NOTHING;
-    stateMove = NONE;
-    jetpackStamina = 100;
-    animRun = { 0,0 };
-    animJump = { 0,0 };
-    animJetpack = { 0,0 };
-
-    sound.setVolume(volumeSound);
-    soundCoin.setVolume(volumeSound);
-    soundDeath.setVolume(volumeSound);
-
-    // chargement des textures
-
-    // setSmooth pour des images plus nette 
-    Shared::playerJumpTexture.setSmooth(true);
-    Shared::playerJetpackTexture.setSmooth(true);
-
-    shape.setSize(sf::Vector2f(static_cast<float>(CHARACTER_ASSET_SIZE),
-        static_cast<float>(CHARACTER_ASSET_SIZE)));
-
-    shape.setTexture(&Shared::playerTexture);
-
-    // préparation de la staminaBar pour le jetpack
-    staminaBarRect.setOutlineThickness(5.f);
-    staminaBarRect.setOutlineColor(sf::Color::White);
-
-    shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
-
-    // initialisation des sons
-    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
-    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
-    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
-
-    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
-    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
-    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
-  
-    isInvincible = false;
-    takeDamageBool = false;
-
-    float w = static_cast<float>(STGS::WIDTH);
-    float h = static_cast<float>(STGS::HEIGHT);
-    float border = 50.f;
-
-    sf::Color redOpaque(255, 0, 0, 180);
-    sf::Color redTransparent(255, 0, 0, 0);
-
-    takeDamageLeft[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
-    takeDamageLeft[1] = sf::Vertex({ border, 0.f }, redTransparent);
-    takeDamageLeft[2] = sf::Vertex({ border, h }, redTransparent);
-    takeDamageLeft[3] = sf::Vertex({ 0.f, h }, redOpaque);
-
-    takeDamageRight[0] = sf::Vertex({ w - border, 0.f }, redTransparent);
-    takeDamageRight[1] = sf::Vertex({ w, 0.f }, redOpaque);
-    takeDamageRight[2] = sf::Vertex({ w, h }, redOpaque);
-    takeDamageRight[3] = sf::Vertex({ w - border, h }, redTransparent);
-
-    takeDamageTop[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
-    takeDamageTop[1] = sf::Vertex({ w, 0.f }, redOpaque);
-    takeDamageTop[2] = sf::Vertex({ w, border }, redTransparent);
-    takeDamageTop[3] = sf::Vertex({ 0.f, border }, redTransparent);
-
-    takeDamageBottom[0] = sf::Vertex({ 0.f, h - border }, redTransparent);
-    takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
-    takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
-    takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
 }
 
 Player::~Player() {}
@@ -127,6 +57,79 @@ bool Player::collision(Map& map) {
         return true;
     }
     return false;
+}
+
+void Player::initPlayer()
+{
+    velocity = { 0, 0 };
+    position = { 0,0 };
+    state = NOTHING;
+    stateMove = NONE;
+    jetpackStamina = 100;
+    animRun = { 0,0 };
+    animJump = { 0,0 };
+    animJetpack = { 0,0 };
+
+    sound.setVolume(volumeSound);
+    soundCoin.setVolume(volumeSound);
+    soundDeath.setVolume(volumeSound);
+
+    // chargement des textures
+
+    // setSmooth pour des images plus nette 
+    Shared::playerJumpTexture.setSmooth(true);
+    Shared::playerJetpackTexture.setSmooth(true);
+
+    shape.setSize(sf::Vector2f(static_cast<float>(CHARACTER_ASSET_SIZE),
+        static_cast<float>(CHARACTER_ASSET_SIZE)));
+
+    shape.setTexture(&Shared::playerTexture);
+
+    // préparation de la staminaBar pour le jetpack
+    staminaBarRect.setOutlineThickness(5.f);
+    staminaBarRect.setOutlineColor(sf::Color::White);
+
+    shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
+
+    // initialisation des sons
+    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
+    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
+    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
+    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
+
+    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
+    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
+    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
+
+    isInvincible = false;
+    takeDamageBool = false;
+
+    float w = static_cast<float>(STGS::WIDTH);
+    float h = static_cast<float>(STGS::HEIGHT);
+    float border = 50.f;
+
+    sf::Color redOpaque(255, 0, 0, 180);
+    sf::Color redTransparent(255, 0, 0, 0);
+
+    takeDamageLeft[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageLeft[1] = sf::Vertex({ border, 0.f }, redTransparent);
+    takeDamageLeft[2] = sf::Vertex({ border, h }, redTransparent);
+    takeDamageLeft[3] = sf::Vertex({ 0.f, h }, redOpaque);
+
+    takeDamageRight[0] = sf::Vertex({ w - border, 0.f }, redTransparent);
+    takeDamageRight[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageRight[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageRight[3] = sf::Vertex({ w - border, h }, redTransparent);
+
+    takeDamageTop[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageTop[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageTop[2] = sf::Vertex({ w, border }, redTransparent);
+    takeDamageTop[3] = sf::Vertex({ 0.f, border }, redTransparent);
+
+    takeDamageBottom[0] = sf::Vertex({ 0.f, h - border }, redTransparent);
+    takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
+    takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
 }
 
 void Player::playerMovement(float deltaTime, Map& map) {
