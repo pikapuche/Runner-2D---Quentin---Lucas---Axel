@@ -11,5 +11,9 @@ public:
 	void update();
 
 private:
-	sf::RectangleShape shopBackgroundShape, shopCaseShape;
+	sf::RectangleShape shopBackgroundShape, shopCaseOneShape, shopCaseTwoShape, shopCaseThreeShape, shopVictoryShape;
+	sf::RectangleShape skinOneShape, skinTwoShape, skinThreeShape;
+
+	sf::Font font;
+	sf::Text shop;
 };
