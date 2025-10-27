@@ -4,7 +4,7 @@
 #include "Shop.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
-
+#include "EndMenu.hpp"
 class Game {
 public:
 	void createStartButton();
@@ -13,6 +13,7 @@ public:
 	int score;
 	int collectible;
 	bool playing;
+	bool needClockRestart = false;
 	Map map;
 	HUD myHud;
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
@@ -31,12 +32,16 @@ public:
 		Shop
 	};
 	Menu menu;
+	EndMenu endMenu;
 
 	Game();
 	~Game();
 
 	void run();
 	void render(sf::RenderWindow& window);
+	void restart();
 	GameState gameState;
 	AssetManager assetManager;
+	
+	
 };

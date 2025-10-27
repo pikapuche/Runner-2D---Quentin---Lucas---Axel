@@ -14,6 +14,23 @@ Game::Game() {
 }
 Game::~Game() {}
 
+void Game::restart() {
+    map.reset();
+    player_ptr->initPlayer();
+    score = 0;
+    collectible = 0;
+    
+    map.setScore(score);
+    map.setObstacles();
+    myHud.initHUD();
+    playing = true;
+
+    music.stop();
+    music.play();
+    clockGame.restart();
+
+    needClockRestart = true;
+}
 void Game::run() {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
     window.setVerticalSyncEnabled(true);
@@ -58,10 +75,15 @@ void Game::run() {
             clockGame.start();
             score = map.getScore();
             collectible = player_ptr->getPessos();
-
             map.run(deltaTime);
             player_ptr->update(deltaTime, map);
             myHud.update(clockGame, score, collectible);
+
+            if (player_ptr->getLife() <= 0) {
+                gameState = Game::MenuEndLose;
+                playing = false;
+                music.stop();
+			}
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
                 if (shopDelay.getElapsedTime().asSeconds() > 1.f) {
@@ -78,7 +100,18 @@ void Game::run() {
             std::cout << "Pause";
             break;
         case Game::MenuEndLose:
-            std::cout << "Pause";
+            while (const std::optional event = window.pollEvent())
+            {
+                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+                    window.close();
+            }
+            if (endMenu.backButton.activate()) {
+				gameState = Game::MenuStart;
+            }
+			if (endMenu.restartButton.activate()) {
+				restart();
+				gameState = Game::Playing;
+			}
             break;
         case Game::Settings:
             break;
@@ -111,10 +144,14 @@ void Game::render(sf::RenderWindow& window) {
         menu.drawMenu(window);
         break;
     case Game::Pause:
+        map.render(window);
+        player_ptr->draw(window);
+        myHud.drawHUD(window, *player_ptr);
         break;
     case Game::MenuEndWin:
         break;
     case Game::MenuEndLose:
+		endMenu.drawMenu(window);
         break;
     case Game::Settings:
         break;

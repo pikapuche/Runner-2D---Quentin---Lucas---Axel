@@ -13,7 +13,7 @@ public:
 	void render(sf::RenderWindow& window);
 	void removeObstacle(Obstacle* obs);
 	void removeCollectible(Collectible* col);
-
+	void reset();
 	//getters/setters
 	sf::FloatRect getBounds();
 	sf::FloatRect getBounds2();

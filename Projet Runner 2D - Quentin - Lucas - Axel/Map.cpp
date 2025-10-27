@@ -9,6 +9,34 @@ Map::Map() {
 
 Map::~Map() {}
 
+void Map::reset() {
+	for (auto* o : obstacles) {
+		delete o;
+	}
+	obstacles.clear();
+
+	for (auto* p : plateforms) {
+		delete p;
+	}
+	plateforms.clear();
+
+	for (auto* c : collectibles) {
+		delete c;
+	}
+	collectibles.clear();
+
+	_score = 0;
+	difficulty = 1;
+	delay = 0.f;
+
+	createSeed();
+	rng.seed(seed);
+
+	makeGround();
+
+	generateClock.restart();
+}
+
 void Map::removeObstacle(Obstacle* obs) {
 	auto& v = obstacles;
 	v.erase(std::remove(v.begin(), v.end(), obs), v.end());
