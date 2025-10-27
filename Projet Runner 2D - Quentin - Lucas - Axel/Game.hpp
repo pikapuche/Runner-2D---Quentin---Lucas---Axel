@@ -13,6 +13,7 @@ public:
 	int score;
 	int collectible;
 	bool playing;
+	bool needClockRestart = false;
 	Map map;
 	HUD myHud;
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
@@ -37,6 +38,9 @@ public:
 
 	void run();
 	void render(sf::RenderWindow& window);
+	void restart();
 	GameState gameState;
 	AssetManager assetManager;
+	
+	
 };

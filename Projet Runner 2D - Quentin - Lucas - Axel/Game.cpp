@@ -14,6 +14,23 @@ Game::Game() {
 }
 Game::~Game() {}
 
+void Game::restart() {
+    map.reset();
+    player_ptr->initPlayer();
+    score = 0;
+    collectible = 0;
+    
+    map.setScore(score);
+    map.setObstacles();
+    myHud.initHUD();
+    playing = true;
+
+    music.stop();
+    music.play();
+    clockGame.restart();
+
+    needClockRestart = true;
+}
 void Game::run() {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen) ;
     window.setVerticalSyncEnabled(true);
@@ -98,6 +115,10 @@ void Game::run() {
             if (endMenu.backButton.activate()) {
 				gameState = Game::MenuStart;
             }
+			if (endMenu.restartButton.activate()) {
+				restart();
+				gameState = Game::Playing;
+			}
             break;
         case Game::Settings:
             while (const std::optional event = window.pollEvent())
@@ -132,6 +153,9 @@ void Game::render(sf::RenderWindow& window) {
         menu.drawMenu(window);
         break;
     case Game::Pause:
+        map.render(window);
+        player_ptr->draw(window);
+        myHud.drawHUD(window, *player_ptr);
         break;
     case Game::MenuEndWin:
         break;
