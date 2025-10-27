@@ -30,7 +30,7 @@ void Game::run() {
 
             while (const std::optional event = window.pollEvent())
             {
-                if (event->is<sf::Event::Closed>() || Keyboard::isKeyPressed(Keyboard::Key::Escape))
+                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
             }
             if (menu.playButton.activate()) {
@@ -51,9 +51,10 @@ void Game::run() {
         case Game::Play:
             
             if (playing == false) {
+                player_ptr->shape.setPosition({ 100.f, 100.f });
                 music.play();
                 clockGame.start();
-                map.generate();
+                map.setObstacles();
                 playing = true;
 			}
             
@@ -67,7 +68,7 @@ void Game::run() {
                 while (const std::optional event = window.pollEvent())
                 {
                     // "close requested" event: we close the window
-                    if (event->is<sf::Event::Closed>() || Keyboard::isKeyPressed(Keyboard::Key::Escape))
+                    if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                         window.close();
                 }
                 map.run(deltaTime);
@@ -76,20 +77,25 @@ void Game::run() {
                 myHud.update(clockGame, score, collectible);
             break;
         case Game::Pause:
-            cout << "Pause";
+            std::cout << "Pause";
             
             break;
         case Game::MenuEndWin:
-            cout << "Pause";
+            std::cout << "Pause";
             break;
         case Game::MenuEndLose:
-            cout << "Pause";
+            std::cout << "Pause";
             break;
         case Game::Settings:
-            cout << "Pause";
+            while (const std::optional event = window.pollEvent())
+            {
+                // "close requested" event: we close the window
+                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+                    window.close();
+            }
             break;
         case Game::Shop:
-            cout << "Pause";
+            std::cout << "Pause";
             break;
         default:
             break;

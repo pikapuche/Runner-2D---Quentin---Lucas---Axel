@@ -32,6 +32,7 @@ public :
 	enum MoveState { NONE, RUNNING, JUMPING, JETPACKING };
 	MoveState stateMove;
 
+	sf::RectangleShape shape;
 private : 
 	sf::RectangleShape staminaBar; // barre d'endurance du jetpack
 	sf::RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
@@ -55,7 +56,6 @@ private :
 
 	sf::Sound sound;
 
-	sf::RectangleShape shape;
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 

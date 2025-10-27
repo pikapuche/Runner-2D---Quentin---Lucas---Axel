@@ -6,9 +6,7 @@ public:
 	~Menu();
 
 	void initMenu();
-	void drawMenu(RenderWindow& window);
-	void createStartButton();
-	void Start(sf::RenderWindow& window);
+	void drawMenu(sf::RenderWindow& window);
 	void createStartButton();
 
 	sf::RectangleShape background;

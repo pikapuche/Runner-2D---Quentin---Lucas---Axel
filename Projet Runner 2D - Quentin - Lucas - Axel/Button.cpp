@@ -22,7 +22,7 @@ bool Button::activate() {
 }
 
 
-void Button::drawButton(RenderWindow& window) {
+void Button::drawButton(sf::RenderWindow& window) {
 	window.draw(buttonBack);
 	window.draw(buttonText);
 
