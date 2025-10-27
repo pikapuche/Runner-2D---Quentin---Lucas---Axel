@@ -1,18 +1,21 @@
 #include "Button.hpp"
 
 
-Button::Button() : buttonText(buttonFont){
+Button::Button() : buttonText(buttonFont), spriteButton(buttonTexture){
 	buttonState = NOTHING;
+	normalColor = buttonBack.getFillColor();
+	hoverColor = sf::Color(200, 200, 200);
+	hoverable = true;
+	hovered = false;
+	buttonBack.setFillColor(normalColor);
 }
 Button::~Button() {
 
 }
 bool Button::activate() {
-	// R�cup�re la position de la souris (coordonn�es �cran)
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	// Si le bouton gauche est press� et que la souris est dans le rectangle -> true
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		if (buttonBack.getGlobalBounds().contains(mousePosF)) {
 			return true;
@@ -30,5 +33,45 @@ void Button::drawButton(sf::RenderWindow& window) {
 
 
 bool Button::isHovering() {
-	return true;
+	sf::Vector2i mousePos = sf::Mouse::getPosition();
+	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+
+	bool over = buttonBack.getGlobalBounds().contains(mousePosF);
+	if (!hoverable) {
+		if (hovered) {
+			hovered = false;
+			hover(false);
+		}
+		return false;
+	}
+
+	if (over != hovered) {
+		hovered = over;
+		hover(over);
+	}
+	return over;
+}
+void Button::setHoverable(bool enabled) {
+	hoverable = enabled;
+	if (!hoverable) {
+		hovered = false;
+		hover(false);
+	}
+}
+
+void Button::setHoverColors(const sf::Color& normal, const sf::Color& hover) {
+	normalColor = normal;
+	hoverColor = hover;
+	this->hover(hovered);
+}
+
+void Button::hover(bool enable) {
+	if (enable && hoverable) {
+		buttonBack.setFillColor(hoverColor);
+		buttonText.setFillColor(sf::Color::Black);
+	}
+	else {
+		buttonBack.setFillColor(normalColor);
+		buttonText.setFillColor(sf::Color::White);
+	}
 }
