@@ -7,7 +7,9 @@
 namespace STGS {
     static const int WIDTH = sf::VideoMode::getDesktopMode().size.x;
     static const int HEIGHT = sf::VideoMode::getDesktopMode().size.y;
+    static const int GAP_X = 120;
     static const int GAP_Y = 60;
+
 }
 
 class Shared {

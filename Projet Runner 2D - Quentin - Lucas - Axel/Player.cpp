@@ -9,6 +9,8 @@ Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soun
 
 Player::~Player() {}
 
+
+
 bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     const std::vector<Collectible*>& vectCollectible = map.getCollectible();
@@ -69,7 +71,8 @@ void Player::initPlayer()
     animRun = { 0,0 };
     animJump = { 0,0 };
     animJetpack = { 0,0 };
-
+    life = 3;
+	pessos = 0;
     sound.setVolume(volumeSound);
     soundCoin.setVolume(volumeSound);
     soundDeath.setVolume(volumeSound);
@@ -279,6 +282,7 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
 }
 
 void Player::update(float deltaTime, Map& map) {
+
     if (life != 0) {
         invincibility();
         animationTakeDamage();
