@@ -95,6 +95,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Shop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.hpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="Plateform.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="menu.hpp" />
+    <ClInclude Include="Shop.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

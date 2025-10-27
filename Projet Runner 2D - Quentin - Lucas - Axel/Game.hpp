@@ -1,7 +1,7 @@
 #pragma	once 
 
 #include "Map.hpp"
-#include "Player.hpp"
+#include "Shop.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
 
@@ -24,8 +24,16 @@ public:
 	sf::Clock clockGame;
 	sf::Clock clock;
 	sf::Music music;
+	Shop shop; 
 
 	enum GameState {
-		MenuStart, Pause, MenuEndWin, MenuEndLose, Settings, Shop
+		Playing,
+		MenuStart, 
+		Pause, 
+		MenuEndWin, 
+		MenuEndLose, 
+		Settings, 
+		Shop
 	};
+	GameState currentState;
 };
