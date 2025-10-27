@@ -23,4 +23,5 @@ public:
     static sf::Texture goldTexture, heart1Texture, heart2Texture, heart3Texture;
     static sf::Texture groundTexture;
     static sf::Texture playerTexture, playerJumpTexture, playerJetpackTexture, playerSlideTexture;
+    static sf::SoundBuffer 
 };
