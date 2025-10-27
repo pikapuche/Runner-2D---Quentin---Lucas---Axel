@@ -50,14 +50,6 @@ private :
 	sf::Vector2i animJump;
 	sf::Vector2i animJetpack;
 
-	sf::SoundBuffer bufferRunGravel; // son quand le perso va courir
-	sf::SoundBuffer bufferRun; // son quand le perso va courir
-	sf::SoundBuffer bufferJump; // son quand le perso va sauter
-	sf::SoundBuffer bufferJetpack; // son quand le perso va utiliser le jetpack
-	sf::SoundBuffer bufferCoin;
-	sf::SoundBuffer bufferHurt;
-	sf::SoundBuffer bufferSlide;
-
 	sf::Sound sound;
 	sf::Sound soundCoin;
 	sf::Sound soundDeath;

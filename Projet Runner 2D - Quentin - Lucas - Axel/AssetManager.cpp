@@ -46,6 +46,8 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png"))
         std::cerr << "Erreur : RunnerTileSet.png (groundTexture)\n";
 
+    ///////////// PLAYER TEXTURE /////////////
+
     if (!Shared::playerTexture.loadFromFile("Assets/Character/Astronaut_RunV2.png"))
         std::cerr << "Erreur : Astronaut_RunV2.png\n";
     if (!Shared::playerJumpTexture.loadFromFile("Assets/Character/Astronaut_JumpV2.png"))
@@ -55,4 +57,20 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::playerSlideTexture.loadFromFile("Assets/Character/Astronaut_Slide.png"))
         std::cerr << "Erreur : Astronaut_JetPack.png\n";
 
+    ///////////// PLAYER SOUND /////////////
+
+    if (!Shared::bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) 
+        std::cerr << "Erreur : run.wav\n";
+    if (!Shared::bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) 
+        std::cerr << "Erreur : jump.wav\n";
+    if (!Shared::bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) 
+        std::cerr << "Erreur : jetpack.wav\n";
+    if (!Shared::bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav"))
+        std::cerr << "Erreur : runGravel2.wav.wav\n";
+    if (!Shared::bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) 
+        std::cerr << "Erreur : coin.wav\n";
+    if (!Shared::bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav"))
+        std::cerr << "Erreur : oof.wav\n";
+    if (!Shared::bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav"))
+        std::cerr << "Erreur : slide.wav\n";
 }

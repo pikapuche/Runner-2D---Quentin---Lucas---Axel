@@ -1,9 +1,9 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHurt) {
+Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
     //
-    // buffer dans asset manager
+    // fix bug collision
     // collision glissade
 }
 
@@ -92,14 +92,7 @@ void Player::initPlayer()
     shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
 
     // initialisation des sons
-    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
-    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
-    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
 
-    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
-    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
-    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
 
     isInvincible = false;
     takeDamageBool = false;
@@ -174,7 +167,7 @@ void Player::jump(float deltaTime) {
 void Player::animationManager(float deltaTime) {
     switch (stateMove) {
     case RUNNING:
-        soundManager(bufferRun);
+        soundManager(Shared::bufferRun);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -187,7 +180,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     case JUMPING:
-        soundManager(bufferJump);
+        soundManager(Shared::bufferJump);
         shape.setTexture(&Shared::playerJumpTexture);
         animJump.y = 0;
 
@@ -200,7 +193,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
-        soundManager(bufferJetpack);
+        soundManager(Shared::bufferJetpack);
         shape.setTexture(&Shared::playerJetpackTexture);
         animJetpack.y = 0;
 
@@ -213,7 +206,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case PLATEFORMING:
-        soundManager(bufferRunGravel);
+        soundManager(Shared::bufferRunGravel);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -226,9 +219,10 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     case SLIDING:
-        soundManager(bufferSlide);
+        soundManager(Shared::bufferSlide);
         shape.setTexture(&Shared::playerSlideTexture);
         shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
+
         break;
     }
 }
@@ -272,7 +266,7 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         sound.stop();
         sound.setBuffer(buffer);
 
-        if (&buffer == &bufferJump)
+        if (&buffer == &Shared::bufferJump)
             sound.setLooping(false);
         else
             sound.setLooping(true);
