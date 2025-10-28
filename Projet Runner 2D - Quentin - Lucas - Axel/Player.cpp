@@ -1,15 +1,13 @@
 #include "Player.hpp"
 
-Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHurt) {
-    //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
-    //
-    // buffer dans asset manager
-    // collision glissade
+Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
+
+    // fix bug collision du perso qui va dans le sol
+    // jauge de glissade 
+    // faire en sorte de pas pouvoir faire de glissade en saut 
 }
 
 Player::~Player() {}
-
-
 
 bool Player::collision(Map& map) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
@@ -19,12 +17,13 @@ bool Player::collision(Map& map) {
     for (auto it = vectObs.begin(); it != vectObs.end(); ++it) {
         auto& obstacle = *it;
         if (getFeetBounds().findIntersection(obstacle->getSafePlaceBounds())) {
+            shape.setPosition({ shape.getPosition().x, obstacle->getSafePlaceBounds().position.y - shape.getSize().y });
             velocity.y = 0;
             state = GROUNDED;
             stateMove = PLATEFORMING;
             return true;
         }
-        if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds())) {
+        else if (!isInvincible && shape.getGlobalBounds().findIntersection(obstacle->shape.getGlobalBounds()) && stateMove != SLIDING) {
             setLessLife();
             isInvincible = true;
             clockInvincible.restart();
@@ -33,7 +32,7 @@ bool Player::collision(Map& map) {
             takeDamageBool = true;
             takeDamageClock.restart();
             return true;
-        } 
+        }
     }
     for (auto& collectible : vectCollectible) {
         if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
@@ -46,13 +45,22 @@ bool Player::collision(Map& map) {
     for (auto it = vectPlat.begin(); it != vectPlat.end(); ++it) {
         auto& plateform = *it;
         if (getFeetBounds().findIntersection(plateform->shape.getGlobalBounds())) {
+            shape.setPosition({ shape.getPosition().x, plateform->shape.getGlobalBounds().position.y - shape.getSize().y });
             velocity.y = 0;
             state = GROUNDED;
             stateMove = PLATEFORMING;
             return true;
         }
     }
-    if (getFeetBounds().findIntersection(map.getBounds()) || getFeetBounds().findIntersection(map.getBounds2())) {
+    if (getFeetBounds().findIntersection(map.getBounds())) {
+        shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y });
+        velocity.y = 0;
+        state = GROUNDED;
+        stateMove = RUNNING;
+        return true;
+    }
+    else if (getFeetBounds().findIntersection(map.getBounds2())) {
+        shape.setPosition({ shape.getPosition().x, map.getBounds2().position.y - shape.getSize().y });
         velocity.y = 0;
         state = GROUNDED;
         stateMove = RUNNING;
@@ -95,14 +103,7 @@ void Player::initPlayer()
     shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
 
     // initialisation des sons
-    if (!bufferRun.loadFromFile("Assets/SoundEffects/run.wav")) std::cout << "caca son run" << std::endl << std::endl;
-    if (!bufferJump.loadFromFile("Assets/SoundEffects/jump.wav")) std::cout << "caca son jump" << std::endl << std::endl;
-    if (!bufferJetpack.loadFromFile("Assets/SoundEffects/jetpack.wav")) std::cout << "caca son jetpack" << std::endl << std::endl;
-    if (!bufferRunGravel.loadFromFile("Assets/SoundEffects/runGravel2.wav")) std::cout << "caca son runGravel" << std::endl << std::endl;
 
-    if (!bufferCoin.loadFromFile("Assets/SoundEffects/coin.wav")) std::cout << "caca son coin" << std::endl << std::endl;
-    if (!bufferHurt.loadFromFile("Assets/SoundEffects/oof.wav")) std::cout << "caca son oof" << std::endl << std::endl;
-    if (!bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav")) std::cout << "caca son slide" << std::endl << std::endl;
 
     isInvincible = false;
     takeDamageBool = false;
@@ -136,28 +137,23 @@ void Player::initPlayer()
 }
 
 void Player::playerMovement(float deltaTime, Map& map) {
-    if (!collision(map)) 
+
+    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100) {
+        jetpackStamina++;
+    }
+
+    if (!collision(map))
         velocity.y += gravity * deltaTime;
-    else if (collision(map) && stateMove == PLATEFORMING) {
-        if (jetpackStamina < 100) 
-            jetpackStamina++;
-    }
-    else {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-            stateMove = SLIDING;
-        }
-        else {
-            stateMove = RUNNING;
-        }
-        if (jetpackStamina < 100)
-            jetpackStamina++;
+
+    position.y = velocity.y;
+    shape.move({ position });
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED) {
+        stateMove = SLIDING;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
         jump(deltaTime);
-
-	position.y = velocity.y;
-	shape.move(position);
 }
 
 void Player::jump(float deltaTime) {
@@ -177,7 +173,7 @@ void Player::jump(float deltaTime) {
 void Player::animationManager(float deltaTime) {
     switch (stateMove) {
     case RUNNING:
-        soundManager(bufferRun);
+        soundManager(Shared::bufferRun);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -190,7 +186,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     case JUMPING:
-        soundManager(bufferJump);
+        soundManager(Shared::bufferJump);
         shape.setTexture(&Shared::playerJumpTexture);
         animJump.y = 0;
 
@@ -203,7 +199,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
-        soundManager(bufferJetpack);
+        soundManager(Shared::bufferJetpack);
         shape.setTexture(&Shared::playerJetpackTexture);
         animJetpack.y = 0;
 
@@ -216,7 +212,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animJetpack.x * CHARACTER_ASSET_SIZE, animJetpack.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case PLATEFORMING:
-        soundManager(bufferRunGravel);
+        soundManager(Shared::bufferRunGravel);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
 
@@ -229,7 +225,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     case SLIDING:
-        soundManager(bufferSlide);
+        soundManager(Shared::bufferSlide);
         shape.setTexture(&Shared::playerSlideTexture);
         shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
         break;
@@ -275,7 +271,7 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         sound.stop();
         sound.setBuffer(buffer);
 
-        if (&buffer == &bufferJump)
+        if (&buffer == &Shared::bufferJump)
             sound.setLooping(false);
         else
             sound.setLooping(true);
@@ -295,6 +291,11 @@ void Player::update(float deltaTime, Map& map) {
         playerMovement(deltaTime, map);
         animationManager(deltaTime);
         jetpackStaminaGestion();
+    }
+    else {
+        sound.stop();
+        soundCoin.stop();
+        soundDeath.stop();
     }
 }
 
@@ -320,6 +321,14 @@ sf::FloatRect Player::getFeetBounds() const {
     sf::Vector2f feetPos(bounds.position.x, bounds.position.y + bounds.size.y - feet);
     sf::Vector2f feetSize(bounds.size.x, feet);
     return sf::FloatRect(feetPos, feetSize);
+}
+
+sf::FloatRect Player::getSlideBounds() const {
+    sf::FloatRect bounds = shape.getGlobalBounds();
+    float slide = bounds.size.y * 0.0001f;
+    sf::Vector2f slidePos(bounds.position.x, bounds.position.y + bounds.size.y - slide);
+    sf::Vector2f slideSize(bounds.size.x, slide);
+    return sf::FloatRect(slidePos, slideSize);
 }
 
 void Player::setLessLife() {
