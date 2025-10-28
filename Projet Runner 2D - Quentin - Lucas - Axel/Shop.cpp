@@ -1,6 +1,6 @@
 #include "Shop.hpp"
 
-Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font) {
+Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font) {
 	gapX = 60.f;
 	gapY = 60.f;
 
@@ -102,11 +102,17 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 		rect3.getPosition().y + rect3.getGlobalBounds().size.y + 20.f
 		});
 	equipButton3.setOrigin({ equipButton3.getGlobalBounds().size.x / 2, equipButton3.getGlobalBounds().size.y / 2 });
+
+	goldText.setString("0");
+	goldText.setCharacterSize(50);
+	goldText.setPosition({ coin1.getPosition().x + coin1.getGlobalBounds().size.x, coin1.getPosition().y});
 }
 
 Shop::~Shop() {}
 
-void Shop::update() {
+void Shop::update(int& gold) {
+	std::string tempString = std::to_string(gold);
+	goldText.setString(tempString);
 	sf::Vector2f mousePos = {
 		static_cast<float>(sf::Mouse::getPosition().x),
 		static_cast<float>(sf::Mouse::getPosition().y)
@@ -167,7 +173,7 @@ void Shop::render(sf::RenderWindow& window) {
 	window.draw(equipButton1);
 	window.draw(equipButton2);
 	window.draw(equipButton3);
-
+	window.draw(goldText);
 }
 
 void Shop::buying(int& gold) {

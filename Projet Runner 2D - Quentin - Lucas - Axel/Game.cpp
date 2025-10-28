@@ -117,7 +117,7 @@ void Game::run() {
             break;
         case Game::Shop:
             clockGame.stop();
-            shop.update();
+            shop.update(collectible);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
                 if (shopDelay.getElapsedTime().asSeconds() > 1.f) {
                     shopDelay.restart();

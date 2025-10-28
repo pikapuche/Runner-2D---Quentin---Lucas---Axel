@@ -8,7 +8,7 @@ public:
 	~Shop();
 
 	void render(sf::RenderWindow& window);
-	void update();
+	void update(int& gold);
 	void buying(int& gold);
 
 private:
@@ -19,7 +19,7 @@ private:
 	sf::RectangleShape equipButton1, equipButton2, equipButton3, equipVictoryButton;
 
 	sf::Font font;
-	sf::Text shopText, skin1Text, skin2Text, skin3Text, victoryText;
+	sf::Text shopText, skin1Text, skin2Text, skin3Text, victoryText, goldText;
 
 	float gapX, gapY;
 };
