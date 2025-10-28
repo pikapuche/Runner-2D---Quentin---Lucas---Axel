@@ -137,6 +137,9 @@ void Player::initPlayer()
 }
 
 void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
+    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100)
+        jetpackStamina++;
+
     if (!collision(map, pessos)) 
         velocity.y += gravity * deltaTime;
 
@@ -242,6 +245,8 @@ void Player::jetpackStaminaGestion() {
 }
 
 void Player::invincibility(Shop& shop) {
+    
+
     if (clockInvincible.getElapsedTime().asSeconds() >= 2) {
         clockInvincible.stop();
         isInvincible = false;
