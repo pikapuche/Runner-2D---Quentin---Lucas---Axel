@@ -88,10 +88,16 @@ void Game::run() {
                     shopDelay.restart();
                     gameState = GameState::Shop;
                 }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+                gameState = Game::Pause;
+			}
                    
             break;
         case Game::Pause:
-            std::cout << "Pause";
+            clockGame.stop();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+                gameState = Game::Playing;
+            }
 
             break;
         case Game::MenuEndWin:
