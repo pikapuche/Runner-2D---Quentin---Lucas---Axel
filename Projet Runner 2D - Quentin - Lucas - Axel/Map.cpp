@@ -227,7 +227,7 @@ void Map::setObstacles() {
 			else if (line == 1)
 				temp->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT / 3 + STGS::GAP_Y / 2)  });
 			else {
-				temp->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y) / 2.f });
+				temp->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y) / 2.5f });
 				temp->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2) });
 			}
 			obstacles.push_back(temp);
