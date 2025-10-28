@@ -1,6 +1,8 @@
 #include "Shop.hpp"
 
-Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font) {
+Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font), popupText(font) {
+
+	shopClock.restart();
 	gapX = 60.f;
 	gapY = 60.f;
 
@@ -76,33 +78,6 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	victoryText.setCharacterSize(50);
 	victoryText.setPosition({ coin5.getPosition().x + coin5.getGlobalBounds().size.x, coin5.getPosition().y });
 
-	sf::Vector2f buttonSize = { 50.f, 50.f };
-
-	// Bouton 1
-	equipButton1.setSize(buttonSize);
-	equipButton1.setFillColor(sf::Color(100, 100, 255)); // bleu clair
-	equipButton1.setPosition({
-		rect1.getPosition().x + rect1.getGlobalBounds().size.x - buttonSize.x,
-		rect1.getPosition().y + rect1.getGlobalBounds().size.y + 20.f
-		});
-	equipButton1.setOrigin({ equipButton1.getGlobalBounds().size.x / 2, equipButton1.getGlobalBounds().size.y / 2 });
-
-	// Bouton 2
-	equipButton2 = equipButton1;
-	equipButton2.setPosition({
-		rect2.getPosition().x + rect2.getGlobalBounds().size.x - buttonSize.x,
-		rect2.getPosition().y + rect2.getGlobalBounds().size.y + 20.f
-		});
-	equipButton2.setOrigin({ equipButton2.getGlobalBounds().size.x / 2, equipButton2.getGlobalBounds().size.y / 2 });
-
-	// Bouton 3
-	equipButton3 = equipButton1;
-	equipButton3.setPosition({
-		rect3.getPosition().x + rect3.getGlobalBounds().size.x - buttonSize.x,
-		rect3.getPosition().y + rect3.getGlobalBounds().size.y + 20.f
-		});
-	equipButton3.setOrigin({ equipButton3.getGlobalBounds().size.x / 2, equipButton3.getGlobalBounds().size.y / 2 });
-
 	goldText.setString("0");
 	goldText.setCharacterSize(50);
 	goldText.setPosition({ coin1.getPosition().x + coin1.getGlobalBounds().size.x, coin1.getPosition().y});
@@ -121,6 +96,17 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	skinThreeShape.setPosition({ rect3.getPosition().x + gapX / 2, rect3.getPosition().y + gapY / 2 });
 	skinThreeShape.setTexture(&Shared::playerTexture);
 	skinThreeShape.setFillColor(sf::Color::Yellow);
+
+	popupBox.setSize({ 600, 200 });
+	popupBox.setFillColor(sf::Color(0, 0, 0, 200));
+	popupBox.setOutlineThickness(3);
+	popupBox.setOutlineColor(sf::Color::White);
+	popupBox.setOrigin(popupBox.getSize() / 2.f);
+	popupBox.setPosition({ static_cast<float>(STGS::WIDTH / 2.f), static_cast<float>(STGS::HEIGHT / 2.f) });
+
+	popupText.setFont(font);
+	popupText.setCharacterSize(40);
+	popupText.setFillColor(sf::Color::White);
 }
 
 Shop::~Shop() {}
@@ -144,17 +130,10 @@ void Shop::update(int& gold) {
 	handleHover(shopCaseThreeShape);
 	handleHover(shopVictoryShape);
 
-	// --- Boutons ---
-	auto handleButtonHover = [&](sf::RectangleShape& button) {
-		if (button.getGlobalBounds().contains(mousePos))
-			button.setScale({ 1.1f, 1.1f });
-		else 
-			button.setScale({ 1.f, 1.f });
-		};
-
-	handleButtonHover(equipButton1);
-	handleButtonHover(equipButton2);
-	handleButtonHover(equipButton3);
+	buying(gold);
+	if (showPopup && popupClock.getElapsedTime().asSeconds() > 2.f) {
+		showPopup = false;
+	}
 }
 
 
@@ -178,22 +157,81 @@ void Shop::render(sf::RenderWindow& window) {
 	window.draw(skin2Text);
 	window.draw(skin3Text);
 	window.draw(victoryText);
-	// Dessiner les boutons
-	window.draw(equipButton1);
-	window.draw(equipButton2);
-	window.draw(equipButton3);
 	window.draw(goldText);
 	window.draw(skinOneShape);
 	window.draw(skinTwoShape);
 	window.draw(skinThreeShape);
+	if (showPopup) {
+		window.draw(popupBox);
+		window.draw(popupText);
+	}
 }
 
 void Shop::buying(int& gold) {
 	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
-	if (shopCaseOneShape.getGlobalBounds().contains(mousePos)) {
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 
+	// --- Données d'achat ---
+	const int priceSkin1 = 10;
+	const int priceSkin2 = 15;
+	const int priceSkin3 = 20;
+	const int priceVictory = 50;
+
+	// --- Achat des skins ---
+	auto tryBuySkin = [&](sf::RectangleShape& shape, int price, bool& skinBool, const std::string& skinName) {
+		if (shape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
+			if (gold >= price) {
+				gold -= price;
+				skin1Bool = false;
+				skin2Bool = false;
+				skin3Bool = false;
+				skinBool = true;
+
+				showMessage("Vous avez acheté et équipé " + skinName + " !");
+
+				shopClock.restart();
+			}
+			else {
+				showMessage("Pas assez de gold pour acheter le " + skinName + " !");
+
+				shopClock.restart();
+			}
+		}
+		};
+
+	tryBuySkin(shopCaseOneShape, priceSkin1, skin1Bool, "Skin 1");
+	tryBuySkin(shopCaseTwoShape, priceSkin2, skin2Bool, "Skin 2");
+	tryBuySkin(shopCaseThreeShape, priceSkin3, skin3Bool, "Skin 3");
+
+	// --- Achat de la victoire ---
+	if (shopVictoryShape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
+		if (gold >= priceVictory) {
+			gold -= priceVictory;
+			std::cout << "Victoire achetée !" << std::endl;
+			victoryUnlocked = true;
+			shopClock.restart();
+		}
+		else {
+			std::cout << "Pas assez de gold pour acheter la victoire." << std::endl;
+			shopClock.restart();
 		}
 	}
+}
 
+int Shop::getSkin() {
+	if (skin1Bool)
+		return 1;
+	else if (skin2Bool)
+		return 2;
+	else if (skin3Bool)
+		return 3;
+	return 0;
+}
+
+void Shop::showMessage(const std::string& message) {
+	popupMessage = message;
+	popupText.setString(popupMessage);
+	popupText.setPosition({ popupBox.getPosition().x - popupText.getGlobalBounds().size.x / 2,
+		popupBox.getPosition().y - popupText.getGlobalBounds().size.y / 2 });
+	popupClock.restart();
+	showPopup = true;
 }

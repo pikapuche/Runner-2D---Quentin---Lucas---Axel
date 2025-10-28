@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "Shop.hpp" // ne pas toucher
 
 Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHurt) {
     //CHANGER LES NOMS DES FICHIERS POUR RESPECTER WILLIAM
@@ -9,9 +10,7 @@ Player::Player() : sound(bufferRun), soundCoin(bufferCoin), soundDeath(bufferHur
 
 Player::~Player() {}
 
-
-
-bool Player::collision(Map& map) {
+bool Player::collision(Map& map, int& pessos) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
     const std::vector<Collectible*>& vectCollectible = map.getCollectible();
     const std::vector<Plateform*>& vectPlat = map.getPlateform();
@@ -72,7 +71,6 @@ void Player::initPlayer()
     animJump = { 0,0 };
     animJetpack = { 0,0 };
     life = 3;
-	pessos = 0;
     sound.setVolume(volumeSound);
     soundCoin.setVolume(volumeSound);
     soundDeath.setVolume(volumeSound);
@@ -135,10 +133,10 @@ void Player::initPlayer()
     takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
 }
 
-void Player::playerMovement(float deltaTime, Map& map) {
-    if (!collision(map)) 
+void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
+    if (!collision(map, pessos)) 
         velocity.y += gravity * deltaTime;
-    else if (collision(map) && stateMove == PLATEFORMING) {
+    else if (collision(map, pessos) && stateMove == PLATEFORMING) {
         if (jetpackStamina < 100) 
             jetpackStamina++;
     }
@@ -250,7 +248,7 @@ void Player::jetpackStaminaGestion() {
     staminaBarRect.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
 }
 
-void Player::invincibility() {
+void Player::invincibility(Shop& shop) {
     if (clockInvincible.getElapsedTime().asSeconds() >= 2) {
         clockInvincible.stop();
         isInvincible = false;
@@ -262,10 +260,24 @@ void Player::invincibility() {
         if (((int)(clockInvincible.getElapsedTime().asMilliseconds() / 100)) % 2 == 0)
             shape.setFillColor(sf::Color(255, 255, 255, 0));
         else
-            shape.setFillColor(sf::Color::White);
+            if (shop.getSkin() == 1)
+                shape.setFillColor(sf::Color::Green);
+            else if (shop.getSkin() == 2)
+                shape.setFillColor(sf::Color::Magenta);
+            else if (shop.getSkin() == 3)
+                shape.setFillColor(sf::Color::Yellow);
+            else
+                shape.setFillColor(sf::Color::White);
     }
     else
-        shape.setFillColor(sf::Color::White);
+        if (shop.getSkin() == 1)
+            shape.setFillColor(sf::Color::Green);
+        else if (shop.getSkin() == 2)
+            shape.setFillColor(sf::Color::Magenta);
+        else if (shop.getSkin() == 3)
+            shape.setFillColor(sf::Color::Yellow);
+        else
+            shape.setFillColor(sf::Color::White);
 }
 
 void Player::soundManager(sf::SoundBuffer& buffer) {
@@ -287,12 +299,12 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         sound.play();
 }
 
-void Player::update(float deltaTime, Map& map) {
+void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
 
     if (life != 0) {
-        invincibility();
+        invincibility(shop);
         animationTakeDamage();
-        playerMovement(deltaTime, map);
+        playerMovement(deltaTime, map, pessos);
         animationManager(deltaTime);
         jetpackStaminaGestion();
     }
@@ -338,7 +350,6 @@ void Player::setUpLife() {
 
 int Player::getLife() { return life; }
 void Player::setLife(int l) { life = l; }
-int Player::getPessos() {  return pessos; }
 
 void Player::animationTakeDamage() {
     if (takeDamageClock.getElapsedTime().asSeconds() >= 2.f) {

@@ -14,8 +14,13 @@ void HUD::initHUD() {
 	heart2.setTexture(&Shared::heart2Texture, true);
 	heart3.setTexture(&Shared::heart3Texture, true);
 
+	gold.setString("0");
+	gold.setCharacterSize({ 60 });
+	gold.setFillColor(sf::Color::Yellow);
+	gold.setPosition({ static_cast<float>(STGS::WIDTH * 0.05f), static_cast<float>(STGS::HEIGHT * 0.9f) });
+
 	goldPiece.setSize({ STGS::WIDTH * 0.04f, STGS::WIDTH * 0.04f });
-	goldPiece.setPosition({ static_cast<float>(STGS::WIDTH * 0.03f), static_cast<float>(STGS::HEIGHT * 0.9f) });
+	goldPiece.setPosition({ gold.getPosition().x - goldPiece.getGlobalBounds().size.x, static_cast<float>(STGS::HEIGHT * 0.9f) });
 
 	lifeholder.setSize({ STGS::WIDTH / 4.f, STGS::HEIGHT / 10.f + 75.f });
 	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2.f - lifeholder.getSize().x / 2.f), 0 });
@@ -34,12 +39,6 @@ void HUD::initHUD() {
 	score.setCharacterSize(60);
 	score.setFillColor(sf::Color::White);
 	score.setPosition({ 10.f, timer.getGlobalBounds().size.y + timer.getPosition().y + 20.f });
-
-	gold.setString("0");
-	gold.setCharacterSize({ 60 });
-	gold.setFillColor(sf::Color::Yellow);
-	gold.setPosition({ goldPiece.getPosition().x - gold.getGlobalBounds().size.x, static_cast<float>(STGS::HEIGHT * 0.9f) });
-	std::cout << goldPiece.getPosition().x << goldPiece.getPosition().y;
 
 	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
 	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });

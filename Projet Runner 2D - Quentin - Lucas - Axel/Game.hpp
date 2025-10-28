@@ -1,16 +1,17 @@
 #pragma	once 
 
 #include "Map.hpp"
-#include "Shop.hpp"
 #include "menu.hpp"
 #include "HUD.hpp"
 #include "EndMenu.hpp"
+#include "Shop.hpp"
+
 class Game {
 public:
-	void createStartButton();
 	AssetManager assetManager;
+	Shop shop; 
 	sf::Music music;
-	int volumeMusic = 20;
+	int volumeMusic;
 	int score;
 	int collectible;
 	bool playing;
@@ -21,7 +22,6 @@ public:
 	sf::Clock clockGame;
 	sf::Clock clock;
 	sf::Clock shopDelay;
-	Shop shop; 
 
 	enum GameState {
 		Playing,

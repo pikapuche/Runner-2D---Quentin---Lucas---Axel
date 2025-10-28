@@ -2,21 +2,23 @@
 
 #include "Map.hpp"
 
+class Shop;
+
 class Player {
 public :
 	Player();
 	~Player();
 
 	void initPlayer();
-	void playerMovement(float deltaTime, Map& map);
+	void playerMovement(float deltaTime, Map& map, int& pessos);
 	void jump(float deltaTime);
-	bool collision(Map& map);
+	bool collision(Map& map, int& pessos);
 	void animationManager(float deltaTime); 
 	void jetpackStaminaGestion();
-	void invincibility();
+	void invincibility(Shop& shop);
 	void animationTakeDamage();
 	void soundManager(sf::SoundBuffer& buffer);
-	void update(float deltaTime, Map& map);
+	void update(float deltaTime, Map& map, int& pessos, Shop& shop);
 	void draw(sf::RenderWindow& window);
 
 	//getters/setters
@@ -25,7 +27,6 @@ public :
 	void setLife(int l);
 	void setLessLife();
 	void setUpLife();
-	int getPessos();
 
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
@@ -71,7 +72,6 @@ private :
 	float jetpackStamina = 100.f; // endurance du jetpack
 	int volumeSound = 100;
 	int life = 3;
-	int pessos = 0;
 	bool isInvincible;
 	const float gravity = 150.0f;
 	bool takeDamageBool;

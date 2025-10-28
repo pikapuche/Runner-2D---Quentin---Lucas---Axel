@@ -9,7 +9,8 @@ Game::Game() {
     map.setObstacles();
     shopDelay.restart();
     score = 0;
-    collectible = 0;
+    collectible = 50;
+    volumeMusic = 20;
     gameState = GameState::MenuStart;
 }
 Game::~Game() {}
@@ -18,7 +19,7 @@ void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
     score = 0;
-    collectible = 0;
+    collectible = 50;
     
     map.setScore(score);
     map.setObstacles();
@@ -74,9 +75,8 @@ void Game::run() {
             }
             clockGame.start();
             score = map.getScore();
-            collectible = player_ptr->getPessos();
             map.run(deltaTime);
-            player_ptr->update(deltaTime, map);
+            player_ptr->update(deltaTime, map, collectible, shop);
             myHud.update(clockGame, score, collectible);
 
             if (player_ptr->getLife() <= 0) {
