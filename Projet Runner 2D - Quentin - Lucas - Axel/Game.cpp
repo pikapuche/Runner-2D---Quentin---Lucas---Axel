@@ -6,11 +6,7 @@ Game::Game() {
     music.setLooping(true);
     playing = false;
     map.setScore(score);
-    map.setObstacles();
     shopDelay.restart();
-    score = 0;
-    collectible = 50;
-    volumeMusic = 20;
     gameState = GameState::MenuStart;
 }
 Game::~Game() {}
@@ -20,9 +16,9 @@ void Game::restart() {
     player_ptr->initPlayer();
     score = 0;
     collectible = 50;
+    volumeMusic = 20;
     
     map.setScore(score);
-    map.setObstacles();
     myHud.initHUD();
     playing = true;
 
@@ -69,7 +65,6 @@ void Game::run() {
                 player_ptr->initPlayer();
                 myHud.initHUD();
                 music.play();
-                map.setObstacles();
                 playing = true;
                 clockGame.reset();
             }
