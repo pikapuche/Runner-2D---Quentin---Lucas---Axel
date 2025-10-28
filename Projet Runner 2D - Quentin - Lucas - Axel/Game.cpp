@@ -7,6 +7,9 @@ Game::Game() {
     playing = false;
     map.setScore(score);
     shopDelay.restart();
+    score = 0;
+    collectible = 0;
+    volumeMusic = 20;
     gameState = GameState::MenuStart;
 }
 Game::~Game() {}
@@ -15,7 +18,7 @@ void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
     score = 0;
-    collectible = 50;
+    collectible = 0;
     volumeMusic = 20;
     
     map.setScore(score);
