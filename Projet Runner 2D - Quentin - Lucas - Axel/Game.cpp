@@ -125,6 +125,8 @@ void Game::run() {
         default:
             break;
         }
+        if (shop.getVictoryUnlocked())
+            gameState = Game::MenuEndWin;
         render(window);
     }
 }

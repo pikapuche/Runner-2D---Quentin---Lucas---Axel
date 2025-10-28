@@ -12,10 +12,11 @@ public:
 	void buying(int& gold);
 
 	int getSkin();
+	bool getVictoryUnlocked();
 
 private:
 	sf::RectangleShape shopBackgroundShape, shopCaseOneShape, shopCaseTwoShape, shopCaseThreeShape, shopVictoryShape;
-	sf::RectangleShape skinOneShape, skinTwoShape, skinThreeShape;
+	sf::RectangleShape skinOneShape, skinTwoShape, skinThreeShape, trophyShape;
 	sf::RectangleShape coin1, coin2, coin3, coin4, coin5;
 	sf::RectangleShape rect1, rect2, rect3, rect4;
 
@@ -31,10 +32,12 @@ private:
 	bool victoryUnlocked = false;
 
 	bool showPopup = false;
-	sf::Clock popupClock;
+	sf::Clock popupClock, clockRun;
 	std::string popupMessage;
 	sf::RectangleShape popupBox;
 	sf::Text popupText;
+	sf::Vector2i animRun;
+	const int CHARACTER_ASSET_SIZE = 128;
 
 	void showMessage(const std::string& message);
 };

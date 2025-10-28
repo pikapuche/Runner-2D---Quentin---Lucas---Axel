@@ -46,6 +46,9 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png"))
         std::cerr << "Erreur : RunnerTileSet.png (groundTexture)\n";
 
+    if (!Shared::trophyTexture.loadFromFile("Assets/Images/trophy.png"))
+        std::cerr << "Erreur : slide.wav\n";
+
     ///////////// PLAYER TEXTURE /////////////
 
     if (!Shared::playerTexture.loadFromFile("Assets/Character/Astronaut_RunV2.png"))

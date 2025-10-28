@@ -107,6 +107,10 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	popupText.setFont(font);
 	popupText.setCharacterSize(40);
 	popupText.setFillColor(sf::Color::White);
+
+	trophyShape.setSize({ rect4.getGlobalBounds().size.x - gapX * 2, rect4.getGlobalBounds().size.y - gapY });
+	trophyShape.setPosition({ rect4.getPosition().x + gapX , rect4.getPosition().y + gapY / 2 });
+	trophyShape.setTexture(&Shared::trophyTexture);
 }
 
 Shop::~Shop() {}
@@ -134,6 +138,18 @@ void Shop::update(int& gold) {
 	if (showPopup && popupClock.getElapsedTime().asSeconds() > 2.f) {
 		showPopup = false;
 	}
+
+	animRun.y = 0;
+
+	if (clockRun.getElapsedTime().asMilliseconds() > 55) { 
+		animRun.x++; 
+		clockRun.restart();
+	}
+	if (animRun.x > 5)
+		animRun.x = 0;
+	skinOneShape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); 
+	skinTwoShape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
+	skinThreeShape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
 }
 
 
@@ -165,6 +181,7 @@ void Shop::render(sf::RenderWindow& window) {
 		window.draw(popupBox);
 		window.draw(popupText);
 	}
+	window.draw(trophyShape);
 }
 
 void Shop::buying(int& gold) {
@@ -186,7 +203,7 @@ void Shop::buying(int& gold) {
 				skin3Bool = false;
 				skinBool = true;
 
-				showMessage("Vous avez acheté et équipé " + skinName + " !");
+				showMessage("Vous achetez et equipez " + skinName + " !");
 
 				shopClock.restart();
 			}
@@ -206,12 +223,12 @@ void Shop::buying(int& gold) {
 	if (shopVictoryShape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
 		if (gold >= priceVictory) {
 			gold -= priceVictory;
-			std::cout << "Victoire achetée !" << std::endl;
+			showMessage("Vous achetez la VICTOIRE !");
 			victoryUnlocked = true;
 			shopClock.restart();
 		}
 		else {
-			std::cout << "Pas assez de gold pour acheter la victoire." << std::endl;
+			showMessage("Vous n'avez pas assez d'argent pour acheter la victoire !");
 			shopClock.restart();
 		}
 	}
@@ -234,4 +251,8 @@ void Shop::showMessage(const std::string& message) {
 		popupBox.getPosition().y - popupText.getGlobalBounds().size.y / 2 });
 	popupClock.restart();
 	showPopup = true;
+}
+
+bool Shop::getVictoryUnlocked() {
+	return victoryUnlocked;
 }
