@@ -106,6 +106,21 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	goldText.setString("0");
 	goldText.setCharacterSize(50);
 	goldText.setPosition({ coin1.getPosition().x + coin1.getGlobalBounds().size.x, coin1.getPosition().y});
+
+	skinOneShape.setSize({ rect1.getGlobalBounds().size.x - gapX, rect1.getGlobalBounds().size.y - gapY });
+	skinOneShape.setPosition({ rect1.getPosition().x + gapX / 2, rect1.getPosition().y + gapY / 2 });
+	skinOneShape.setTexture(&Shared::playerTexture);
+	skinOneShape.setFillColor(sf::Color::Green);
+
+	skinTwoShape.setSize({ rect2.getGlobalBounds().size.x - gapX, rect2.getGlobalBounds().size.y - gapY });
+	skinTwoShape.setPosition({ rect2.getPosition().x + gapX / 2, rect2.getPosition().y + gapY / 2 });
+	skinTwoShape.setTexture(&Shared::playerTexture);
+	skinTwoShape.setFillColor(sf::Color::Magenta);
+
+	skinThreeShape.setSize({ rect3.getGlobalBounds().size.x - gapX, rect3.getGlobalBounds().size.y - gapY });
+	skinThreeShape.setPosition({ rect3.getPosition().x + gapX / 2, rect3.getPosition().y + gapY / 2 });
+	skinThreeShape.setTexture(&Shared::playerTexture);
+	skinThreeShape.setFillColor(sf::Color::Yellow);
 }
 
 Shop::~Shop() {}
@@ -113,19 +128,15 @@ Shop::~Shop() {}
 void Shop::update(int& gold) {
 	std::string tempString = std::to_string(gold);
 	goldText.setString(tempString);
-	sf::Vector2f mousePos = {
-		static_cast<float>(sf::Mouse::getPosition().x),
-		static_cast<float>(sf::Mouse::getPosition().y)
-	};
+
+	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
 
 	// --- Cases ---
 	auto handleHover = [&](sf::RectangleShape& shape) {
-		if (shape.getGlobalBounds().contains(mousePos)) {
+		if (shape.getGlobalBounds().contains(mousePos)) 
 			shape.setFillColor(sf::Color::Cyan);
-		}
-		else {
+		else 
 			shape.setFillColor(sf::Color::Green);
-		}
 		};
 
 	handleHover(shopCaseOneShape);
@@ -135,12 +146,10 @@ void Shop::update(int& gold) {
 
 	// --- Boutons ---
 	auto handleButtonHover = [&](sf::RectangleShape& button) {
-		if (button.getGlobalBounds().contains(mousePos)) {
+		if (button.getGlobalBounds().contains(mousePos))
 			button.setScale({ 1.1f, 1.1f });
-		}
-		else {
+		else 
 			button.setScale({ 1.f, 1.f });
-		}
 		};
 
 	handleButtonHover(equipButton1);
@@ -174,6 +183,9 @@ void Shop::render(sf::RenderWindow& window) {
 	window.draw(equipButton2);
 	window.draw(equipButton3);
 	window.draw(goldText);
+	window.draw(skinOneShape);
+	window.draw(skinTwoShape);
+	window.draw(skinThreeShape);
 }
 
 void Shop::buying(int& gold) {
