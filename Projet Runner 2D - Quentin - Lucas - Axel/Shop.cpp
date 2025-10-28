@@ -40,35 +40,35 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	coin1.setTexture(&Shared::goldTexture);
 
 	coin2.setSize({ 50, 50 });
-	coin2.setPosition({ shopCaseOneShape.getPosition().x + 10.f, shopCaseOneShape.getPosition().y + shopCaseOneShape.getGlobalBounds().size.y - coin2.getGlobalBounds().size.y - 20.f});
+	coin2.setPosition({ shopCaseOneShape.getPosition().x + 10.f, shopCaseOneShape.getPosition().y + shopCaseOneShape.getGlobalBounds().size.y - coin2.getGlobalBounds().size.y - 10.f});
 	coin2.setTexture(&Shared::goldTexture);
 
 	coin3.setSize({ 50, 50 });
-	coin3.setPosition({ shopCaseTwoShape.getPosition().x + 10.f, shopCaseTwoShape.getPosition().y + shopCaseTwoShape.getGlobalBounds().size.y - coin3.getGlobalBounds().size.y - 20.f });
+	coin3.setPosition({ shopCaseTwoShape.getPosition().x + 10.f, shopCaseTwoShape.getPosition().y + shopCaseTwoShape.getGlobalBounds().size.y - coin3.getGlobalBounds().size.y - 10.f });
 	coin3.setTexture(&Shared::goldTexture);
 
 	coin4.setSize({ 50, 50 });
-	coin4.setPosition({ shopCaseThreeShape.getPosition().x + 10.f, shopCaseThreeShape.getPosition().y + shopCaseThreeShape.getGlobalBounds().size.y - coin4.getGlobalBounds().size.y - 20.f });
+	coin4.setPosition({ shopCaseThreeShape.getPosition().x + 10.f, shopCaseThreeShape.getPosition().y + shopCaseThreeShape.getGlobalBounds().size.y - coin4.getGlobalBounds().size.y - 10.f });
 	coin4.setTexture(&Shared::goldTexture);
 
 	coin5.setSize({ 50, 50 });
 	coin5.setPosition({ shopVictoryShape.getPosition().x + 10.f, shopVictoryShape.getPosition().y + shopVictoryShape.getGlobalBounds().size.y - coin5.getGlobalBounds().size.y - 10.f });
 	coin5.setTexture(&Shared::goldTexture);
 
-	rect1.setSize({ shopCaseOneShape.getGlobalBounds().size.x - gapX, shopCaseOneShape.getGlobalBounds().size.y - gapY * 2 });
-	rect1.setPosition({ shopCaseOneShape.getPosition().x + gapX / 2, shopCaseOneShape.getPosition().y + gapY / 2 });
+	rect1.setSize({ shopCaseOneShape.getGlobalBounds().size.x, shopCaseOneShape.getGlobalBounds().size.y - gapY});
+	rect1.setPosition({ shopCaseOneShape.getPosition().x, shopCaseOneShape.getPosition().y  });
 	rect1.setTexture(&Shared::cadre1);
 
-	rect2.setSize({ shopCaseTwoShape.getGlobalBounds().size.x - gapX, shopCaseTwoShape.getGlobalBounds().size.y - gapY * 2 });
-	rect2.setPosition({ shopCaseTwoShape.getPosition().x + gapX / 2, shopCaseTwoShape.getPosition().y + gapY / 2 });
+	rect2.setSize({ shopCaseTwoShape.getGlobalBounds().size.x, shopCaseTwoShape.getGlobalBounds().size.y - gapY });
+	rect2.setPosition({ shopCaseTwoShape.getPosition().x , shopCaseTwoShape.getPosition().y });
 	rect2.setTexture(&Shared::cadre1);
 
-	rect3.setSize({ shopCaseThreeShape.getGlobalBounds().size.x - gapX, shopCaseThreeShape.getGlobalBounds().size.y - gapY * 2 });
-	rect3.setPosition({ shopCaseThreeShape.getPosition().x + gapX / 2, shopCaseThreeShape.getPosition().y + gapY / 2 });
+	rect3.setSize({ shopCaseThreeShape.getGlobalBounds().size.x, shopCaseThreeShape.getGlobalBounds().size.y - gapY });
+	rect3.setPosition({ shopCaseThreeShape.getPosition().x, shopCaseThreeShape.getPosition().y });
 	rect3.setTexture(&Shared::cadre1);
 
-	rect4.setSize({ shopVictoryShape.getGlobalBounds().size.x - gapX, shopVictoryShape.getGlobalBounds().size.y - gapY * 2 });
-	rect4.setPosition({ shopVictoryShape.getPosition().x + gapX / 2, shopVictoryShape.getPosition().y + gapY / 2 });
+	rect4.setSize({ shopVictoryShape.getGlobalBounds().size.x, shopVictoryShape.getGlobalBounds().size.y - gapY });
+	rect4.setPosition({ shopVictoryShape.getPosition().x, shopVictoryShape.getPosition().y});
 	rect4.setTexture(&Shared::cadre1);
 
 	skin1Text.setString("10 - Uranium guy");
