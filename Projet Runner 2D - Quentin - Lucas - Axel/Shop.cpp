@@ -106,7 +106,7 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	skinThreeShape.setTexture(&Shared::playerTexture);
 	skinThreeShape.setFillColor(sf::Color::Yellow);
 
-	popupBox.setSize({ 600, 200 });
+	popupBox.setSize({ 1300, 200 });
 	popupBox.setFillColor(sf::Color(0, 0, 0, 200));
 	popupBox.setOutlineThickness(3);
 	popupBox.setOutlineColor(sf::Color::White);
