@@ -1,6 +1,6 @@
 #include "Shop.hpp"
 
-Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font), popupText(font) {
+Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font), popupText(font), shop2Text(font) {
 
 	shopClock.restart();
 	gapX = 60.f;
@@ -25,6 +25,11 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	shopText.setString("SHOP");
 	shopText.setCharacterSize(300);
 	shopText.setPosition({ static_cast<float>(STGS::GAP_X), static_cast<float>(STGS::HEIGHT * 0.01f) });
+
+	shop2Text.setString("SHOP");
+	shop2Text.setCharacterSize(300);
+	shop2Text.setPosition({ static_cast<float>(STGS::GAP_X) + 5.f, static_cast<float>(STGS::HEIGHT * 0.01f) +5.f });
+	shop2Text.setFillColor(sf::Color::Black);
 
 	shopVictoryShape.setSize({ static_cast<float>(STGS::WIDTH / 3) - static_cast<float>(STGS::GAP_X), static_cast<float>(STGS::HEIGHT) * 1 / 3 - static_cast<float>(STGS::GAP_Y) });
 	shopVictoryShape.setPosition({ static_cast<float>(STGS::WIDTH * 2 / 3 + STGS::GAP_X * 2 / 3), static_cast<float>(STGS::HEIGHT * 0.01f) });
@@ -52,26 +57,30 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 
 	rect1.setSize({ shopCaseOneShape.getGlobalBounds().size.x - gapX, shopCaseOneShape.getGlobalBounds().size.y - gapY * 2 });
 	rect1.setPosition({ shopCaseOneShape.getPosition().x + gapX / 2, shopCaseOneShape.getPosition().y + gapY / 2 });
+	rect1.setTexture(&Shared::cadre1);
 
 	rect2.setSize({ shopCaseTwoShape.getGlobalBounds().size.x - gapX, shopCaseTwoShape.getGlobalBounds().size.y - gapY * 2 });
 	rect2.setPosition({ shopCaseTwoShape.getPosition().x + gapX / 2, shopCaseTwoShape.getPosition().y + gapY / 2 });
+	rect2.setTexture(&Shared::cadre1);
 
 	rect3.setSize({ shopCaseThreeShape.getGlobalBounds().size.x - gapX, shopCaseThreeShape.getGlobalBounds().size.y - gapY * 2 });
 	rect3.setPosition({ shopCaseThreeShape.getPosition().x + gapX / 2, shopCaseThreeShape.getPosition().y + gapY / 2 });
+	rect3.setTexture(&Shared::cadre1);
 
 	rect4.setSize({ shopVictoryShape.getGlobalBounds().size.x - gapX, shopVictoryShape.getGlobalBounds().size.y - gapY * 2 });
 	rect4.setPosition({ shopVictoryShape.getPosition().x + gapX / 2, shopVictoryShape.getPosition().y + gapY / 2 });
+	rect4.setTexture(&Shared::cadre1);
 
-	skin1Text.setString("10 - Skin 1 bb");
-	skin1Text.setCharacterSize(50);
+	skin1Text.setString("10 - Uranium guy");
+	skin1Text.setCharacterSize(40);
 	skin1Text.setPosition({ coin2.getPosition().x + coin2.getGlobalBounds().size.x, coin2.getPosition().y });
 
-	skin2Text.setString("15 - Skin 2 bb");
-	skin2Text.setCharacterSize(50);
+	skin2Text.setString("15 - Phosphorus guy");
+	skin2Text.setCharacterSize(40);
 	skin2Text.setPosition({ coin3.getPosition().x + coin3.getGlobalBounds().size.x, coin3.getPosition().y });
 
-	skin3Text.setString("20 - Skin 3 bb");
-	skin3Text.setCharacterSize(50);
+	skin3Text.setString("20 - Golden power");
+	skin3Text.setCharacterSize(40);
 	skin3Text.setPosition({ coin4.getPosition().x + coin4.getGlobalBounds().size.x, coin4.getPosition().y });
 
 	victoryText.setString("50 - Victoire");
@@ -158,6 +167,7 @@ void Shop::render(sf::RenderWindow& window) {
 	window.draw(shopCaseOneShape);
 	window.draw(shopCaseTwoShape);
 	window.draw(shopCaseThreeShape);
+	window.draw(shop2Text);
 	window.draw(shopText);
 	window.draw(shopVictoryShape);
 	window.draw(coin1);
@@ -208,7 +218,7 @@ void Shop::buying(int& gold) {
 				shopClock.restart();
 			}
 			else {
-				showMessage("Pas assez de gold pour acheter le " + skinName + " !");
+				showMessage("Vous n'avez pas assez d'argent pour acheter le " + skinName + " !");
 
 				shopClock.restart();
 			}

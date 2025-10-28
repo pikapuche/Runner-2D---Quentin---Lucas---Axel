@@ -21,7 +21,7 @@ private:
 	sf::RectangleShape rect1, rect2, rect3, rect4;
 
 	sf::Font font;
-	sf::Text shopText, skin1Text, skin2Text, skin3Text, victoryText, goldText;
+	sf::Text shopText, shop2Text, skin1Text, skin2Text, skin3Text, victoryText, goldText;
 	sf::Clock shopClock;
 
 	float gapX, gapY;

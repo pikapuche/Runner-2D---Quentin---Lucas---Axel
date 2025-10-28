@@ -21,7 +21,7 @@ public:
     static sf::Texture backboardFirstTextureDifficultyThree, backboardSecondTextureDifficultyThree;
     static sf::Texture backboardFirstTextureDifficultyFour, backboardSecondTextureDifficultyFour;
     static sf::Texture goldTexture, heart1Texture, heart2Texture, heart3Texture;
-    static sf::Texture groundTexture, trophyTexture;
+    static sf::Texture groundTexture, trophyTexture, cadre1;
     static sf::Texture playerTexture, playerJumpTexture, playerJetpackTexture, playerSlideTexture;
     static sf::SoundBuffer bufferRunGravel, bufferRun, bufferJump, bufferJetpack, bufferCoin, bufferHurt, bufferSlide;
 };
