@@ -79,5 +79,4 @@ private :
 	bool isInvincible = false;
 	const float gravity = 5000.0f; // 150
 	bool takeDamageBool = false;
-	//bool johnCena = false;
 };

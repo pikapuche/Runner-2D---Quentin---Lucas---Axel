@@ -161,13 +161,19 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
 
     shape.move({ position });
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && slideStamina > 0) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && slideStamina > 0 && !isReloadSlideBar) {
         stateMove = SLIDING;
         slideStamina--;
         if (state != GROUNDED) {
             velocity.y + 100000 * deltaTime;
             if (soundJohnCena.getStatus() != sf::SoundSource::Status::Playing && life != 0) soundJohnCena.play();
         }
+    }
+    if (slideStamina >= 10) {
+        isReloadSlideBar = false;
+    }
+    else if (slideStamina <= 1) {
+        isReloadSlideBar = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
