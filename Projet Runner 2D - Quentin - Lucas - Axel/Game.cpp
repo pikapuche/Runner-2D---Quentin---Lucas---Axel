@@ -73,10 +73,10 @@ void Game::run() {
             if (!playing) {
                 player_ptr->initPlayer();
                 myHud.initHUD();
+                restart();
                 music.play();
-                playing = true;
                 clockGame.reset();
-                
+                playing = true;
             }
             clockGame.start();
             map.run(deltaTime, score);

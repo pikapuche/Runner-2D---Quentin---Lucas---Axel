@@ -38,7 +38,7 @@ void Pause::initMenu() {
 	//setup text
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	text.setFont(textFont);
-	text.setString("EZWIN");
+	text.setString("PAUSE");
 	text.setCharacterSize(100);
 	text.setFillColor(sf::Color::Green);
 	text.setPosition({ 700,300 });
