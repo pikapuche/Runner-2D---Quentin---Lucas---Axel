@@ -3,9 +3,6 @@
 
 Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
 
-    // jauge de glissade 
-    // faire en sorte de pas pouvoir faire de glissade en saut 
-    // met un plafond
     // possible de faire pop 3 gros obstacle et le dernier en glissade pour obliger une glissade ?
 }
 
@@ -157,7 +154,14 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
     if (!collision(map, pessos)) 
         velocity.y += gravity * deltaTime;
 
-    shape.move({ position.x, velocity.y * deltaTime });
+    if (shape.getPosition().y < 0) {
+        shape.setPosition({ shape.getPosition().x, 1 });
+        velocity.y += gravity * deltaTime;
+    }
+
+    position.y = velocity.y * deltaTime;
+
+    shape.move({ position });
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0 && !isReloadSlideBar) {
         stateMove = SLIDING;
