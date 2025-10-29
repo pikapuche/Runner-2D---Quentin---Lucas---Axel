@@ -5,7 +5,6 @@ Game::Game() {
     music.setVolume(static_cast<int>(volumeMusic));
     music.setLooping(true);
     playing = false;
-    shopDelay.restart();
     menuDelay.restart();
     score = 0;
     collectible = 0;
@@ -34,13 +33,14 @@ void Game::run() {
     sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
-    sf::Clock clock;
+
     float deltaTime = clock.restart().asSeconds();
     while (window.isOpen()) {
         deltaTime = clock.restart().asSeconds();
 
-        while (const std::optional event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+        while (const std::optional event = window.pollEvent())
+        {
+            if (event->is<sf::Event::Closed>())
                 window.close();
         }
 
@@ -90,11 +90,11 @@ void Game::run() {
 			}
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
-                if (shopDelay.getElapsedTime().asSeconds() > 1.f) {
-                    shopDelay.restart();
+                if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
+                    menuDelay.restart();
                     gameState = GameState::Shop;
                 }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
                     gameState = Game::Pause;
@@ -112,7 +112,7 @@ void Game::run() {
                     gameState = Game::MenuStart;
                 }
 			}
-			if (pauseMenu.resumeButton.activate()) {
+			if (pauseMenu.resumeButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
                     gameState = Game::Playing;
@@ -123,6 +123,7 @@ void Game::run() {
             break;
         case Game::MenuEndWin:
             clockGame.stop();
+
 			if (winMenu.backButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
@@ -144,11 +145,7 @@ void Game::run() {
             break;
         case Game::MenuEndLose:
             clockGame.stop();
-            while (const std::optional event = window.pollEvent())
-            {
-                if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-                    window.close();
-            }
+            
             if (endMenu.backButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
@@ -166,7 +163,7 @@ void Game::run() {
 			}
             break;
         case Game::Settings:
-            if (settingsMenu.backButton.activate()) {
+            if (settingsMenu.backButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
                     gameState = Game::MenuStart;
@@ -175,9 +172,9 @@ void Game::run() {
         case Game::Shop:
             clockGame.stop();
             shop.update(collectible);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
-                if (shopDelay.getElapsedTime().asSeconds() > 1.f) {
-                    shopDelay.restart();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
                     gameState = GameState::Playing;
                 }
             }

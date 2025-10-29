@@ -24,7 +24,6 @@ public:
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
 	sf::Clock clockGame;
 	sf::Clock clock;
-	sf::Clock shopDelay;
 	sf::Clock menuDelay;
 	Pause pauseMenu;
 	

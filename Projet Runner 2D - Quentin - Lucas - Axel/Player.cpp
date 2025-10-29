@@ -159,7 +159,7 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
 
     shape.move({ position });
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0/* && !isReloadSlideBar*/) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0) {
         stateMove = SLIDING;
         slideStamina--;
     }

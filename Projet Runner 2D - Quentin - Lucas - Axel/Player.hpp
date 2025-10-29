@@ -75,7 +75,7 @@ private :
 	bool isReloadSlideBar = false; // recharge de glissade
 	int volumeSound = 50; // son 
 	int life = 3;
-	bool isInvincible;
+	bool isInvincible = false;
 	const float gravity = 5000.0f; // 150
 	bool takeDamageBool = false;
 };
