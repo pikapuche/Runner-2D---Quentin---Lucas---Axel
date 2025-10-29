@@ -8,11 +8,12 @@ public:
 	~Background();
 
 	void render(sf::RenderWindow& window);
-	void move(float deltatime);
+	void move(float deltatime, int difficulty);
 	void startFlashTransition(int newDifficulty);
 	
 	//getters/setters
 	void setBackgroundTexture(int difficulty);
+	void setCurrentDifficulty(int difficulty);
 
 private:
 	sf::RectangleShape backboardFirstShape, backboardFirstShape2, backboardSecondShape;

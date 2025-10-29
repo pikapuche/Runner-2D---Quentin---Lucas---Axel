@@ -5,9 +5,8 @@ Game::Game() {
     music.setVolume(static_cast<int>(volumeMusic));
     music.setLooping(true);
     playing = false;
-    map.setScore(score);
     shopDelay.restart();
-    score = 50;
+    score = 0;
     collectible = 0;
     volumeMusic = 20;
     gameState = GameState::MenuStart;
@@ -17,11 +16,10 @@ Game::~Game() {}
 void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
-    score = 50;
+    score = 0;
     collectible = 0;
     volumeMusic = 20;
     
-    map.setScore(score);
     myHud.initHUD();
     playing = true;
 
