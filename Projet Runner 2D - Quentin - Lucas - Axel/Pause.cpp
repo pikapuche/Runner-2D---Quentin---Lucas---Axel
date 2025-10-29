@@ -63,6 +63,7 @@ void Pause::drawMenu(sf::RenderWindow& window) {
 	window.draw(background);
 	backButton.drawButton(window);
 	resumeButton.drawButton(window);
+	epilepticButton.drawButton(window);
 	window.draw(text);
 }
 
