@@ -12,6 +12,11 @@ void AssetManager::loadAssetsFromFiles() {
 
     if (!Shared::collectibleTexture.loadFromFile("Assets/Images/Gold.png"))
         std::cerr << "Erreur : impossible de charger Gold.png\n";
+    
+    // MENU //
+    
+    if (!Shared::backgroundMenu.loadFromFile("Assets/tiles_map/spaceTitleBackground.png"))
+        std::cerr << "Erreur : impossible de charger spaceTitleBackground.png\n";
 
     // MAP // 
 
