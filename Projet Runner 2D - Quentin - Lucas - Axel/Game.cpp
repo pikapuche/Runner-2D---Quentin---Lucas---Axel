@@ -85,10 +85,20 @@ void Game::run() {
                     shopDelay.restart();
                     gameState = GameState::Shop;
                 }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
+                gameState = Game::Pause;
+			}
                    
             break;
         case Game::Pause:
-            std::cout << "Pause";
+            clockGame.stop();
+            if (pauseMenu.backButton.activate()) {
+                playing = false;
+				gameState = Game::MenuStart;
+			}
+			if (pauseMenu.resumeButton.activate()) {
+				gameState = Game::Playing;
+			}
 
             break;
         case Game::MenuEndWin:
@@ -141,9 +151,7 @@ void Game::render(sf::RenderWindow& window) {
         menu.drawMenu(window);
         break;
     case Game::Pause:
-        map.render(window);
-        player_ptr->draw(window);
-        myHud.drawHUD(window, *player_ptr);
+		pauseMenu.drawMenu(window);
         break;
     case Game::MenuEndWin:
         break;

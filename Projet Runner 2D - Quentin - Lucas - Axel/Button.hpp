@@ -16,7 +16,7 @@ public:
 	sf::Color normalColor = sf::Color::White;
 	sf::Color hoverColor = sf::Color(200, 200, 200);
 	enum ButtonState {
-		NOTHING, PLAY, QUIT, SETTINGS, BACK, RESTART
+		NOTHING, PLAY, QUIT, SETTINGS, BACK, RESTART, RESUME
 	};
 
 
