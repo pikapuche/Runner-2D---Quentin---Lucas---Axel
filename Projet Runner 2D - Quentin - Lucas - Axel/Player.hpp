@@ -18,6 +18,7 @@ public :
 	void invincibility(Shop& shop);
 	void animationTakeDamage();
 	void soundManager(sf::SoundBuffer& buffer);
+	void stopSounds();
 	void update(float deltaTime, Map& map, int& pessos, Shop& shop);
 	void draw(sf::RenderWindow& window);
 
@@ -28,6 +29,10 @@ public :
 	void setLife(int l);
 	void setLessLife();
 	void setUpLife();
+	int getVolume();
+	void setVolumeLess();
+	void setVolumeUp();
+	void setVolume(int sound);
 
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
@@ -61,16 +66,16 @@ private :
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 
-	const float JUMP_FORCE = 1700.f; // force initiale du saut // 40
-	const float JETPACK_FORCE = 650.f; // force de propulsion du jetpack // 15
+	const float JUMP_FORCE = 1800.f; // force initiale du saut // 40
+	const float JETPACK_FORCE = 900.f; // force de propulsion du jetpack // 15
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
 	float jetpackStamina = 100.f; // endurance du jetpack
-	float slideStamina = 70.f; // durée de la glissade
-	float slideStaminaMax = 70.f;
-	bool isReloadSlideBar = false;
-	int volumeSound = 50;
+	float slideStamina = 100.f; // durée de la glissade
+	float slideStaminaMax = 100.f; // maximum de la glissade
+	bool isReloadSlideBar = false; // recharge de glissade
+	int volumeSound = 50; // son 
 	int life = 3;
 	bool isInvincible;
-	const float gravity = 4000.0f; // 150
+	const float gravity = 5000.0f; // 150
 	bool takeDamageBool = false;
 };

@@ -143,12 +143,8 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
     if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100)
         jetpackStamina++;
 
-    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && slideStamina < slideStaminaMax) {
+    if (slideStamina < slideStaminaMax && stateMove != SLIDING) {
         slideStamina++;
-        isReloadSlideBar = true;
-        if (slideStamina == slideStaminaMax) {
-            isReloadSlideBar = false;
-        }
     }
 
     if (!collision(map, pessos)) 
@@ -163,7 +159,7 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
 
     shape.move({ position });
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0 && !isReloadSlideBar) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0/* && !isReloadSlideBar*/) {
         stateMove = SLIDING;
         slideStamina--;
     }
@@ -330,6 +326,13 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         sound.play();
 }
 
+void Player::stopSounds()
+{
+    sound.stop();
+    soundCoin.stop();
+    soundDeath.stop();
+}
+
 void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
 
     if (life != 0) {
@@ -392,6 +395,26 @@ void Player::setUpLife() {
         life = 3;
     else 
         life++;
+}
+
+int Player::getVolume()
+{
+    return volumeSound;
+}
+
+void Player::setVolumeLess()
+{
+    volumeSound--;
+}
+
+void Player::setVolumeUp()
+{
+    volumeSound++;
+}
+
+void Player::setVolume(int sound)
+{
+    volumeSound = sound;
 }
 
 int Player::getLife() { return life; }
