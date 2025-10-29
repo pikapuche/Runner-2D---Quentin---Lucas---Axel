@@ -6,6 +6,7 @@ Game::Game() {
     music.setLooping(true);
     playing = false;
     menuDelay.restart();
+    generateClock.restart();
     score = 0;
     collectible = 0;
     volumeMusic = 20;
@@ -26,6 +27,7 @@ void Game::restart() {
     music.stop();
     music.play();
     clockGame.restart();
+    generateClock.restart();
 
     needClockRestart = true;
 }
@@ -79,7 +81,8 @@ void Game::run() {
                 playing = true;
             }
             clockGame.start();
-            map.run(deltaTime, score);
+            generateClock.start();
+            map.run(deltaTime, score, generateClock);
             player_ptr->update(deltaTime, map, collectible, shop);
             myHud.update(clockGame, score, collectible);
 
@@ -105,10 +108,10 @@ void Game::run() {
             break;
         case Game::Pause:
             clockGame.stop();
+            generateClock.stop();
             if (pauseMenu.backButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
-                    playing = false;
                     gameState = Game::MenuStart;
                 }
 			}
@@ -203,6 +206,9 @@ void Game::render(sf::RenderWindow& window) {
         menu.drawMenu(window);
         break;
     case Game::Pause:
+        map.render(window);
+        player_ptr->draw(window);
+        myHud.drawHUD(window, *player_ptr);
 		pauseMenu.drawMenu(window);
         break;
     case Game::MenuEndWin:

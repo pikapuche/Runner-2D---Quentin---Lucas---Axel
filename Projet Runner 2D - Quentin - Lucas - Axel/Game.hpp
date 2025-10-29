@@ -25,6 +25,7 @@ public:
 	sf::Clock clockGame;
 	sf::Clock clock;
 	sf::Clock menuDelay;
+	sf::Clock generateClock;
 	Pause pauseMenu;
 	
 	enum GameState {

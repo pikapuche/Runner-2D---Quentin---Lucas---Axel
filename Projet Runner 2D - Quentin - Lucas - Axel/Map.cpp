@@ -4,7 +4,6 @@ Map::Map() {
 	createSeed();
 	rng.seed(seed);
 	makeGround();
-	generateClock.start();
 }
 
 Map::~Map() {}
@@ -32,8 +31,6 @@ void Map::reset() {
 	rng.seed(seed);
 
 	makeGround();
-
-	generateClock.restart();
 }
 
 void Map::removeObstacle(Obstacle* obs) {
@@ -64,7 +61,7 @@ void Map::render(sf::RenderWindow& window) {
 	window.draw(ground2);
 }
 
-void Map::run(float deltatime, int& score) {
+void Map::run(float deltatime, int& score, sf::Clock& generateClock) {
     for (auto it = obstacles.begin(); it != obstacles.end(); ) {
         auto& obstacle = *it;
         obstacle->move(deltatime, difficulty);
