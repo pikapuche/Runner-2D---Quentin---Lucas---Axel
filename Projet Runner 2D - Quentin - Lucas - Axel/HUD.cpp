@@ -24,37 +24,34 @@ void HUD::initHUD() {
 	goldPiece.setSize({ STGS::WIDTH * 0.04f, STGS::WIDTH * 0.04f });
 	goldPiece.setPosition({ gold.getPosition().x - goldPiece.getGlobalBounds().size.x, static_cast<float>(STGS::HEIGHT * 0.9f) });
 
-	lifeholder.setSize({ STGS::WIDTH / 4.f, STGS::HEIGHT / 10.f + 75.f });
-	lifeholder.setPosition({ static_cast<float>(STGS::WIDTH / 2.f - lifeholder.getSize().x / 2.f), 0 });
-
 	timer.setString("Temps de la run : 0");
 	timer.setCharacterSize({60});
 	timer.setFillColor(sf::Color::White);
 	timer.setOutlineThickness(5.f);
 	timer.setOutlineColor(sf::Color::Black);
-	timer.setPosition({ 10, 10 });
+	timer.setPosition({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
 
 	score.setString("Score : 0");
 	score.setCharacterSize(60);
 	score.setFillColor(sf::Color::White);
 	score.setOutlineThickness(5.f);
 	score.setOutlineColor(sf::Color::Black);
-	score.setPosition({ static_cast<float>(STGS::WIDTH * 0.85), static_cast<float>(STGS::HEIGHT * 0.f) });
+	score.setPosition({ static_cast<float>(STGS::WIDTH) - score.getGlobalBounds().size.x - static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.f)});
 
-	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
-	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });
+	heart1.setSize({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.07) });
+	heart1.setPosition({ static_cast<float>(STGS::WIDTH * 0.01), timer.getPosition().y + timer.getGlobalBounds().size.y + static_cast<float>(STGS::HEIGHT * 0.03) });
 
-	heart2.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
-	heart2.setPosition({ lifeholder.getPosition().x + lifeholder.getGlobalBounds().size.x / 2 - heart2.getGlobalBounds().size.x / 2, lifeholder.getPosition().y + 25.f });
+	heart2.setSize({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.07) });
+	heart2.setPosition({ heart1.getPosition().x + heart1.getGlobalBounds().size.x + static_cast<float>(STGS::WIDTH * 0.01), timer.getPosition().y + timer.getGlobalBounds().size.y + static_cast<float>(STGS::HEIGHT * 0.02) });
+	heart2.setScale({ 1.5, 1.5 });
 
-	heart3.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
-	heart3.setPosition({ lifeholder.getPosition().x + lifeholder.getGlobalBounds().size.x - heart3.getGlobalBounds().size.x, lifeholder.getPosition().y + 25.f });
+	heart3.setSize({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.07) });
+	heart3.setPosition({ heart2.getPosition().x + heart2.getGlobalBounds().size.x + static_cast<float>(STGS::WIDTH * 0.001), timer.getPosition().y + timer.getGlobalBounds().size.y + static_cast<float>(STGS::HEIGHT * 0.03) });
 }
 
 void HUD::drawHUD(sf::RenderWindow& window, Player& player) {
 	window.draw(score);
 	window.draw(timer);
-	window.draw(lifeholder);
 	window.draw(gold);
 	window.draw(goldPiece);
 
@@ -73,10 +70,14 @@ void HUD::drawHUD(sf::RenderWindow& window, Player& player) {
 }
 
 void HUD::update(sf::Clock& clock, int& scoreGame, int& pessos) {
-	sf::Time elapsed = clock.getElapsedTime();
-	float seconds = elapsed.asSeconds();
-	int roundedSeconds = std::round(seconds);
-	timer.setString("Temps de la run : " + std::to_string(roundedSeconds));
+	elapsed = clock.getElapsedTime();
+	seconds = elapsed.asSeconds();
+	sbstr = 4;
+	if (seconds >= 10)
+		sbstr = 5;
+	else if (seconds >= 100)
+		sbstr = 6;
+	timer.setString("Timer : " + std::to_string(seconds).substr(0, sbstr));
 	score.setString("Score : " + std::to_string(scoreGame));
 	gold.setString(std::to_string(pessos));
 }
