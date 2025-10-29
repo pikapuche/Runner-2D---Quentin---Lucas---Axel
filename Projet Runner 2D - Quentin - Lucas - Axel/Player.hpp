@@ -62,6 +62,7 @@ private :
 	sf::Sound sound;
 	sf::Sound soundCoin;
 	sf::Sound soundDeath;
+	sf::Sound soundJohnCena;
 
 	sf::Vector2f position;
 	sf::Vector2f velocity;
@@ -78,4 +79,5 @@ private :
 	bool isInvincible = false;
 	const float gravity = 5000.0f; // 150
 	bool takeDamageBool = false;
+	//bool johnCena = false;
 };
