@@ -174,6 +174,7 @@ void Game::run() {
                 break;
         case Game::Shop:
             clockGame.stop();
+            generateClock.stop();
             shop.update(collectible);
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
