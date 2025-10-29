@@ -39,7 +39,7 @@ void HUD::initHUD() {
 	score.setFillColor(sf::Color::White);
 	score.setOutlineThickness(5.f);
 	score.setOutlineColor(sf::Color::Black);
-	score.setPosition({ 10.f, timer.getGlobalBounds().size.y + timer.getPosition().y + 20.f });
+	score.setPosition({ static_cast<float>(STGS::WIDTH * 0.85), static_cast<float>(STGS::HEIGHT * 0.f) });
 
 	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
 	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });
