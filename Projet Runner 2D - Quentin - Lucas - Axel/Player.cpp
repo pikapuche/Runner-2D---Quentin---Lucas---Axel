@@ -140,7 +140,7 @@ bool Player::collision(Map& map, int& pessos) {
 }
 
 void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
-    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100)
+    if ((stateMove == RUNNING || stateMove == PLATEFORMING || stateMove == SLIDING) && jetpackStamina < 100)
         jetpackStamina++;
 
     if (slideStamina < slideStaminaMax && stateMove != SLIDING) {

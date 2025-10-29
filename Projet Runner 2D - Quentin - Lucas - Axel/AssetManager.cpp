@@ -13,6 +13,8 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::collectibleTexture.loadFromFile("Assets/Images/Gold.png"))
         std::cerr << "Erreur : impossible de charger Gold.png\n";
 
+    // MAP // 
+
     if (!Shared::backboardFirstTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundFar.png"))
         std::cerr << "Erreur : backgroundFar.png\n";
     if (!Shared::backboardSecondTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundNear.png"))
