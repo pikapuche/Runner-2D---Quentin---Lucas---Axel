@@ -27,6 +27,7 @@ void Plateform::move(float deltatime, int difficulty) {
 		shape.setFillColor(sf::Color(21, 255, 0, 215));
 		break;
 	case 3:
+		shape.setFillColor(sf::Color::White);
 		break;
 	case 4:
 		shape.setFillColor(sf::Color(255, 166, 0, 215));

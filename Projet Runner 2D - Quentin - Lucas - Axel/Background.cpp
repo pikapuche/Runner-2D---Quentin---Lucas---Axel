@@ -20,7 +20,8 @@ Background::Background()  {
 
 Background::~Background() {}
 
-void Background::move(float deltaTime) {
+void Background::move(float deltaTime, int difficulty) {
+	setCurrentDifficulty(difficulty); std::cout << "diff : " << currentDifficulty << std::endl;
 	const float speedFar = 100.f;
 	const float speedNear = 200.f;
 
@@ -109,4 +110,8 @@ void Background::startFlashTransition(int newDifficulty) {
 	flashTimer = 0.f;
 
 	currentDifficulty = newDifficulty;
+}
+
+void Background::setCurrentDifficulty(int difficulty) {
+	currentDifficulty = difficulty;
 }

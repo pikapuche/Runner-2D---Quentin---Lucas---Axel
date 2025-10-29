@@ -26,6 +26,5 @@ private:
 	sf::RectangleShape heart3;
 	sf::RectangleShape goldPiece;
 
-	Map map;
 };
 

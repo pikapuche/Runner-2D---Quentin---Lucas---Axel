@@ -24,8 +24,7 @@ public:
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
 	int getDifficulty();
-	void setScore(int score);
-	void setObstacles();
+	void setObstacles(int& score);
 	void incrementScore(int& score);
 		
 
@@ -43,7 +42,6 @@ private:
 
 	Background bg;
 
-	int _score;
 	int seed = 0;
 	float delay;
 	int difficulty;

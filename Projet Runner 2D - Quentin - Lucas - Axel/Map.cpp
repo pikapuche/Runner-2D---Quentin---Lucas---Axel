@@ -25,7 +25,6 @@ void Map::reset() {
 	}
 	collectibles.clear();
 
-	_score = 0;
 	difficulty = 1;
 	delay = 0.f;
 
@@ -88,7 +87,7 @@ void Map::run(float deltatime, int& score) {
 		if (plateform->shape.getPosition().x + plateform->shape.getSize().x < 0) {
 			delete plateform;
 			it = plateforms.erase(it);
-			_score++;
+			score++;
 		}
 		else {
 			++it;
@@ -102,34 +101,34 @@ void Map::run(float deltatime, int& score) {
 		if (collectible->getShape().getPosition().x + collectible->getShape().getSize().x < 0) {
 			delete collectible;
 			it = collectibles.erase(it);
-			_score++;
+			score++;
 		}
 		else {
 			++it;
 		}
 	}
 
-	delay = 2.0f * std::exp(-0.03f * (_score - 1)) + 0.8f;
+	delay = 2.0f * std::exp(-0.03f * (score - 1)) + 0.8f;
 
 	if (generateClock.getElapsedTime().asSeconds() > delay) {
-		setObstacles();
+		setObstacles(score);
 		generateClock.restart();
 	}
-	if (_score < 50)
+	if (score < 50)
 		difficulty = 1;
-	else if (_score < 100) {
+	else if (score < 100) {
 		if (difficulty == 1) {
 			bg.startFlashTransition(2);
 		}
 		difficulty = 2;
 	}
-	else if (_score < 200) {
+	else if (score < 200) {
 		if (difficulty == 2) {
 			bg.startFlashTransition(3);
 		}
 		difficulty = 3;
 	}
-	else if (_score >= 200) {
+	else if (score >= 200) {
 		if (difficulty == 3) {
 			bg.startFlashTransition(4);
 		}
@@ -137,7 +136,7 @@ void Map::run(float deltatime, int& score) {
 	}
 
 	bg.setBackgroundTexture(difficulty);
-	bg.move(deltatime);
+	bg.move(deltatime, difficulty);
 	moveGround(deltatime);
 }
 
@@ -176,7 +175,7 @@ void Map::moveGround(float deltaTime) {
 		ground2.setPosition({ ground.getPosition().x + ground.getSize().x, ground2.getPosition().y });
 }
 
-void Map::setObstacles() {
+void Map::setObstacles(int& score) {
 	std::vector<int> lines = { 0, 1, 2 };
 	std::shuffle(lines.begin(), lines.end(), rng);
 	std::uniform_int_distribution<int> dist(0, 999);
@@ -195,10 +194,10 @@ void Map::setObstacles() {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
-		Plateform* tempPlatform = new Plateform(-500.f - _score * 10.f, linePlatform);
+		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
 		tempPlatform->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
 
-		Collectible* tempCollectible = new Collectible(-500.f - _score * 10.f, linePlatform);
+		Collectible* tempCollectible = new Collectible(-500.f - score * 10.f, linePlatform);
 		tempCollectible->getShape().setSize({ static_cast<float>(STGS::WIDTH * 0.04f), static_cast<float>(STGS::WIDTH * 0.04f) });
 
 		float platformY;
@@ -217,11 +216,12 @@ void Map::setObstacles() {
 		plateforms.push_back(tempPlatform);
 		collectibles.push_back(tempCollectible);
 	}
-	else {
+	
+	else if (waveType < 900){
 		for (int i = 0; i < nbObstacles; ++i) {
 			int line = lines[i];
 
-			Obstacle* temp = new Obstacle(-500.f - _score * 10.f, line);
+			Obstacle* temp = new Obstacle(-500.f - score * 10.f, line);
 			temp->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y)  });
 
 			if (line == 0)
@@ -238,6 +238,23 @@ void Map::setObstacles() {
 			obstacles.push_back(temp);
 		}
 	}
+	else {
+		Obstacle* temp1 = new Obstacle(-500.f - score * 10.f, 0);
+		temp1->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y) });
+		temp1->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(0 + STGS::GAP_Y / 2) });
+
+		Obstacle* temp2 = new Obstacle(-500.f - score * 10.f, 1);
+		temp2->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y) });
+		temp2->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT / 3 + STGS::GAP_Y / 2) });
+
+		Obstacle* temp3 = new Obstacle(-500.f - score * 10.f, 1);
+		temp3->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>(STGS::HEIGHT / 3 - STGS::GAP_Y) / 2.5f });
+		temp3->shape.setPosition({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT * 2 / 3 + STGS::GAP_Y / 2) });
+
+		obstacles.push_back(temp1);
+		obstacles.push_back(temp2);
+		obstacles.push_back(temp3);
+	}
 }
 
 std::vector<Obstacle*> Map::getVectObs() { return obstacles; }
@@ -248,6 +265,5 @@ sf::FloatRect Map::getBounds2() { return ground2.getGlobalBounds(); }
 int Map::getDifficulty() { return difficulty; }
 sf::RectangleShape Map::getGround() { return ground; }
 sf::RectangleShape Map::getGround2() { return ground2; }
-void Map::setScore(int score) { _score = score; }
 std::vector<Plateform*> Map::getPlatformVector() { return plateforms; }
 void Map::incrementScore(int& score) { score++; }
