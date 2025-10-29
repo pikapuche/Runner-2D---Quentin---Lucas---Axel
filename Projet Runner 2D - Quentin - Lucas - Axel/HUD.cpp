@@ -32,14 +32,14 @@ void HUD::initHUD() {
 	timer.setFillColor(sf::Color::White);
 	timer.setOutlineThickness(5.f);
 	timer.setOutlineColor(sf::Color::Black);
-	timer.setPosition({ 10, 10 });
+	timer.setPosition({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
 
 	score.setString("Score : 0");
 	score.setCharacterSize(60);
 	score.setFillColor(sf::Color::White);
 	score.setOutlineThickness(5.f);
 	score.setOutlineColor(sf::Color::Black);
-	score.setPosition({ static_cast<float>(STGS::WIDTH * 0.85), static_cast<float>(STGS::HEIGHT * 0.f) });
+	score.setPosition({ static_cast<float>(STGS::WIDTH) - score.getGlobalBounds().size.x - static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.f)});
 
 	heart1.setSize({ lifeholder.getGlobalBounds().size.x / 3, lifeholder.getGlobalBounds().size.y - 50.f });
 	heart1.setPosition({ lifeholder.getPosition().x, lifeholder.getPosition().y + 25.f });
