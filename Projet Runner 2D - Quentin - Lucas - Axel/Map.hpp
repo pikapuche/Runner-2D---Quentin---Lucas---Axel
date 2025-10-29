@@ -9,7 +9,7 @@ public:
 	Map();
 	~Map();
 
-	void run(float deltatime);
+	void run(float deltatime, int& score);
 	void render(sf::RenderWindow& window);
 	void removeObstacle(Obstacle* obs);
 	void removeCollectible(Collectible* col);
@@ -23,10 +23,11 @@ public:
 	std::vector<Plateform*> getPlateform();
 	sf::RectangleShape getGround();
 	sf::RectangleShape getGround2();
-	int getScore();
 	int getDifficulty();
 	void setScore(int score);
 	void setObstacles();
+	void incrementScore(int& score);
+		
 
 private:
 	void createSeed();

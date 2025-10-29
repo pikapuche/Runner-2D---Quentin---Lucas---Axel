@@ -65,7 +65,7 @@ void Map::render(sf::RenderWindow& window) {
 	window.draw(ground2);
 }
 
-void Map::run(float deltatime) {
+void Map::run(float deltatime, int& score) {
     for (auto it = obstacles.begin(); it != obstacles.end(); ) {
         auto& obstacle = *it;
         obstacle->move(deltatime, difficulty);
@@ -74,7 +74,7 @@ void Map::run(float deltatime) {
         if (obstacle->shape.getPosition().x + obstacle->shape.getSize().x < 0) {
 			delete obstacle;
             it = obstacles.erase(it);
-			_score++;
+			incrementScore(score);
         }
         else {
             ++it;
@@ -144,8 +144,9 @@ void Map::run(float deltatime) {
 void Map::createSeed() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<int> dist(100000, 999999);
+	std::uniform_int_distribution<int> dist(100, 999);
 	seed = dist(gen);
+	std::cout << "seed : " << seed << std::endl;
 }
 
 void Map::makeGround() {
@@ -178,18 +179,19 @@ void Map::moveGround(float deltaTime) {
 void Map::setObstacles() {
 	std::vector<int> lines = { 0, 1, 2 };
 	std::shuffle(lines.begin(), lines.end(), rng);
+	std::uniform_int_distribution<int> dist(0, 999);
 
-	int waveType = rand() % 100;
+	int waveType = dist(rng);
 
 	int nbObstacles;
-	if (waveType < 70 - difficulty * 10)
+	if (waveType < 700 - difficulty * 10)
 		nbObstacles = 1;
 	else
 		nbObstacles = 2;
 
 	waveType += difficulty * 5;
 
-	if (waveType < 33) {
+	if (waveType < 333) {
 		std::vector<int> platformLines = { 1, 2 };
 		int linePlatform = platformLines[rand() % platformLines.size()];
 
@@ -243,9 +245,9 @@ std::vector<Collectible*> Map::getCollectible() { return collectibles; }
 std::vector<Plateform*> Map::getPlateform() { return plateforms; }
 sf::FloatRect Map::getBounds() { return ground.getGlobalBounds(); }
 sf::FloatRect Map::getBounds2() { return ground2.getGlobalBounds(); }
-int Map::getScore() { return _score; }
 int Map::getDifficulty() { return difficulty; }
 sf::RectangleShape Map::getGround() { return ground; }
 sf::RectangleShape Map::getGround2() { return ground2; }
 void Map::setScore(int score) { _score = score; }
 std::vector<Plateform*> Map::getPlatformVector() { return plateforms; }
+void Map::incrementScore(int& score) { score++; }

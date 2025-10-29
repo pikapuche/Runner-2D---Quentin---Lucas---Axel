@@ -7,7 +7,7 @@ Game::Game() {
     playing = false;
     map.setScore(score);
     shopDelay.restart();
-    score = 0;
+    score = 50;
     collectible = 0;
     volumeMusic = 20;
     gameState = GameState::MenuStart;
@@ -17,7 +17,7 @@ Game::~Game() {}
 void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
-    score = 0;
+    score = 50;
     collectible = 0;
     volumeMusic = 20;
     
@@ -72,8 +72,7 @@ void Game::run() {
                 clockGame.reset();
             }
             clockGame.start();
-            score = map.getScore();
-            map.run(deltaTime);
+            map.run(deltaTime, score);
             player_ptr->update(deltaTime, map, collectible, shop);
             myHud.update(clockGame, score, collectible);
 
