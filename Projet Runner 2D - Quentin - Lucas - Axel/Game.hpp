@@ -5,11 +5,12 @@
 #include "HUD.hpp"
 #include "EndMenu.hpp"
 #include "Shop.hpp"
+#include "Pause.hpp"
 
 class Game {
 public:
 	AssetManager assetManager;
-	Shop shop; 
+	Shop shop;
 	sf::Music music;
 	int volumeMusic;
 	int score;
@@ -22,14 +23,14 @@ public:
 	sf::Clock clockGame;
 	sf::Clock clock;
 	sf::Clock shopDelay;
-
+	Pause pauseMenu;
 	enum GameState {
 		Playing,
-		MenuStart, 
-		Pause, 
-		MenuEndWin, 
-		MenuEndLose, 
-		Settings, 
+		MenuStart,
+		Pause,
+		MenuEndWin,
+		MenuEndLose,
+		Settings,
 		Shop
 	};
 	Menu menu;
@@ -42,6 +43,4 @@ public:
 	void render(sf::RenderWindow& window);
 	void restart();
 	GameState gameState;
-	
-	
 };
