@@ -17,7 +17,6 @@ public:
 private:
 	sf::Text timer;
 	sf::Text score;
-	sf::Text lvl;
 	sf::Text gold;
 	sf::Font font;
 	sf::RectangleShape lifeholder;
@@ -25,6 +24,5 @@ private:
 	sf::RectangleShape heart2;
 	sf::RectangleShape heart3;
 	sf::RectangleShape goldPiece;
-
 };
 

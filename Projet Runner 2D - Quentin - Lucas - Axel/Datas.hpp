@@ -3,6 +3,7 @@
 #include "SFML/Audio.hpp"
 #include <random>
 #include <algorithm>
+#include <cmath>
 
 namespace STGS {
     static const int WIDTH = sf::VideoMode::getDesktopMode().size.x;
