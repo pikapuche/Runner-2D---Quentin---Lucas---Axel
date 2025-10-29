@@ -30,7 +30,7 @@ void Game::restart() {
     needClockRestart = true;
 }
 void Game::run() {
-    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "My window", sf::State::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "THE PINK PARADOX", sf::State::Fullscreen);
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);
 
