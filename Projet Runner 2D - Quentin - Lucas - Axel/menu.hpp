@@ -14,5 +14,7 @@ public:
 	Button playButton;
 	Button quitButton;
 	Button settingsButton;
+	sf::Text gameTitle;
+	sf::Font titleFont;
 };
 

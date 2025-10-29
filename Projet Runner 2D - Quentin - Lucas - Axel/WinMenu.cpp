@@ -11,7 +11,7 @@ void WinMenu::initMenu() {
 	//setup background
 	background.setSize({ 1920,1080 });
 	background.setPosition({ 0,0 });
-	background.setFillColor(sf::Color::Blue);
+	background.setTexture(&Shared::backgroundMenu);
 
 	//setup backButton
 	backButton.buttonState = Button::BACK;
