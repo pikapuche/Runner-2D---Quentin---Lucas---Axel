@@ -14,7 +14,7 @@ public :
 	void jump(float deltaTime);
 	bool collision(Map& map, int& pessos);
 	void animationManager(float deltaTime); 
-	void jetpackStaminaGestion();
+	void staminaGestion();
 	void invincibility(Shop& shop);
 	void animationTakeDamage();
 	void soundManager(sf::SoundBuffer& buffer);
@@ -37,8 +37,10 @@ public :
 
 private : 
 	sf::RectangleShape shape;
-	sf::RectangleShape staminaBar; // barre d'endurance du jetpack
-	sf::RectangleShape staminaBarRect; // outline de la barre d'endurance du jetpack maximale
+	sf::RectangleShape jetpackStaminaBar; // barre d'endurance du jetpack
+	sf::RectangleShape jetpackStaminaBarRect; // outline de la barre d'endurance du jetpack maximale
+	sf::RectangleShape slideStaminaBar;
+	sf::RectangleShape slideStaminaBarRect; 
 	sf::Vertex takeDamageLeft[4], takeDamageRight[4], takeDamageTop[4], takeDamageBottom[4];
 
 	sf::Clock clockRun; // Clock qui permet de modifier la vitesse d'anim
@@ -59,13 +61,16 @@ private :
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 
-	const float JUMP_FORCE = 40.f; // force initiale du saut
-	const float JETPACK_FORCE = 15.f; // force de propulsion du jetpack
+	const float JUMP_FORCE = 1700.f; // force initiale du saut // 40
+	const float JETPACK_FORCE = 650.f; // force de propulsion du jetpack // 15
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
 	float jetpackStamina = 100.f; // endurance du jetpack
-	int volumeSound = 100;
+	float slideStamina = 70.f; // durée de la glissade
+	float slideStaminaMax = 70.f;
+	bool isReloadSlideBar = false;
+	int volumeSound = 50;
 	int life = 3;
 	bool isInvincible;
-	const float gravity = 150.0f;
+	const float gravity = 4000.0f; // 150
 	bool takeDamageBool = false;
 };
