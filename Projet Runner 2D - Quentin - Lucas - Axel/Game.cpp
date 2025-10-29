@@ -6,6 +6,7 @@ Game::Game() {
     music.setLooping(true);
     playing = false;
     shopDelay.restart();
+    menuDelay.restart();
     score = 0;
     collectible = 0;
     volumeMusic = 20;
@@ -50,7 +51,11 @@ void Game::run() {
                     window.close();
             }
             if (menu.playButton.activate()) {
-                gameState = Game::Playing;
+                if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
+                    menuDelay.restart();
+                    gameState = Game::Playing;
+				}
+                
             }
 
             if (menu.quitButton.activate()) {
@@ -58,7 +63,10 @@ void Game::run() {
             }
 
             if (menu.settingsButton.activate()) {
-                gameState = Game::Settings;
+                if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
+                    menuDelay.restart();
+                    gameState = Game::Settings;
+                }
             }
             break;
         case Game::Playing:
@@ -68,6 +76,7 @@ void Game::run() {
                 music.play();
                 playing = true;
                 clockGame.reset();
+                
             }
             clockGame.start();
             map.run(deltaTime, score);
@@ -86,40 +95,83 @@ void Game::run() {
                     gameState = GameState::Shop;
                 }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) {
-                gameState = Game::Pause;
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    gameState = Game::Pause;
+				}
+                
 			}
                    
             break;
         case Game::Pause:
             clockGame.stop();
             if (pauseMenu.backButton.activate()) {
-                playing = false;
-				gameState = Game::MenuStart;
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    playing = false;
+                    gameState = Game::MenuStart;
+                }
 			}
 			if (pauseMenu.resumeButton.activate()) {
-				gameState = Game::Playing;
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    gameState = Game::Playing;
+                }
+				
 			}
 
             break;
         case Game::MenuEndWin:
-            std::cout << "Pause";
+            clockGame.stop();
+			if (winMenu.backButton.activate()) {
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    playing = false;
+                    gameState = Game::MenuStart;
+                    
+                }
+                
+			}
+			if (winMenu.restartButton.activate()) {
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    restart();
+                    playing = false;
+                    gameState = Game::Playing;
+
+                }
+			}
             break;
         case Game::MenuEndLose:
+            clockGame.stop();
             while (const std::optional event = window.pollEvent())
             {
                 if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
             }
             if (endMenu.backButton.activate()) {
-				gameState = Game::MenuStart;
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    playing = false;
+                    gameState = Game::MenuStart;
+				}
+				
             }
-			if (endMenu.restartButton.activate()) {
-				restart();
-				gameState = Game::Playing;
+            if (endMenu.restartButton.activate()) {
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f){
+                    menuDelay.restart();
+                    restart();
+                    gameState = Game::Playing;
+                }
 			}
             break;
         case Game::Settings:
-            break;
+            if (settingsMenu.backButton.activate()) {
+                if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
+                    menuDelay.restart();
+                    gameState = Game::MenuStart;
+                }
+                break;
         case Game::Shop:
             clockGame.stop();
             shop.update(collectible);
@@ -128,12 +180,15 @@ void Game::run() {
                     shopDelay.restart();
                     gameState = GameState::Playing;
                 }
+            }
+            if (shop.getVictoryUnlocked())
+                gameState = Game::MenuEndWin;
             break;
         default:
             break;
         }
-        if (shop.getVictoryUnlocked())
-            gameState = Game::MenuEndWin;
+
+        
         render(window);
     }
 }
@@ -154,11 +209,13 @@ void Game::render(sf::RenderWindow& window) {
 		pauseMenu.drawMenu(window);
         break;
     case Game::MenuEndWin:
+		winMenu.drawMenu(window);
         break;
     case Game::MenuEndLose:
 		endMenu.drawMenu(window);
         break;
     case Game::Settings:
+		settingsMenu.drawMenu(window);
         break;
     case Game::Shop:
         shop.render(window);

@@ -97,6 +97,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="WinMenu.cpp" />
   </ItemGroup>
@@ -115,6 +116,7 @@
     <ClInclude Include="Pause.hpp" />
     <ClInclude Include="Plateform.hpp" />
     <ClInclude Include="Player.hpp" />
+    <ClInclude Include="Settings.hpp" />
     <ClInclude Include="Shop.hpp" />
     <ClInclude Include="Menu.hpp" />
     <ClInclude Include="WinMenu.hpp" />

@@ -6,6 +6,8 @@
 #include "EndMenu.hpp"
 #include "Shop.hpp"
 #include "Pause.hpp"
+#include "WinMenu.hpp"
+#include "Settings.hpp"
 
 class Game {
 public:
@@ -23,7 +25,9 @@ public:
 	sf::Clock clockGame;
 	sf::Clock clock;
 	sf::Clock shopDelay;
+	sf::Clock menuDelay;
 	Pause pauseMenu;
+	
 	enum GameState {
 		Playing,
 		MenuStart,
@@ -35,6 +39,9 @@ public:
 	};
 	Menu menu;
 	EndMenu endMenu;
+	WinMenu winMenu;
+	SettingsMenu settingsMenu;
+	
 
 	Game();
 	~Game();
