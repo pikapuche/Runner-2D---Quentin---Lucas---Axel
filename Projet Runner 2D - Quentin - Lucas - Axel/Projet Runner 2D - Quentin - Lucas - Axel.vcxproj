@@ -91,6 +91,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Plateform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Map.hpp" />
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Pause.hpp" />
     <ClInclude Include="Plateform.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Shop.hpp" />
