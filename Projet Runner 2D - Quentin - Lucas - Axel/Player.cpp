@@ -1,7 +1,7 @@
 #include "Player.hpp"
 #include "Shop.hpp" // ne pas toucher
 
-Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
+Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt), soundJohnCena(Shared::bufferJohn) {
 
     // possible de faire pop 3 gros obstacle et le dernier en glissade pour obliger une glissade ?
 }
@@ -22,6 +22,8 @@ void Player::initPlayer()
     sound.setVolume(volumeSound);
     soundCoin.setVolume(volumeSound);
     soundDeath.setVolume(volumeSound);
+    soundJohnCena.setBuffer(Shared::bufferJohn);
+    soundJohnCena.setVolume(volumeSound);
 
     // chargement des textures
 
@@ -159,9 +161,19 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
 
     shape.move({ position });
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && slideStamina > 0 && !isReloadSlideBar) {
         stateMove = SLIDING;
         slideStamina--;
+        if (state != GROUNDED) {
+            velocity.y + 100000 * deltaTime;
+            if (soundJohnCena.getStatus() != sf::SoundSource::Status::Playing && life != 0) soundJohnCena.play();
+        }
+    }
+    if (slideStamina >= 10) {
+        isReloadSlideBar = false;
+    }
+    else if (slideStamina <= 1) {
+        isReloadSlideBar = true;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
@@ -241,7 +253,7 @@ void Player::animationManager(float deltaTime) {
         break;
     case SLIDING:
         animJump.x = 0;
-        soundManager(Shared::bufferSlide);
+        if(state == GROUNDED) soundManager(Shared::bufferSlide);
         shape.setTexture(&Shared::playerSlideTexture);
         shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
         break;

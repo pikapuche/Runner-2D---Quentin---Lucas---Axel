@@ -21,7 +21,7 @@ Background::Background()  {
 Background::~Background() {}
 
 void Background::move(float deltaTime, int difficulty) {
-	setCurrentDifficulty(difficulty); std::cout << "diff : " << currentDifficulty << std::endl;
+	setCurrentDifficulty(difficulty);
 	const float speedFar = 100.f;
 	const float speedNear = 200.f;
 

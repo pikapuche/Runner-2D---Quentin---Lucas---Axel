@@ -86,4 +86,6 @@ void AssetManager::loadAssetsFromFiles() {
         std::cerr << "Erreur : oof.wav\n";
     if (!Shared::bufferSlide.loadFromFile("Assets/SoundEffects/slide.wav"))
         std::cerr << "Erreur : slide.wav\n";
+    if (!Shared::bufferJohn.loadFromFile("Assets/SoundEffects/john.wav"))
+        std::cerr << "Erreur : john.wav\n";
 }

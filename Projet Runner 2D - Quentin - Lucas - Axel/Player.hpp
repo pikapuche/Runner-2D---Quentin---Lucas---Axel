@@ -62,6 +62,7 @@ private :
 	sf::Sound sound;
 	sf::Sound soundCoin;
 	sf::Sound soundDeath;
+	sf::Sound soundJohnCena;
 
 	sf::Vector2f position;
 	sf::Vector2f velocity;

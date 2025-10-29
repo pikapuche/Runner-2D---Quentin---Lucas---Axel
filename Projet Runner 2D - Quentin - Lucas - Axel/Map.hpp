@@ -9,7 +9,7 @@ public:
 	Map();
 	~Map();
 
-	void run(float deltatime, int& score);
+	void run(float deltatime, int& score, sf::Clock& generateClock);
 	void render(sf::RenderWindow& window);
 	void removeObstacle(Obstacle* obs);
 	void removeCollectible(Collectible* col);
@@ -38,7 +38,6 @@ private:
 	std::vector<Collectible*> collectibles;
 	std::mt19937 rng;
 	sf::RectangleShape ground, ground2;
-	sf::Clock generateClock;
 
 	Background bg;
 
