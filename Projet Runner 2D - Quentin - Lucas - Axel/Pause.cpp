@@ -35,6 +35,19 @@ void Pause::initMenu() {
 	resumeButton.buttonText.setString("RESUME");
 	resumeButton.buttonText.setFillColor(sf::Color::Yellow);
 
+	//setup epilepticButton
+	
+	epilepticButton.buttonState = Button::RESTART;
+	epilepticButton.buttonBack.setPosition({ 100,600 });
+	epilepticButton.buttonBack.setFillColor(sf::Color::White);
+	epilepticButton.buttonBack.setSize({ 300,60 });
+	epilepticButton.buttonText.setPosition({ 100,600 });
+	epilepticButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
+	epilepticButton.buttonText.setFont(epilepticButton.buttonFont);
+	epilepticButton.buttonText.setString("EPILEPTIC MODE");
+	epilepticButton.buttonText.setFillColor(sf::Color::Blue);
+
+
 	//setup text
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	text.setFont(textFont);
