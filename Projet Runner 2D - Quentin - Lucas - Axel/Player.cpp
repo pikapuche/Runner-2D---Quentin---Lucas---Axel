@@ -3,12 +3,81 @@
 
 Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt) {
 
-    // fix bug collision du perso qui va dans le sol
-    // jauge de glissade 
-    // faire en sorte de pas pouvoir faire de glissade en saut 
+    // possible de faire pop 3 gros obstacle et le dernier en glissade pour obliger une glissade ?
 }
 
 Player::~Player() {}
+
+void Player::initPlayer()
+{
+    velocity = { 0, 0 };
+    position = { 0,0 };
+    state = NOTHING;
+    stateMove = NONE;
+    jetpackStamina = 100;
+    animRun = { 0,0 };
+    animJump = { 0,0 };
+    animJetpack = { 0,0 };
+    life = 3;
+    sound.setVolume(volumeSound);
+    soundCoin.setVolume(volumeSound);
+    soundDeath.setVolume(volumeSound);
+
+    // chargement des textures
+
+    // setSmooth pour des images plus nette 
+    Shared::playerJumpTexture.setSmooth(true);
+    Shared::playerJetpackTexture.setSmooth(true);
+
+    shape.setSize(sf::Vector2f(static_cast<float>(CHARACTER_ASSET_SIZE),
+        static_cast<float>(CHARACTER_ASSET_SIZE)));
+
+    shape.setTexture(&Shared::playerTexture);
+
+    // préparation de la staminaBar pour le jetpack
+    jetpackStaminaBarRect.setOutlineThickness(5.f);
+    jetpackStaminaBarRect.setOutlineColor(sf::Color::White);
+    jetpackStaminaBarRect.setSize(sf::Vector2f(100, 10));
+
+    slideStaminaBarRect.setOutlineThickness(5.f);
+    slideStaminaBarRect.setOutlineColor(sf::Color::White);
+    slideStaminaBarRect.setSize(sf::Vector2f(slideStaminaMax, 10));
+
+    shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
+
+    // initialisation des sons
+
+
+    isInvincible = false;
+    takeDamageBool = false;
+
+    float w = static_cast<float>(STGS::WIDTH);
+    float h = static_cast<float>(STGS::HEIGHT);
+    float border = 50.f;
+
+    sf::Color redOpaque(255, 0, 0, 180);
+    sf::Color redTransparent(255, 0, 0, 0);
+
+    takeDamageLeft[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageLeft[1] = sf::Vertex({ border, 0.f }, redTransparent);
+    takeDamageLeft[2] = sf::Vertex({ border, h }, redTransparent);
+    takeDamageLeft[3] = sf::Vertex({ 0.f, h }, redOpaque);
+
+    takeDamageRight[0] = sf::Vertex({ w - border, 0.f }, redTransparent);
+    takeDamageRight[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageRight[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageRight[3] = sf::Vertex({ w - border, h }, redTransparent);
+
+    takeDamageTop[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
+    takeDamageTop[1] = sf::Vertex({ w, 0.f }, redOpaque);
+    takeDamageTop[2] = sf::Vertex({ w, border }, redTransparent);
+    takeDamageTop[3] = sf::Vertex({ 0.f, border }, redTransparent);
+
+    takeDamageBottom[0] = sf::Vertex({ 0.f, h - border }, redTransparent);
+    takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
+    takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
+    takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
+}
 
 bool Player::collision(Map& map, int& pessos) {
     const std::vector<Obstacle*>& vectObs = map.getVectObs();
@@ -53,14 +122,14 @@ bool Player::collision(Map& map, int& pessos) {
             return true;
         }
     }
-    if (getFeetBounds().findIntersection(map.getBounds())) {
+    if (getFeetBounds().findIntersection(map.getBounds()) && velocity.y > 0) {
         shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y });
         velocity.y = 0;
         state = GROUNDED;
         stateMove = RUNNING;
         return true;
     }
-    else if (getFeetBounds().findIntersection(map.getBounds2())) {
+    else if (getFeetBounds().findIntersection(map.getBounds2()) && velocity.y > 0) {
         shape.setPosition({ shape.getPosition().x, map.getBounds2().position.y - shape.getSize().y });
         velocity.y = 0;
         state = GROUNDED;
@@ -70,84 +139,33 @@ bool Player::collision(Map& map, int& pessos) {
     return false;
 }
 
-void Player::initPlayer()
-{
-    velocity = { 0, 0 };
-    position = { 0,0 };
-    state = NOTHING;
-    stateMove = NONE;
-    jetpackStamina = 100;
-    animRun = { 0,0 };
-    animJump = { 0,0 };
-    animJetpack = { 0,0 };
-    life = 3;
-    sound.setVolume(volumeSound);
-    soundCoin.setVolume(volumeSound);
-    soundDeath.setVolume(volumeSound);
-
-    // chargement des textures
-
-    // setSmooth pour des images plus nette 
-    Shared::playerJumpTexture.setSmooth(true);
-    Shared::playerJetpackTexture.setSmooth(true);
-
-    shape.setSize(sf::Vector2f(static_cast<float>(CHARACTER_ASSET_SIZE),
-        static_cast<float>(CHARACTER_ASSET_SIZE)));
-
-    shape.setTexture(&Shared::playerTexture);
-
-    // préparation de la staminaBar pour le jetpack
-    staminaBarRect.setOutlineThickness(5.f);
-    staminaBarRect.setOutlineColor(sf::Color::White);
-
-    shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
-
-    // initialisation des sons
-
-
-    isInvincible = false;
-    takeDamageBool = false;
-
-    float w = static_cast<float>(STGS::WIDTH);
-    float h = static_cast<float>(STGS::HEIGHT);
-    float border = 50.f;
-
-    sf::Color redOpaque(255, 0, 0, 180);
-    sf::Color redTransparent(255, 0, 0, 0);
-
-    takeDamageLeft[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
-    takeDamageLeft[1] = sf::Vertex({ border, 0.f }, redTransparent);
-    takeDamageLeft[2] = sf::Vertex({ border, h }, redTransparent);
-    takeDamageLeft[3] = sf::Vertex({ 0.f, h }, redOpaque);
-
-    takeDamageRight[0] = sf::Vertex({ w - border, 0.f }, redTransparent);
-    takeDamageRight[1] = sf::Vertex({ w, 0.f }, redOpaque);
-    takeDamageRight[2] = sf::Vertex({ w, h }, redOpaque);
-    takeDamageRight[3] = sf::Vertex({ w - border, h }, redTransparent);
-
-    takeDamageTop[0] = sf::Vertex({ 0.f, 0.f }, redOpaque);
-    takeDamageTop[1] = sf::Vertex({ w, 0.f }, redOpaque);
-    takeDamageTop[2] = sf::Vertex({ w, border }, redTransparent);
-    takeDamageTop[3] = sf::Vertex({ 0.f, border }, redTransparent);
-
-    takeDamageBottom[0] = sf::Vertex({ 0.f, h - border }, redTransparent);
-    takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
-    takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
-    takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
-}
-
 void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
     if ((stateMove == RUNNING || stateMove == PLATEFORMING) && jetpackStamina < 100)
         jetpackStamina++;
 
+    if ((stateMove == RUNNING || stateMove == PLATEFORMING) && slideStamina < slideStaminaMax) {
+        slideStamina++;
+        isReloadSlideBar = true;
+        if (slideStamina == slideStaminaMax) {
+            isReloadSlideBar = false;
+        }
+    }
+
     if (!collision(map, pessos)) 
         velocity.y += gravity * deltaTime;
 
-    position.y = velocity.y;
+    if (shape.getPosition().y < 0) {
+        shape.setPosition({ shape.getPosition().x, 1 });
+        velocity.y += gravity * deltaTime;
+    }
+
+    position.y = velocity.y * deltaTime;
+
     shape.move({ position });
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S) && state == GROUNDED && slideStamina > 0 && !isReloadSlideBar) {
         stateMove = SLIDING;
+        slideStamina--;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
@@ -174,6 +192,7 @@ void Player::animationManager(float deltaTime) {
         soundManager(Shared::bufferRun);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
+        animJump.x = 0;
 
         if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
             animRun.x++; // on met +1 a notre anim donc change de "case"
@@ -193,13 +212,14 @@ void Player::animationManager(float deltaTime) {
             clockJump.restart();
         }
         if (animJump.x > 5)
-            animJump.x = 0;
+            animJump.x = 5;
         shape.setTextureRect(sf::IntRect({ animJump.x * CHARACTER_ASSET_SIZE, animJump.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE }));
         break;
     case JETPACKING:
         soundManager(Shared::bufferJetpack);
         shape.setTexture(&Shared::playerJetpackTexture);
         animJetpack.y = 0;
+        animJump.x = 0;
 
         if (clockJetpack.getElapsedTime().asMilliseconds() > 45) {
             animJetpack.x++;
@@ -213,6 +233,7 @@ void Player::animationManager(float deltaTime) {
         soundManager(Shared::bufferRunGravel);
         shape.setTexture(&Shared::playerTexture);
         animRun.y = 0; // reset le cycle d'anim sur y car on a pas d'anim sur l'axe y
+        animJump.x = 0;
 
         if (clockRun.getElapsedTime().asMilliseconds() > 55) { // horloge qui permet de modifier la vitesse d'anim
             animRun.x++; // on met +1 a notre anim donc change de "case"
@@ -223,6 +244,7 @@ void Player::animationManager(float deltaTime) {
         shape.setTextureRect(sf::IntRect({ animRun.x * CHARACTER_ASSET_SIZE, animRun.y * CHARACTER_ASSET_SIZE }, { CHARACTER_ASSET_SIZE, CHARACTER_ASSET_SIZE })); // on set le rect pour prendre que le 120x80
         break;
     case SLIDING:
+        animJump.x = 0;
         soundManager(Shared::bufferSlide);
         shape.setTexture(&Shared::playerSlideTexture);
         shape.setTextureRect(sf::IntRect({ 0, 0 }, { 128, 128 })); // on set le rect pour prendre que le 120x80
@@ -230,18 +252,29 @@ void Player::animationManager(float deltaTime) {
     }
 }
 
-void Player::jetpackStaminaGestion() {
-    if (jetpackStamina >= 60)
-        staminaBar.setFillColor(sf::Color::Green);
-    else if (jetpackStamina < 30) 
-        staminaBar.setFillColor(sf::Color::Red);
-    else if (jetpackStamina < 60) 
-        staminaBar.setFillColor(sf::Color::Yellow);
+void Player::staminaGestion() {
 
-    staminaBar.setSize(sf::Vector2f(jetpackStamina, 10));
-    staminaBar.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
-    staminaBarRect.setSize(sf::Vector2f(100, 10));
-    staminaBarRect.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+    if (jetpackStamina >= 60)
+        jetpackStaminaBar.setFillColor(sf::Color::Green);
+    else if (jetpackStamina < 30)
+        jetpackStaminaBar.setFillColor(sf::Color::Red);
+    else if (jetpackStamina < 60)
+        jetpackStaminaBar.setFillColor(sf::Color::Yellow);
+
+    jetpackStaminaBar.setSize(sf::Vector2f(jetpackStamina, 10));
+    jetpackStaminaBar.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+    jetpackStaminaBarRect.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 30));
+
+    if (slideStamina != slideStaminaMax) {
+        slideStaminaBar.setFillColor(sf::Color::Cyan);
+    }
+    else {
+        slideStaminaBar.setFillColor(sf::Color::Magenta);
+    }
+    
+    slideStaminaBar.setSize(sf::Vector2f(slideStamina, 10));
+    slideStaminaBar.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 60));
+    slideStaminaBarRect.setPosition(sf::Vector2f(shape.getPosition().x + 10, shape.getPosition().y - 60));
 }
 
 void Player::invincibility(Shop& shop) {
@@ -304,7 +337,7 @@ void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
         animationTakeDamage();
         playerMovement(deltaTime, map, pessos);
         animationManager(deltaTime);
-        jetpackStaminaGestion();
+        staminaGestion();
     }
     else {
         sound.stop();
@@ -315,8 +348,10 @@ void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
 
 void Player::draw(sf::RenderWindow& window) {
     if (life != 0) {
-        window.draw(staminaBarRect);
-        window.draw(staminaBar);
+        window.draw(jetpackStaminaBarRect);
+        window.draw(jetpackStaminaBar);
+        window.draw(slideStaminaBarRect);
+        window.draw(slideStaminaBar);
         window.draw(shape);
     }
 
