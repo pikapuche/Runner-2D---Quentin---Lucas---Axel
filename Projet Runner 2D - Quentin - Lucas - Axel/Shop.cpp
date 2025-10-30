@@ -5,6 +5,10 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 	shopClock.restart();
 	gapX = 60.f;
 	gapY = 60.f;
+	skin1Bool = false;
+	skin2Bool = false;
+	skin3Bool = false;
+	victoryUnlocked = false;
 
 	shopBackgroundShape.setSize(sf::Vector2f(static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT)));
 	shopBackgroundShape.setPosition({ 0, 0 });
@@ -123,6 +127,14 @@ Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(fon
 }
 
 Shop::~Shop() {}
+
+void Shop::reset() {
+	skin1Bool = false;
+	skin2Bool = false;
+	skin3Bool = false;
+	victoryUnlocked = false;
+	showPopup = false;
+}
 
 void Shop::update(int& gold) {
 	std::string tempString = std::to_string(gold);

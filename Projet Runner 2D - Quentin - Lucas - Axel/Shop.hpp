@@ -13,6 +13,7 @@ public:
 
 	int getSkin();
 	bool getVictoryUnlocked();
+	void reset();
 
 private:
 	sf::RectangleShape shopBackgroundShape, shopCaseOneShape, shopCaseTwoShape, shopCaseThreeShape, shopVictoryShape;
@@ -26,10 +27,10 @@ private:
 
 	float gapX, gapY;
 
-	bool skin1Bool = false;
-	bool skin2Bool = false;
-	bool skin3Bool = false;
-	bool victoryUnlocked = false;
+	bool skin1Bool;
+	bool skin2Bool;
+	bool skin3Bool;
+	bool victoryUnlocked;
 
 	bool showPopup = false;
 	sf::Clock popupClock, clockRun;
