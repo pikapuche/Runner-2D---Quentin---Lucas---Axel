@@ -343,6 +343,7 @@ void Player::stopSounds()
     sound.stop();
     soundCoin.stop();
     soundDeath.stop();
+    soundJohnCena.stop();
 }
 
 void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
@@ -358,6 +359,7 @@ void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
         sound.stop();
         soundCoin.stop();
         soundDeath.stop();
+        soundJohnCena.stop();
     }
 }
 
