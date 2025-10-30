@@ -1,5 +1,7 @@
 # 🚀 THE PINK PARADOX
 
+![Uploading FranceFlagGifGIF.gif…]()
+
 The Pink Paradox est un projet de Runner 2D en C++ avec SFML 3.0.2.
 
 lore : Nous incarnons un astronaute nommé John Cenna qui cherche a fuir la dimension Hello Kitty dans laquelle il a grandi !
