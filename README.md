@@ -1,5 +1,16 @@
 # 🚀 THE PINK PARADOX
 
+## :label: Tags
+<p align="center">
+  <img src="https://img.shields.io/badge/C++-00599C?logo=c%2B%2B&logoColor=white" alt="C++" />
+  <img src="https://img.shields.io/badge/SFML-2E8B57?logo=sfml&logoColor=white" alt="SFML" />
+  <img src="https://img.shields.io/badge/Game%20Development-FF4500?logo=unity&logoColor=white" alt="Game Development" />
+  <img src="https://img.shields.io/badge/2D%20Runner-8A2BE2?logo=windows-terminal&logoColor=white" alt="2D Runner" />
+  <img src="https://img.shields.io/badge/Student%20Project-808080?logo=gradle&logoColor=white" alt="Student Project" />
+  <img src="https://img.shields.io/badge/Visual%20Studio-5C2D91?logo=visualstudio&logoColor=white" alt="Visual Studio" />
+  <img src="https://img.shields.io/badge/Hello%20Kitty%20Parody-FF69B4?logo=hello-kitty&logoColor=white" alt="Hello Kitty Parody" />
+</p>
+
 # Français
 
 The Pink Paradox est un projet de Runner 2D en C++ avec SFML 3.0.2.
@@ -14,6 +25,7 @@ Il va fuir ce monde en passant a travers les dimensions et va devoir acheter sa 
 - [Commandes](#commandes)
 - [A savoir](#a-savoir)
 - [Assets](#assets)
+- [Crédits](#credits)
 
 ## ⚙️ Installation
 
@@ -85,6 +97,48 @@ Amusez vous bien !
 ### Character 
 
 ![GIF Character](./Assets/README_PICTURES/Astronaut_RunV2.gif)
+
+Source : 
+
+Le character a été modifié pour correspondre aux attentes du cahier des charges et nos idées.
+
+### Fonts 
+
+Minecraft.ttf
+
+Source : 
+
+### Images
+
+Source : 
+
+### Musique
+
+Source : 
+
+### Son / effet
+
+Source : 
+
+### Map
+
+Source : 
+
+## Crédits
+
+### Joueur 
+
+- Quentin
+
+### HUD et Menu 
+
+- Axel
+
+### Map
+
+- Lucas
+
+
 
 
 
