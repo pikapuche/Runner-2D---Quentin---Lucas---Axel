@@ -138,7 +138,134 @@ Source :
 
 - Lucas
 
+# English
 
+The Pink Paradox is a 2D Runner project made in C++ using SFML 3.0.2.
+
+Lore:
+You play as an astronaut named John Cenna, who is trying to escape the Hello Kitty dimension he grew up in!
+
+He must run through different dimensions and buy his freedom to break free from the loop of space and time.
+
+## 📚 Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Controls](#controls)
+- [Notes](#notes)
+- [Assets](#assets)
+- [Credits](#credits)
+
+## ⚙️ Installation
+
+### 1. Install Visual Studio Community:
+   ```bash
+   Visual Studio link : https://visualstudio.microsoft.com/fr/downloads/
+   ```
+You can choose any version you like, free or paid.
+
+### 2. Clone the Git repository:
+   ```bash
+   git clone : (https://github.com/pikapuche/THE-PINK-PARADOX.git)
+   ```
+
+### 3. Install SFML 3.0.2:
+   ```bash
+   SFML link : https://www.sfml-dev.org/download/sfml/3.0.2/
+   ```
+
+Choose C++17 (64-bit) if you’re on Windows.
+If you’re on Linux, follow the tutorial on the SFML website.
+
+## 🖥️ Usage
+
+### Launching the Project:
+
+To launch the project, you must first clone it.
+
+Open Visual Studio, select Clone a repository, and paste the link found in the #Installation.
+
+Once that’s done, click the green arrow at the top of Visual Studio, as shown below:
+
+![Picture_Green_Arrow](./Assets/README_PICTURES/flecheVisual.png)
+
+If everything goes well, the executable will open, and the game will start.
+
+Have fun! 🎉
+
+## 👾 Controls
+
+### Movement:
+
+- Jump : "Space"
+- Jetpack: "Space" (while in the air)
+- Slide: Hold "S" (can also be used mid-air to fall faster)
+
+### Store: "M"
+
+### Pause: "Esc"
+
+## 🔎 Notes
+
+### Store
+
+- You can buy your victory for 50 coins.
+- You can buy character skins for 15 coins.
+
+### Score
+
+- When an obstacle is destroyed, your score increases by 1.
+- The higher your score, the faster the obstacles move.
+
+### Levels
+
+- 4 levels available
+- 4 different environments
+
+## 🎮 Assets
+
+### Character
+
+![GIF Character](./Assets/README_PICTURES/Astronaut_RunV2.gif)
+
+Source:
+The character sprite was modified to meet the project requirements and match our creative ideas.
+
+### Fonts
+
+Minecraft.ttf
+
+Source:
+
+### Images
+
+Source:
+
+### Music
+
+Source:
+
+### Sound / Effects
+
+Source:
+
+### Map
+
+Source:
+
+## 🧑‍💻 Credits
+
+### Player 
+
+Quentin
+
+### HUD and Menu
+
+Axel
+
+### Map 
+
+Lucas
 
 
 
