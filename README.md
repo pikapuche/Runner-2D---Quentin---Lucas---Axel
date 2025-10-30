@@ -63,7 +63,7 @@ Amusez vous bien !
 
 ### Pause : échap
 
-## A savoir 
+## 🔎 A savoir 
 
 ### Magasin
 
@@ -80,7 +80,7 @@ Amusez vous bien !
 - 4 niveaux disponibles
 - 4 environnements différents
 
-## Assets 
+## 🎮 Assets 
 
 ### Character 
 
