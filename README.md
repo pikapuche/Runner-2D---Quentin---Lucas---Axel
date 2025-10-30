@@ -45,7 +45,7 @@ Pour cela, sélectionnez cloner un dépot lorsque vous ouvrez Visual Studio et c
 
 Une fois fais, cliquer sur la flèche verte en haut de Visual Studio comme ci dessous : 
 
-![Image_Flèche_Verte](../Assets/README_PICTURES/flecheVisual.png)
+![Image_Flèche_Verte](./Assets/README_PICTURES/flecheVisual.png)
 
 Si tout ce passe bien, l'exe va s'ouvrir et le jeu va se lancer.
 
@@ -84,7 +84,7 @@ Amusez vous bien !
 
 ### Character 
 
-![GIF Character](../Assets/README_PICTURES/Astronaut_RunV2.gif)
+![GIF Character](./Assets/README_PICTURES/Astronaut_RunV2.gif)
 
 
 
