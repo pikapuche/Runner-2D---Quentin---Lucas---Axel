@@ -9,9 +9,7 @@ public:
 
 	void render(sf::RenderWindow& window);
 	void move(float deltatime, int difficulty);
-	void init();
 
-	//getters/setters
 	int getLine();
 	void setPosition(sf::Vector2f pos);
 
@@ -19,5 +17,5 @@ public:
 
 private:
 	float velocity;
-	int line = 0;
+	int line;
 };

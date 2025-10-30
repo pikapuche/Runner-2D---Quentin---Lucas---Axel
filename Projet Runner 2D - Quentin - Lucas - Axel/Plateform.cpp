@@ -1,20 +1,14 @@
-#pragma once
-
 #include "Plateform.hpp"
 
 Plateform::Plateform(float _velocity, int _line) : line(_line), velocity(_velocity) {
 	shape.setTexture(&Shared::tileSetTexture);
 	shape.setTextureRect(sf::IntRect({ 320, 0 }, { 96, 16 }));
 	shape.setFillColor(sf::Color::Green);
+
+	line = 0;
 }
 
-Plateform::~Plateform() {
-}
-
-void Plateform::init() {
-	std::cout << "line : " << line << std::endl;
-	std::cout << "pos : " << shape.getPosition().y << std::endl;
-}
+Plateform::~Plateform() {}
 
 void Plateform::move(float deltatime, int difficulty) {
 	shape.move({ velocity * deltatime, 0 });
