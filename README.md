@@ -1,6 +1,6 @@
 # 🚀 THE PINK PARADOX
 
-![Uploading FranceFlagGifGIF.gif…]()
+🇫🇷
 
 The Pink Paradox est un projet de Runner 2D en C++ avec SFML 3.0.2.
 
