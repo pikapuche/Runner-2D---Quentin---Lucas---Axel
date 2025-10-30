@@ -176,7 +176,7 @@ void Player::playerMovement(float deltaTime, Map& map, int& pessos) {
         isReloadSlideBar = true;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) && stateMove != SLIDING)
         jump(deltaTime);
 }
 
