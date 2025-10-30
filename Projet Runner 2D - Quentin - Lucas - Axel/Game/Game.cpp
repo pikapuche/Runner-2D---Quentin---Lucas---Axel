@@ -174,6 +174,7 @@ void Game::run() {
                     menuDelay.restart();
                     gameState = Game::MenuStart;
                 }
+            }
                 break;
         case Game::Shop:
             clockGame.stop();
@@ -184,7 +185,6 @@ void Game::run() {
                     menuDelay.restart();
                     gameState = GameState::Playing;
                 }
-            }
             if (shop.getVictoryUnlocked())
                 gameState = Game::MenuEndWin;
             break;
