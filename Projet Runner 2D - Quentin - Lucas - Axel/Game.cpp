@@ -84,7 +84,8 @@ void Game::run() {
             generateClock.start();
             map.run(deltaTime, score, generateClock);
             player_ptr->update(deltaTime, map, collectible, shop);
-            myHud.update(clockGame, score, collectible);
+            speed = std::abs(map.getSpeed(score));
+            myHud.update(clockGame, score, collectible, speed);
 
             if (player_ptr->getLife() <= 0) {
                 gameState = Game::MenuEndLose;

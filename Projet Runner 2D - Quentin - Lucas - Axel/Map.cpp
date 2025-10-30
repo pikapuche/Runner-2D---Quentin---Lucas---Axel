@@ -264,3 +264,7 @@ sf::RectangleShape Map::getGround() { return ground; }
 sf::RectangleShape Map::getGround2() { return ground2; }
 std::vector<Plateform*> Map::getPlatformVector() { return plateforms; }
 void Map::incrementScore(int& score) { score++; }
+
+float Map::getSpeed(int score) {
+	return -500.f - score * 10.f;
+}

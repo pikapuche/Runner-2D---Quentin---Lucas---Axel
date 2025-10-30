@@ -26,7 +26,7 @@ public:
 	int getDifficulty();
 	void setObstacles(int& score);
 	void incrementScore(int& score);
-		
+	float getSpeed(int score);
 
 private:
 	void createSeed();
