@@ -9,13 +9,13 @@ SettingsMenu::~SettingsMenu()
 void SettingsMenu::initMenu() {
 
 	//setup background
-	background.setSize({ 1920,1080 });
+	background.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
 	background.setPosition({ 0,0 });
 	background.setTexture(&Shared::backgroundMenu);
 
 	//setup backButton
 	backButton.buttonState = Button::BACK;
-	backButton.buttonBack.setPosition({ 100,800 });
+	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT / 2) });
 	backButton.buttonBack.setFillColor(sf::Color::White);
 	backButton.buttonBack.setSize({ 300,60 });
 	backButton.buttonText.setPosition({ 100,800 });
@@ -23,17 +23,6 @@ void SettingsMenu::initMenu() {
 	backButton.buttonText.setFont(backButton.buttonFont);
 	backButton.buttonText.setString("BACK");
 	backButton.buttonText.setFillColor(sf::Color::Yellow);
-
-	//setup restartButton
-	restartButton.buttonState = Button::RESTART;
-	restartButton.buttonBack.setPosition({ 100,700 });
-	restartButton.buttonBack.setFillColor(sf::Color::White);
-	restartButton.buttonBack.setSize({ 300,60 });
-	restartButton.buttonText.setPosition({ 100,700 });
-	restartButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
-	restartButton.buttonText.setFont(restartButton.buttonFont);
-	restartButton.buttonText.setString("RESTART");
-	restartButton.buttonText.setFillColor(sf::Color::Yellow);
 
 	//setup text
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");

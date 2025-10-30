@@ -16,6 +16,7 @@ void HUD::initHUD() {
 	heart1.setTexture(&Shared::heart1Texture, true);
 	heart2.setTexture(&Shared::heart2Texture, true);
 	heart3.setTexture(&Shared::heart3Texture, true);
+
 	heart1.setFillColor(sf::Color::White);
 	heart2.setFillColor(sf::Color::White);
 	heart3.setFillColor(sf::Color::White);
