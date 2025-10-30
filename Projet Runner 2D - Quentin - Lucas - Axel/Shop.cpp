@@ -209,10 +209,10 @@ void Shop::render(sf::RenderWindow& window) {
 void Shop::buying(int& gold) {
 	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
 
-	const int priceSkin1 = 10;
-	const int priceSkin2 = 15;
-	const int priceSkin3 = 20;
-	const int priceVictory = 50;
+	const int PRICE_SKIN_2 = 10;
+	const int PRICE_SKIN_2 = 15;
+	const int PRICE_SKIN_3 = 20;
+	const int PRICE_VICTORY = 50;
 
 	auto tryBuySkin = [&](sf::RectangleShape& shape, int price, bool& skinBool, const std::string& skinName) {
 		if (shape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
@@ -235,13 +235,13 @@ void Shop::buying(int& gold) {
 		}
 	};
 
-	tryBuySkin(shopCaseOneShape, priceSkin1, skin1Bool, "Skin 1");
-	tryBuySkin(shopCaseTwoShape, priceSkin2, skin2Bool, "Skin 2");
-	tryBuySkin(shopCaseThreeShape, priceSkin3, skin3Bool, "Skin 3");
+	tryBuySkin(shopCaseOneShape, PRICE_SKIN_2, skin1Bool, "Skin 1");
+	tryBuySkin(shopCaseTwoShape, PRICE_SKIN_2, skin2Bool, "Skin 2");
+	tryBuySkin(shopCaseThreeShape, PRICE_SKIN_3, skin3Bool, "Skin 3");
 
 	if (shopVictoryShape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
-		if (gold >= priceVictory) {
-			gold -= priceVictory;
+		if (gold >= PRICE_VICTORY) {
+			gold -= PRICE_VICTORY;
 			showMessage("Vous achetez la VICTOIRE !");
 			victoryUnlocked = true;
 			shopClock.restart();
