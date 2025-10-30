@@ -15,18 +15,17 @@ public:
 	void update(sf::Clock& clock, int score, int pessos, float speed);
 
 private:
+	sf::Time elapsed;
+	sf::Text timerText;
+	sf::Text scoreText;
+	sf::Text goldText;
+	sf::Text speedText;
+	sf::Font font;
+	sf::RectangleShape heart1Shape;
+	sf::RectangleShape heart2Shape;
+	sf::RectangleShape heart3Shape;
+	sf::RectangleShape goldPieceShape;
 
 	int sbstr, sbstrSpeed;
 	float seconds;
-	sf::Time elapsed;
-
-	sf::Text timer;
-	sf::Text score;
-	sf::Text gold;
-	sf::Text speedText;
-	sf::Font font;
-	sf::RectangleShape heart1;
-	sf::RectangleShape heart2;
-	sf::RectangleShape heart3;
-	sf::RectangleShape goldPiece;
 };
