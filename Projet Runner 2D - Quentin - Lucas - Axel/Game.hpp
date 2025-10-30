@@ -11,24 +11,37 @@
 
 class Game {
 public:
+	Game();
+	~Game();
+
+	void run();
+	void render(sf::RenderWindow& window);
+	void restart();
+
 	AssetManager assetManager;
 	Shop shop;
+	Map map;
+	HUD myHud;
+	Pause pauseMenu;
+	Menu menu;
+	EndMenu endMenu;
+	WinMenu winMenu;
+	SettingsMenu settingsMenu;
+
+	std::shared_ptr<Player> player_ptr;
 	sf::Music music;
+	sf::Clock clockGame;
+	sf::Clock clock;
+	sf::Clock menuDelay;
+	sf::Clock generateClock;
+
 	int volumeMusic;
 	int score;
 	int collectible;
 	int scoreEnd;
 	int speed;
 	bool playing;
-	bool needClockRestart = false;
-	Map map;
-	HUD myHud;
-	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
-	sf::Clock clockGame;
-	sf::Clock clock;
-	sf::Clock menuDelay;
-	sf::Clock generateClock;
-	Pause pauseMenu;
+	bool needClockRestart;
 	
 	enum GameState {
 		Playing,
@@ -39,17 +52,6 @@ public:
 		Settings,
 		Shop
 	};
-	Menu menu;
-	EndMenu endMenu;
-	WinMenu winMenu;
-	SettingsMenu settingsMenu;
 	
-
-	Game();
-	~Game();
-
-	void run();
-	void render(sf::RenderWindow& window);
-	void restart();
 	GameState gameState;
 };
