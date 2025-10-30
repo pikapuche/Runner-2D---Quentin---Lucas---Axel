@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Hello%20Kitty%20Parody-FF69B4?logo=hello-kitty&logoColor=white" alt="Hello Kitty Parody" />
 </p>
 
-# Français
+# Français 🇫🇷
 
 The Pink Paradox est un projet de Runner 2D en C++ avec SFML 3.0.2.
 
@@ -124,7 +124,7 @@ Source :
 
 Source : 
 
-## Crédits
+## 🧑‍💻 Crédits
 
 ### Joueur 
 
@@ -138,7 +138,7 @@ Source :
 
 - Lucas
 
-# English
+# English 🇬🇧 / 🇺🇸
 
 The Pink Paradox is a 2D Runner project made in C++ using SFML 3.0.2.
 
