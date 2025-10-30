@@ -12,11 +12,13 @@ Game::Game() {
     volumeMusic = 20;
     gameState = GameState::MenuStart;
 }
+
 Game::~Game() {}
 
 void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
+    shop.reset();
     score = 0;
     collectible = 0;
     volumeMusic = 20;
@@ -84,15 +86,13 @@ void Game::run() {
             generateClock.start();
             map.run(deltaTime, score, generateClock);
             player_ptr->update(deltaTime, map, collectible, shop);
-            scoreEnd = score;
             speed = std::abs(map.getSpeed(score));
             myHud.update(clockGame, score, collectible, speed);
+
             if (player_ptr->getLife() <= 0) {
-                playing = false;
-                
-                music.stop();
                 gameState = Game::MenuEndLose;
-                
+                playing = false;
+                music.stop();
 			}
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
@@ -123,6 +123,7 @@ void Game::run() {
                     menuDelay.restart();
                     gameState = Game::Playing;
                 }
+				
 			}
 
             break;
@@ -215,10 +216,10 @@ void Game::render(sf::RenderWindow& window) {
 		pauseMenu.drawMenu(window);
         break;
     case Game::MenuEndWin:
-		winMenu.drawMenu(window, scoreEnd);
+		winMenu.drawMenu(window);
         break;
     case Game::MenuEndLose:
-		endMenu.drawMenu(window, scoreEnd);
+		endMenu.drawMenu(window);
         break;
     case Game::Settings:
 		settingsMenu.drawMenu(window);

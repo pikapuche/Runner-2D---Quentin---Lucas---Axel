@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Datas.hpp"
+#include "../Settings/Datas.hpp"
 
 class AssetManager {
 public:
 	AssetManager();
-	~AssetManager() = default;
 
 private:
 	void loadAssetsFromFiles();

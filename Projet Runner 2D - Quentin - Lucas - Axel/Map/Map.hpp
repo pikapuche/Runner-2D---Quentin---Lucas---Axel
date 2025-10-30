@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Obstacle.hpp"
-#include "Plateform.hpp"
-#include "Collectible.hpp"
+#include "../Map/Obstacle.hpp"
+#include "../Map/Plateform.hpp"
+#include "../Map/Collectible.hpp"
 
 class Map {
 public:

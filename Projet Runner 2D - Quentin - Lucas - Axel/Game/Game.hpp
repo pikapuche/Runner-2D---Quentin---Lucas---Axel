@@ -1,13 +1,12 @@
 #pragma	once 
 
-#include "Map.hpp"
-#include "menu.hpp"
-#include "HUD.hpp"
-#include "EndMenu.hpp"
-#include "Shop.hpp"
-#include "Pause.hpp"
-#include "WinMenu.hpp"
-#include "Settings.hpp"
+#include "../Menu/menu.hpp"
+#include "../Menu/HUD.hpp"
+#include "../Menu/EndMenu.hpp"
+#include "../Menu/Shop.hpp"
+#include "../Menu/Pause.hpp"
+#include "../Menu/WinMenu.hpp"
+#include "../Settings/Settings.hpp"
 
 class Game {
 public:
@@ -17,7 +16,6 @@ public:
 	int volumeMusic;
 	int score;
 	int collectible;
-	int scoreEnd;
 	int speed;
 	bool playing;
 	bool needClockRestart = false;

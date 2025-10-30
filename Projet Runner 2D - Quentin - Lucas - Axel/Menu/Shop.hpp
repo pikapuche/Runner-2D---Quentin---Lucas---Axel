@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Player.hpp"
+#include "../Game/Player.hpp"
 
 class Shop {
 public:

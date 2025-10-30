@@ -1,5 +1,6 @@
 #include "Button.hpp"
 
+
 Button::Button() : buttonText(buttonFont), spriteButton(buttonTexture){
 	buttonState = NOTHING;
 	normalColor = buttonBack.getFillColor();
@@ -8,7 +9,9 @@ Button::Button() : buttonText(buttonFont), spriteButton(buttonTexture){
 	hovered = false;
 	buttonBack.setFillColor(normalColor);
 }
-Button::~Button() {}
+Button::~Button() {
+
+}
 bool Button::activate() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));

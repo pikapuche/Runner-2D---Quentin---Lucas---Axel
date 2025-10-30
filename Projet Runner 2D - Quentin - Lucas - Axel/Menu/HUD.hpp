@@ -1,9 +1,7 @@
 #pragma once
 
-#include <iostream>
-#include "SFML/Graphics.hpp"
-#include "Player.hpp"
-#include "Map.hpp"
+#include "../Game/Player.hpp"
+#include "../Map/Map.hpp"
 
 class HUD {
 public:
