@@ -6,7 +6,7 @@ public:
 	~WinMenu();
 
 	void initMenu();
-	void drawMenu(sf::RenderWindow& window);
+	void drawMenu(sf::RenderWindow& window, int& score);
 	void createStartButton();
 
 	sf::RectangleShape background;
@@ -14,5 +14,6 @@ public:
 	sf::Font textFont;
 	Button backButton;
 	Button restartButton;
+	sf::Text scoreText;
 };
 

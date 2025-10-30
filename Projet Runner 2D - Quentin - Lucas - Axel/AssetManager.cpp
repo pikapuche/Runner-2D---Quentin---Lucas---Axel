@@ -14,6 +14,10 @@ void AssetManager::loadAssetsFromFiles() {
     
     if (!Shared::backgroundMenu.loadFromFile("Assets/tiles_map/spaceTitleBackground.png"))
         std::cerr << "Erreur : impossible de charger spaceTitleBackground.png\n";
+    if (!Shared::winBackgroundMenu.loadFromFile("Assets/tiles_map/Victory.png"))
+        std::cerr << "Erreur : impossible de charger spaceTitleBackground.png\n";
+    if (!Shared::loseBackgroundMenu.loadFromFile("Assets/tiles_map/Defeat.png"))
+        std::cerr << "Erreur : impossible de charger spaceTitleBackground.png\n";
 
     if (!Shared::trophyTexture.loadFromFile("Assets/Images/trophy.png"))
         std::cerr << "Erreur : trophy.png\n";

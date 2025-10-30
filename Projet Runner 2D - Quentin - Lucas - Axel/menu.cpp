@@ -50,6 +50,8 @@ void Menu::initMenu() {
 
 	gameTitle.setCharacterSize(100);
 	gameTitle.setString("RUNNER 2D");
+	gameTitle.setOutlineColor(sf::Color::Black);
+	gameTitle.setOutlineThickness(2);
 	gameTitle.setPosition({ static_cast<float>(STGS::WIDTH / 2) - gameTitle.getGlobalBounds().size.x / 2 ,200 });
 }
 
