@@ -22,7 +22,6 @@ public :
 	void update(float deltaTime, Map& map, int& pessos, Shop& shop);
 	void draw(sf::RenderWindow& window);
 
-	//getters/setters
 	sf::FloatRect getFeetBounds() const;
 	sf::FloatRect getSlideBounds() const;
 	int getLife();
@@ -67,16 +66,17 @@ private :
 	sf::Vector2f position;
 	sf::Vector2f velocity;
 
+	float jetpackStamina; // endurance du jetpack
+	float slideStamina; // durée de la glissade
+	float slideStaminaMax; // maximum de la glissade
+	bool isReloadSlideBar; // recharge de glissade
+	int volumeSound; // son 
+	int life;
+	float gravity;
+	bool isInvincible;
+	bool takeDamageBool;
+
 	const float JUMP_FORCE = 1800.f; // force initiale du saut // 40
 	const float JETPACK_FORCE = 900.f; // force de propulsion du jetpack // 15
 	const int CHARACTER_ASSET_SIZE = 128; // taille du character
-	float jetpackStamina = 100.f; // endurance du jetpack
-	float slideStamina = 100.f; // durée de la glissade
-	float slideStaminaMax = 100.f; // maximum de la glissade
-	bool isReloadSlideBar = false; // recharge de glissade
-	int volumeSound = 50; // son 
-	int life = 3;
-	bool isInvincible = false;
-	const float gravity = 5000.0f; // 150
-	bool takeDamageBool = false;
 };

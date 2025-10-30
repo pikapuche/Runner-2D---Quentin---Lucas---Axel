@@ -1,15 +1,21 @@
 #include "Player.hpp"
 #include "Shop.hpp" // ne pas toucher
 
-Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt), soundJohnCena(Shared::bufferJohn) {
-
-    // possible de faire pop 3 gros obstacle et le dernier en glissade pour obliger une glissade ?
-}
+Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soundDeath(Shared::bufferHurt), soundJohnCena(Shared::bufferJohn) {}
 
 Player::~Player() {}
 
-void Player::initPlayer()
-{
+void Player::initPlayer() {
+    gravity = 5000.0f; // 150
+    jetpackStamina = 100.f; // endurance du jetpack
+    slideStamina = 100.f; // durée de la glissade
+    slideStaminaMax = 100.f; // maximum de la glissade
+    isReloadSlideBar = false; // recharge de glissade
+    volumeSound = 50; // son 
+    life = 3;
+    isInvincible = false;
+    takeDamageBool = false;
+
     velocity = { 0, 0 };
     position = { 0,0 };
     state = NOTHING;
@@ -24,8 +30,6 @@ void Player::initPlayer()
     soundDeath.setVolume(volumeSound);
     soundJohnCena.setBuffer(Shared::bufferJohn);
     soundJohnCena.setVolume(volumeSound);
-
-    // chargement des textures
 
     // setSmooth pour des images plus nette 
     Shared::playerJumpTexture.setSmooth(true);
@@ -46,9 +50,6 @@ void Player::initPlayer()
     slideStaminaBarRect.setSize(sf::Vector2f(slideStaminaMax, 10));
 
     shape.setPosition(sf::Vector2f(STGS::WIDTH * 0.05, STGS::HEIGHT - shape.getSize().y - STGS::HEIGHT / 10));
-
-    // initialisation des sons
-
 
     isInvincible = false;
     takeDamageBool = false;
@@ -79,6 +80,9 @@ void Player::initPlayer()
     takeDamageBottom[1] = sf::Vertex({ w, h - border }, redTransparent);
     takeDamageBottom[2] = sf::Vertex({ w, h }, redOpaque);
     takeDamageBottom[3] = sf::Vertex({ 0.f, h }, redOpaque);
+
+    state = State::GROUNDED;
+    stateMove = MoveState::RUNNING;
 }
 
 bool Player::collision(Map& map, int& pessos) {
@@ -106,6 +110,7 @@ bool Player::collision(Map& map, int& pessos) {
             return true;
         }
     }
+
     for (auto& collectible : vectCollectible) {
         if (shape.getGlobalBounds().findIntersection(collectible->getShape().getGlobalBounds())) {
             pessos++;
@@ -114,6 +119,7 @@ bool Player::collision(Map& map, int& pessos) {
             return true;
         }
     }
+
     for (auto it = vectPlat.begin(); it != vectPlat.end(); ++it) {
         auto& plateform = *it;
         if (getFeetBounds().findIntersection(plateform->shape.getGlobalBounds())) {
@@ -124,6 +130,7 @@ bool Player::collision(Map& map, int& pessos) {
             return true;
         }
     }
+
     if (getFeetBounds().findIntersection(map.getBounds()) && velocity.y > 0) {
         shape.setPosition({ shape.getPosition().x, map.getBounds().position.y - shape.getSize().y });
         velocity.y = 0;
@@ -138,6 +145,7 @@ bool Player::collision(Map& map, int& pessos) {
         stateMove = RUNNING;
         return true;
     }
+
     return false;
 }
 
@@ -261,7 +269,6 @@ void Player::animationManager(float deltaTime) {
 }
 
 void Player::staminaGestion() {
-
     if (jetpackStamina >= 60)
         jetpackStaminaBar.setFillColor(sf::Color::Green);
     else if (jetpackStamina < 30)
@@ -286,8 +293,6 @@ void Player::staminaGestion() {
 }
 
 void Player::invincibility(Shop& shop) {
-    
-
     if (clockInvincible.getElapsedTime().asSeconds() >= 2) {
         clockInvincible.stop();
         isInvincible = false;
@@ -338,8 +343,7 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         sound.play();
 }
 
-void Player::stopSounds()
-{
+void Player::stopSounds() {
     sound.stop();
     soundCoin.stop();
     soundDeath.stop();
@@ -347,7 +351,6 @@ void Player::stopSounds()
 }
 
 void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
-
     if (life != 0) {
         invincibility(shop);
         animationTakeDamage();
@@ -378,7 +381,6 @@ void Player::draw(sf::RenderWindow& window) {
         window.draw(takeDamageTop, 4, sf::PrimitiveType::TriangleFan);
         window.draw(takeDamageBottom, 4, sf::PrimitiveType::TriangleFan);
     }
-   
 }
 
 sf::FloatRect Player::getFeetBounds() const {
@@ -411,29 +413,6 @@ void Player::setUpLife() {
         life++;
 }
 
-int Player::getVolume()
-{
-    return volumeSound;
-}
-
-void Player::setVolumeLess()
-{
-    volumeSound--;
-}
-
-void Player::setVolumeUp()
-{
-    volumeSound++;
-}
-
-void Player::setVolume(int sound)
-{
-    volumeSound = sound;
-}
-
-int Player::getLife() { return life; }
-void Player::setLife(int l) { life = l; }
-
 void Player::animationTakeDamage() {
     if (takeDamageClock.getElapsedTime().asSeconds() >= 2.f) {
         takeDamageClock.stop();
@@ -443,3 +422,10 @@ void Player::animationTakeDamage() {
     if (!takeDamageBool)
         return;
 }
+
+int Player::getVolume() { return volumeSound; }
+void Player::setVolumeLess() { volumeSound--; }
+void Player::setVolumeUp() {  volumeSound++; }
+void Player::setVolume(int sound) {  volumeSound = sound; }
+int Player::getLife() { return life; }
+void Player::setLife(int l) { life = l; }
