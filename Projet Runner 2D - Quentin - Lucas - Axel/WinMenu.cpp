@@ -1,5 +1,5 @@
 #include "WinMenu.hpp"
-WinMenu::WinMenu() : text(textFont) {
+WinMenu::WinMenu() : text(textFont), scoreText(textFont){
 	initMenu();
 }
 
@@ -47,14 +47,21 @@ void WinMenu::initMenu() {
 	text.setOutlineThickness(2);
 	text.setPosition({ static_cast<float>(STGS::WIDTH / 2) - text.getGlobalBounds().size.x / 2 ,200 });
 
+	//setup scoreText
+	scoreText.setFont(textFont);
+	scoreText.setCharacterSize(50);
+	scoreText.setFillColor(sf::Color::Red);
+	scoreText.setPosition({ static_cast<float>(STGS::WIDTH / 2) - scoreText.getGlobalBounds().size.x / 2 ,400 });
 }
 
-void WinMenu::drawMenu(sf::RenderWindow& window) {
+void WinMenu::drawMenu(sf::RenderWindow& window, int& score) {
 
 	window.draw(background);
 	backButton.drawButton(window);
 	restartButton.drawButton(window);
 	window.draw(text);
+	scoreText.setString("SCORE : " + std::to_string(score));
+	window.draw(scoreText);
 }
 
 void WinMenu::createStartButton() {

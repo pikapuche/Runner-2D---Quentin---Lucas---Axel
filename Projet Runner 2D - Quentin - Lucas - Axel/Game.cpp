@@ -85,11 +85,13 @@ void Game::run() {
             map.run(deltaTime, score, generateClock);
             player_ptr->update(deltaTime, map, collectible, shop);
             myHud.update(clockGame, score, collectible);
-
+            scoreEnd = score;
             if (player_ptr->getLife() <= 0) {
-                gameState = Game::MenuEndLose;
                 playing = false;
+                
                 music.stop();
+                gameState = Game::MenuEndLose;
+                
 			}
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M))
@@ -211,10 +213,10 @@ void Game::render(sf::RenderWindow& window) {
 		pauseMenu.drawMenu(window);
         break;
     case Game::MenuEndWin:
-		winMenu.drawMenu(window);
+		winMenu.drawMenu(window, scoreEnd);
         break;
     case Game::MenuEndLose:
-		endMenu.drawMenu(window);
+		endMenu.drawMenu(window, scoreEnd);
         break;
     case Game::Settings:
 		settingsMenu.drawMenu(window);

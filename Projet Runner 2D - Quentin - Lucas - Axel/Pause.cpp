@@ -23,18 +23,18 @@ void Pause::initMenu() {
 	backButton.buttonText.setFont(backButton.buttonFont);
 	backButton.buttonText.setString("BACK");
 	backButton.buttonText.setPosition({ backButton.buttonBack.getGlobalBounds().size.x / 2 + backButton.buttonText.getGlobalBounds().size.x/2,backButton.buttonBack.getPosition().y + backButton.buttonText.getGlobalBounds().size.y / 2});
-	backButton.buttonText.setFillColor(sf::Color::Yellow);
+	backButton.buttonText.setFillColor(sf::Color::Black);
 
 	//setup resumeButton
 	resumeButton.buttonState = Button::RESTART;
-	resumeButton.buttonBack.setPosition({ 100,700 });
+	resumeButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.12),700 });
 	resumeButton.buttonBack.setFillColor(sf::Color::White);
 	resumeButton.buttonBack.setSize({ 300,60 });
 	resumeButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	resumeButton.buttonText.setFont(resumeButton.buttonFont);
 	resumeButton.buttonText.setString("RESUME");
 	resumeButton.buttonText.setPosition({ resumeButton.buttonBack.getGlobalBounds().size.x/2 + resumeButton.buttonText.getGlobalBounds().size.x / 2,resumeButton.buttonBack.getPosition().y + resumeButton.buttonText.getGlobalBounds().size.y / 2 });
-	resumeButton.buttonText.setFillColor(sf::Color::Yellow);
+	resumeButton.buttonText.setFillColor(sf::Color::Black);
 
 	//setup text
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");

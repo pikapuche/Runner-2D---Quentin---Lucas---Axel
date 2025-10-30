@@ -17,6 +17,7 @@ public:
 	int volumeMusic;
 	int score;
 	int collectible;
+	int scoreEnd;
 	bool playing;
 	bool needClockRestart = false;
 	Map map;
