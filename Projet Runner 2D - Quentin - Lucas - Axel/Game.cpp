@@ -16,7 +16,7 @@ Game::~Game() {}
 
 void Game::restart() {
     map.reset();
-    player_ptr->initPlayer();
+    player_ptr->initPlayer(volumeSound);
     score = 0;
     collectible = 0;
     volumeMusic = 20;
@@ -73,7 +73,7 @@ void Game::run() {
             break;
         case Game::Playing:
             if (!playing) {
-                player_ptr->initPlayer();
+                player_ptr->initPlayer(volumeSound);
                 myHud.initHUD();
                 restart();
                 music.play();
@@ -168,17 +168,19 @@ void Game::run() {
 			}
             break;
         case Game::Settings:
+            set.setVolume(volumeSound, volumeMusic);
             if (settingsMenu.backButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
                     gameState = Game::MenuStart;
                 }
-                break;
+            }
+            break;
         case Game::Shop:
             clockGame.stop();
             generateClock.stop();
             shop.update(collectible);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
                     gameState = GameState::Playing;

@@ -15,6 +15,7 @@ public:
 	Shop shop;
 	sf::Music music;
 	int volumeMusic;
+	int volumeSound = 50; // son 
 	int score;
 	int collectible;
 	int scoreEnd;
@@ -23,6 +24,7 @@ public:
 	bool needClockRestart = false;
 	Map map;
 	HUD myHud;
+	SettingsMenu set;
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
 	sf::Clock clockGame;
 	sf::Clock clock;

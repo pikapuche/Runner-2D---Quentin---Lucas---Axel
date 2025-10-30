@@ -1,3 +1,4 @@
+#pragma once
 #include "Button.hpp"
 
 class SettingsMenu {
@@ -6,9 +7,9 @@ public:
 	~SettingsMenu();
 
 	void initMenu();
-	void drawMenu(sf::RenderWindow& window);
-	void createStartButton();
+	void setVolume(int& volumeSound, int& volumeMusic);
 	void updateSettings();
+	void drawMenu(sf::RenderWindow& window);
 
 	sf::RectangleShape background;
 	sf::Text text;
@@ -18,5 +19,10 @@ public:
 	Button soundPlusButton;
 	Button soundMinusButton;
 
+	// volume
+
+	sf::RectangleShape upMusicShape, downMusicShape, upSoundShape, downSoundShape;
+	sf::Text volumeTextMusic;
+	sf::Text volumeTextSoundEffects;
 };
 

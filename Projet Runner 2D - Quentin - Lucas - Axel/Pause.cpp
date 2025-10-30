@@ -15,7 +15,7 @@ void Pause::initMenu() {
 
 	//setup backButton
 	backButton.buttonState = Button::BACK;
-	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05),800 });
+	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.80) });
 	backButton.buttonBack.setFillColor(sf::Color::White);
 	backButton.buttonBack.setSize({ 300,60 });
 

@@ -9,7 +9,7 @@ public :
 	Player();
 	~Player();
 
-	void initPlayer();
+	void initPlayer(int& volumeSound);
 	void playerMovement(float deltaTime, Map& map, int& pessos);
 	void jump(float deltaTime);
 	bool collision(Map& map, int& pessos);
@@ -29,10 +29,6 @@ public :
 	void setLife(int l);
 	void setLessLife();
 	void setUpLife();
-	int getVolume();
-	void setVolumeLess();
-	void setVolumeUp();
-	void setVolume(int sound);
 
 	enum State { NOTHING, GROUNDED, JUMP };
 	State state;
@@ -74,7 +70,6 @@ private :
 	float slideStamina = 100.f; // durée de la glissade
 	float slideStaminaMax = 100.f; // maximum de la glissade
 	bool isReloadSlideBar = false; // recharge de glissade
-	int volumeSound = 50; // son 
 	int life = 3;
 	bool isInvincible = false;
 	const float gravity = 5000.0f; // 150

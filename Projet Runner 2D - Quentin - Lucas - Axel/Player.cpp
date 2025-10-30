@@ -8,7 +8,7 @@ Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soun
 
 Player::~Player() {}
 
-void Player::initPlayer()
+void Player::initPlayer(int& volumeSound)
 {
     velocity = { 0, 0 };
     position = { 0,0 };
@@ -331,7 +331,6 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         else
             sound.setLooping(true);
 
-        sound.setVolume(volumeSound);
         sound.play();
     }
     else if (sound.getStatus() != sf::SoundSource::Status::Playing && life != 0)
@@ -409,26 +408,6 @@ void Player::setUpLife() {
         life = 3;
     else 
         life++;
-}
-
-int Player::getVolume()
-{
-    return volumeSound;
-}
-
-void Player::setVolumeLess()
-{
-    volumeSound--;
-}
-
-void Player::setVolumeUp()
-{
-    volumeSound++;
-}
-
-void Player::setVolume(int sound)
-{
-    volumeSound = sound;
 }
 
 int Player::getLife() { return life; }
