@@ -16,7 +16,7 @@ void Pause::initMenu() {
 	backButton.buttonState = Button::BACK;
 	backButton.buttonBack.setFillColor(sf::Color::White);
 	backButton.buttonBack.setSize({ static_cast<float>(STGS::WIDTH * 0.4), static_cast<float>(STGS::HEIGHT * 0.06) });
-	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.8) });
+	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH / 2 - backButton.buttonBack.getGlobalBounds().size.x / 2), static_cast<float>(STGS::HEIGHT * 0.8) });
 
 	backButton.buttonText.setCharacterSize(30);
 	backButton.buttonText.setFont(textFont);
@@ -27,7 +27,7 @@ void Pause::initMenu() {
 	resumeButton.buttonState = Button::RESTART;
 	resumeButton.buttonBack.setFillColor(sf::Color::White);
 	resumeButton.buttonBack.setSize({ static_cast<float>(STGS::WIDTH * 0.4), static_cast<float>(STGS::HEIGHT * 0.06) });
-	resumeButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.7) });
+	resumeButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH / 2 - resumeButton.buttonBack.getGlobalBounds().size.x / 2), static_cast<float>(STGS::HEIGHT * 0.7) });
 
 	resumeButton.buttonText.setFont(textFont);
 	resumeButton.buttonText.setCharacterSize(30);
