@@ -1,14 +1,15 @@
 #include "Shop.hpp"
 
 Shop::Shop() : font("Assets/Fonts/Minecraft.ttf"), shopText(font), skin1Text(font), skin2Text(font), skin3Text(font), victoryText(font), goldText(font), popupText(font), shop2Text(font) {
-
-	shopClock.restart();
 	gapX = 60.f;
 	gapY = 60.f;
 	skin1Bool = false;
 	skin2Bool = false;
 	skin3Bool = false;
 	victoryUnlocked = false;
+	showPopup = false;
+
+	shopClock.restart();
 
 	shopBackgroundShape.setSize(sf::Vector2f(static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT)));
 	shopBackgroundShape.setPosition({ 0, 0 });
@@ -142,13 +143,12 @@ void Shop::update(int& gold) {
 
 	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
 
-	// --- Cases ---
 	auto handleHover = [&](sf::RectangleShape& shape) {
 		if (shape.getGlobalBounds().contains(mousePos)) 
 			shape.setFillColor(sf::Color::Cyan);
 		else 
 			shape.setFillColor(sf::Color::Green);
-		};
+	};
 
 	handleHover(shopCaseOneShape);
 	handleHover(shopCaseTwoShape);
@@ -209,13 +209,11 @@ void Shop::render(sf::RenderWindow& window) {
 void Shop::buying(int& gold) {
 	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
 
-	// --- Données d'achat ---
 	const int priceSkin1 = 10;
 	const int priceSkin2 = 15;
 	const int priceSkin3 = 20;
 	const int priceVictory = 50;
 
-	// --- Achat des skins ---
 	auto tryBuySkin = [&](sf::RectangleShape& shape, int price, bool& skinBool, const std::string& skinName) {
 		if (shape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
 			if (gold >= price) {
@@ -235,13 +233,12 @@ void Shop::buying(int& gold) {
 				shopClock.restart();
 			}
 		}
-		};
+	};
 
 	tryBuySkin(shopCaseOneShape, priceSkin1, skin1Bool, "Skin 1");
 	tryBuySkin(shopCaseTwoShape, priceSkin2, skin2Bool, "Skin 2");
 	tryBuySkin(shopCaseThreeShape, priceSkin3, skin3Bool, "Skin 3");
 
-	// --- Achat de la victoire ---
 	if (shopVictoryShape.getGlobalBounds().contains(mousePos) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && shopClock.getElapsedTime().asSeconds() > 1.f) {
 		if (gold >= priceVictory) {
 			gold -= priceVictory;
