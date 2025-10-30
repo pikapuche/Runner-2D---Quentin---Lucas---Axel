@@ -1,24 +1,27 @@
 #include "AssetManager.hpp"
 
-#include <iostream>
-
 AssetManager::AssetManager() {
 	loadAssetsFromFiles();
 }
 
 void AssetManager::loadAssetsFromFiles() {
+
+    ///////////// GLOBAL TILESET /////////////
     if (!Shared::tileSetTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png"))
         std::cerr << "Erreur : impossible de charger RunnerTileSet.png\n";
 
-    if (!Shared::collectibleTexture.loadFromFile("Assets/Images/Gold.png"))
-        std::cerr << "Erreur : impossible de charger Gold.png\n";
-    
-    // MENU //
+    ///////////// MENU /////////////
     
     if (!Shared::backgroundMenu.loadFromFile("Assets/tiles_map/spaceTitleBackground.png"))
         std::cerr << "Erreur : impossible de charger spaceTitleBackground.png\n";
 
-    // MAP // 
+    if (!Shared::trophyTexture.loadFromFile("Assets/Images/trophy.png"))
+        std::cerr << "Erreur : trophy.png\n";
+
+    if (!Shared::cadre1.loadFromFile("Assets/Images/cadre_1.png"))
+        std::cerr << "Erreur : cadre_1.png\n";
+
+    ///////////// MAP /////////////
 
     if (!Shared::backboardFirstTextureDifficultyOne.loadFromFile("Assets/tiles_map/backgroundFar.png"))
         std::cerr << "Erreur : backgroundFar.png\n";
@@ -53,11 +56,8 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::groundTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png"))
         std::cerr << "Erreur : RunnerTileSet.png (groundTexture)\n";
 
-    if (!Shared::trophyTexture.loadFromFile("Assets/Images/trophy.png"))
-        std::cerr << "Erreur : trophy.png\n";
-
-    if (!Shared::cadre1.loadFromFile("Assets/Images/cadre_1.png"))
-        std::cerr << "Erreur : cadre_1.png\n";
+    if (!Shared::collectibleTexture.loadFromFile("Assets/Images/Gold.png"))
+        std::cerr << "Erreur : impossible de charger Gold.png\n";
 
     ///////////// PLAYER TEXTURE /////////////
 

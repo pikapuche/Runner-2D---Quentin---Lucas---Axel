@@ -5,6 +5,7 @@
 class AssetManager {
 public:
 	AssetManager();
+	~AssetManager() = default;
 
 private:
 	void loadAssetsFromFiles();

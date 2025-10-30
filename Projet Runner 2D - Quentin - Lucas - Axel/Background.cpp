@@ -1,7 +1,6 @@
 #include "Background.hpp"
 
 Background::Background()  {
-
 	backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne);
 	backboardFirstShape.setPosition({ 0, 0 });
 	backboardFirstShape.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
@@ -70,6 +69,7 @@ void Background::render(sf::RenderWindow& window) {
 
 void Background::setBackgroundTexture(int difficulty) {
 	currentDifficulty = difficulty;
+
 	switch (difficulty) {
 	case 1:
 		backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne, true);

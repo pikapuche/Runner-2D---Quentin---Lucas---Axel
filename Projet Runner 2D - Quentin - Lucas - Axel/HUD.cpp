@@ -1,6 +1,9 @@
 #include "HUD.hpp"
 
 HUD::HUD() : score(font), timer(font), gold(font), speedText(font) {
+	sbstr = 0;
+	sbstrSpeed = 0;
+	seconds = 0;
 }
 
 HUD::~HUD() {}
