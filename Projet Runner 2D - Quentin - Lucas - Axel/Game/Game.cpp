@@ -18,6 +18,7 @@ Game::~Game() {}
 void Game::restart() {
     map.reset();
     player_ptr->initPlayer();
+    shop.reset();
     score = 0;
     collectible = 0;
     volumeMusic = 20;
