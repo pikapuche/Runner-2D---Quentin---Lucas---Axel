@@ -12,6 +12,7 @@ Game::Game() {
     volumeMusic = 20;
     gameState = GameState::MenuStart;
 }
+
 Game::~Game() {}
 
 void Game::restart() {

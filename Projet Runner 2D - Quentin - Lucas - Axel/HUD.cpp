@@ -48,7 +48,7 @@ void HUD::initHUD() {
 	heart3.setSize({ static_cast<float>(STGS::WIDTH * 0.05), static_cast<float>(STGS::HEIGHT * 0.07) });
 	heart3.setPosition({ heart2.getPosition().x + heart2.getGlobalBounds().size.x + static_cast<float>(STGS::WIDTH * 0.001), timer.getPosition().y + timer.getGlobalBounds().size.y + static_cast<float>(STGS::HEIGHT * 0.03) });
 
-	speedText.setString("00 Km/h");
+	speedText.setString("00.00 Km/h");
 	speedText.setCharacterSize(60);
 	speedText.setFillColor(sf::Color::White);
 	speedText.setOutlineThickness(5.f);
