@@ -1,6 +1,15 @@
 #include "Background.hpp"
 
-Background::Background()  {
+Background::Background() {
+	speedFar = 100.f;
+	speedNear = 200.f;
+
+	flashDuration = 0.3f;
+	isFlashing = false;
+	flashTimer = 0.f;
+
+	currentDifficulty = 1;
+
 	backboardFirstShape.setTexture(&Shared::backboardFirstTextureDifficultyOne);
 	backboardFirstShape.setPosition({ 0, 0 });
 	backboardFirstShape.setSize({ static_cast<float>(STGS::WIDTH), static_cast<float>(STGS::HEIGHT) });
@@ -21,8 +30,6 @@ Background::~Background() {}
 
 void Background::move(float deltaTime, int difficulty) {
 	setCurrentDifficulty(difficulty);
-	const float speedFar = 100.f;
-	const float speedNear = 200.f;
 
 	backboardFirstShape.move({ -speedFar * deltaTime, 0.f });
 	backboardFirstShape2.move({ -speedFar * deltaTime, 0.f });

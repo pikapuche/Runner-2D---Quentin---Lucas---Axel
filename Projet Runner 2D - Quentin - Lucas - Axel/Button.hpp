@@ -1,24 +1,29 @@
 #pragma once
+
 #include "Map.hpp"
 
 class Button {
 public:
 	Button();
 	~Button();
-	bool activate();
+
 	void drawButton(sf::RenderWindow& window);
+	void hover(bool enable);
+
+	bool activate();
 	bool isHovering();
 	void setHoverable(bool enabled);
 	void setHoverColors(const sf::Color& normal, const sf::Color& hover);
-	void hover(bool enable);
-	bool hoverable = true;
-	bool hovered = false;
-	sf::Color normalColor = sf::Color::White;
-	sf::Color hoverColor = sf::Color(200, 200, 200);
+
+	sf::Color normalColor;
+	sf::Color hoverColor;
+
+	bool hoverable;
+	bool hovered;
+
 	enum ButtonState {
 		NOTHING, PLAY, QUIT, SETTINGS, BACK, RESTART, RESUME
 	};
-
 
 	sf::RectangleShape buttonBack;
 	sf::Text buttonText;
@@ -26,6 +31,7 @@ public:
 	sf::Sprite spriteButton;
 	sf::String buttonTextContent;
 	sf::Texture buttonTexture;
+
 	ButtonState buttonState;
 };
 

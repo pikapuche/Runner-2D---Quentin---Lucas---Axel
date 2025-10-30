@@ -1,33 +1,34 @@
 #include "Button.hpp"
 
-Button::Button() : buttonText(buttonFont), spriteButton(buttonTexture){
-	buttonState = NOTHING;
-	normalColor = buttonBack.getFillColor();
+Button::Button() : buttonText(buttonFont), spriteButton(buttonTexture) {
 	hoverColor = sf::Color(200, 200, 200);
+	normalColor = sf::Color::White;
+
 	hoverable = true;
 	hovered = false;
+
+	normalColor = buttonBack.getFillColor();
 	buttonBack.setFillColor(normalColor);
+
+	buttonState = NOTHING;
 }
+
 Button::~Button() {}
+
 bool Button::activate() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
 	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		if (buttonBack.getGlobalBounds().contains(mousePosF)) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) 
+		if (buttonBack.getGlobalBounds().contains(mousePosF))
 			return true;
-		}
-	}
 	return false;
 }
-
 
 void Button::drawButton(sf::RenderWindow& window) {
 	window.draw(buttonBack);
 	window.draw(buttonText);
-
 }
-
 
 bool Button::isHovering() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition();
@@ -48,6 +49,7 @@ bool Button::isHovering() {
 	}
 	return over;
 }
+
 void Button::setHoverable(bool enabled) {
 	hoverable = enabled;
 	if (!hoverable) {

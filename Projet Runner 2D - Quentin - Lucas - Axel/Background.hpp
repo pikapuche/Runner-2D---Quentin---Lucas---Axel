@@ -16,11 +16,16 @@ public:
 	void setCurrentDifficulty(int difficulty);
 
 private:
-	sf::RectangleShape backboardFirstShape, backboardFirstShape2, backboardSecondShape;
+	sf::RectangleShape backboardFirstShape; 
+	sf::RectangleShape backboardFirstShape2;
+	sf::RectangleShape backboardSecondShape;
 	sf::RectangleShape flashOverlay;
 
-	bool isFlashing = false;
-	float flashTimer = 0.f;
-	const float flashDuration = 0.3f;
-	int currentDifficulty = 1;
+	bool isFlashing;
+	float flashTimer;
+	int currentDifficulty;
+
+	float speedFar;
+	float speedNear;
+	float flashDuration;
 };
