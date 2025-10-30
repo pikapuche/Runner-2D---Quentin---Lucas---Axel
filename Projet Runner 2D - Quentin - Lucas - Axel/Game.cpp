@@ -4,7 +4,7 @@ Game::Game() {
     if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) 
         std::cerr << "error : to load music in-game" << std::endl;
 
-    music.setVolume(static_cast<int>(volumeMusic));
+    music.setVolume(static_cast<float>(volumeMusic));
     music.setLooping(true);
 
     playing = false;

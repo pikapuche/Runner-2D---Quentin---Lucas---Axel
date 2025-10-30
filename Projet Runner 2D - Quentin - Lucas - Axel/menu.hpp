@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Button.hpp"
 
 class Menu {
@@ -9,12 +11,13 @@ public:
 	void drawMenu(sf::RenderWindow& window);
 	void createStartButton();
 
-	sf::RectangleShape background;
-	sf::CircleShape circle;
 	Button playButton;
 	Button quitButton;
 	Button settingsButton;
+
+	sf::RectangleShape background;
+	sf::CircleShape circle;
 	sf::Text gameTitle;
-	sf::Font titleFont;
+	sf::Font font;
 };
 
