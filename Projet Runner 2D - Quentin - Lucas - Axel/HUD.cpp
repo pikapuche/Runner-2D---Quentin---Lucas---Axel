@@ -17,6 +17,10 @@ void HUD::initHUD() {
 	heart2.setTexture(&Shared::heart2Texture, true);
 	heart3.setTexture(&Shared::heart3Texture, true);
 
+	heart1.setFillColor(sf::Color::White);
+	heart2.setFillColor(sf::Color::White);
+	heart3.setFillColor(sf::Color::White);
+
 	gold.setString("0");
 	gold.setCharacterSize({ 60 });
 	gold.setOutlineThickness(5.f);
