@@ -61,10 +61,15 @@ void HUD::drawHUD(sf::RenderWindow& window, Player& player) {
 		window.draw(heart1);
 	}
 	else if (player.getLife() == 2) {
+		heart3.setFillColor(sf::Color(96, 96, 96));
+		window.draw(heart3);
 		window.draw(heart2);
 		window.draw(heart1);
 	}
 	else if (player.getLife() == 1) {
+		window.draw(heart3);
+		heart2.setFillColor(sf::Color(96, 96, 96));
+		window.draw(heart2);
 		window.draw(heart1);
 	}
 }
