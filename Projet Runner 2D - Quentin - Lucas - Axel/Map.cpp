@@ -2,6 +2,7 @@
 
 Map::Map() {
 	makeGround();
+	seed = 0;
 }
 
 Map::~Map() {}
@@ -21,6 +22,7 @@ void Map::reset() {
 
 	difficulty = 1;
 	delay = 0.f;
+	seed = 0;
 
 	createSeed();
 	rng.seed(seed);
@@ -137,7 +139,6 @@ void Map::createSeed() {
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<int> dist(100, 999);
 	seed = dist(gen);
-	std::cout << "seed : " << seed << std::endl;
 }
 
 void Map::makeGround() {
@@ -155,10 +156,10 @@ void Map::makeGround() {
 }
 
 void Map::moveGround(float deltaTime) {
-	const float groundSpeed = 400.f;
+	const float GROUNDSPEED = 400.f;
 
-	ground.move({ -groundSpeed * deltaTime, 0.f });
-	ground2.move({ -groundSpeed * deltaTime, 0.f });
+	ground.move({ -GROUNDSPEED * deltaTime, 0.f });
+	ground2.move({ -GROUNDSPEED * deltaTime, 0.f });
 
 	if (ground.getPosition().x + ground.getSize().x < 0)
 		ground.setPosition({ ground2.getPosition().x + ground2.getSize().x, ground.getPosition().y });
@@ -208,7 +209,6 @@ void Map::setObstacles(int& score) {
 		plateforms.push_back(tempPlatform);
 		collectibles.push_back(tempCollectible);
 	}
-	
 	else if (waveType < 900){
 		for (int i = 0; i < nbObstacles; ++i) {
 			int line = lines[i];
@@ -259,7 +259,4 @@ sf::RectangleShape Map::getGround() { return ground; }
 sf::RectangleShape Map::getGround2() { return ground2; }
 std::vector<Plateform*> Map::getPlatformVector() { return plateforms; }
 void Map::incrementScore(int& score) { score++; }
-
-float Map::getSpeed(int score) {
-	return -500.f - score * 10.f;
-}
+float Map::getSpeed(int score) { return -500.f - score * 10.f; }

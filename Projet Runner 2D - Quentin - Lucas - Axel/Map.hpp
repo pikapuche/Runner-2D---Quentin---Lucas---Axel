@@ -14,7 +14,7 @@ public:
 	void removeObstacle(Obstacle* obs);
 	void removeCollectible(Collectible* col);
 	void reset();
-	//getters/setters
+
 	sf::FloatRect getBounds();
 	sf::FloatRect getBounds2();
 	std::vector<Plateform*> getPlatformVector();
@@ -33,15 +33,15 @@ private:
 	void makeGround();
 	void moveGround(float deltaTime);
 
+	Background bg;
+
 	std::vector<Obstacle*> obstacles;
 	std::vector<Plateform*> plateforms;
 	std::vector<Collectible*> collectibles;
 	std::mt19937 rng;
 	sf::RectangleShape ground, ground2;
 
-	Background bg;
-
-	int seed = 0;
+	int seed;
 	float delay;
 	int difficulty;
 };
