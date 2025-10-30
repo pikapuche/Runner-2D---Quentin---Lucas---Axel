@@ -18,10 +18,11 @@ void Pause::initMenu() {
 	backButton.buttonBack.setPosition({ 100,800 });
 	backButton.buttonBack.setFillColor(sf::Color::White);
 	backButton.buttonBack.setSize({ 300,60 });
+	backButton.buttonText.setCharacterSize(30);
 	backButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	backButton.buttonText.setFont(backButton.buttonFont);
 	backButton.buttonText.setString("BACK");
-	backButton.buttonText.setPosition({ 100,800 });
+	backButton.buttonText.setPosition({ backButton.buttonBack.getGlobalBounds().size.x / 2 + backButton.buttonText.getGlobalBounds().size.x/2,backButton.buttonBack.getPosition().y + backButton.buttonText.getGlobalBounds().size.y / 2});
 	backButton.buttonText.setFillColor(sf::Color::Yellow);
 
 	//setup resumeButton
@@ -32,29 +33,18 @@ void Pause::initMenu() {
 	resumeButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	resumeButton.buttonText.setFont(resumeButton.buttonFont);
 	resumeButton.buttonText.setString("RESUME");
-	resumeButton.buttonText.setPosition({ 100,700 });
+	resumeButton.buttonText.setPosition({ resumeButton.buttonBack.getGlobalBounds().size.x/2 + resumeButton.buttonText.getGlobalBounds().size.x / 2,resumeButton.buttonBack.getPosition().y + resumeButton.buttonText.getGlobalBounds().size.y / 2 });
 	resumeButton.buttonText.setFillColor(sf::Color::Yellow);
-
-	//setup epilepticButton
-	
-	epilepticButton.buttonState = Button::RESTART;
-	epilepticButton.buttonBack.setPosition({ 100,600 });
-	epilepticButton.buttonBack.setFillColor(sf::Color::White);
-	epilepticButton.buttonBack.setSize({ 300,60 });
-	epilepticButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
-	epilepticButton.buttonText.setFont(epilepticButton.buttonFont);
-	epilepticButton.buttonText.setString("EPILEPTIC MODE");
-	epilepticButton.buttonText.setPosition({ 100,600 });
-	epilepticButton.buttonText.setFillColor(sf::Color::Blue);
-
 
 	//setup text
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	text.setFont(textFont);
-	text.setCharacterSize(100);
 	text.setString("PAUSE");
+	text.setCharacterSize(100);
 	text.setFillColor(sf::Color::Green);
-	text.setPosition({ 700,300 });
+	text.setOutlineColor(sf::Color(150, 150, 150));
+	text.setOutlineThickness(2);
+	text.setPosition({ static_cast<float>(STGS::WIDTH / 2) - text.getGlobalBounds().size.x / 2 ,200 });
 
 }
 
@@ -63,7 +53,6 @@ void Pause::drawMenu(sf::RenderWindow& window) {
 	window.draw(background);
 	backButton.drawButton(window);
 	resumeButton.drawButton(window);
-	epilepticButton.drawButton(window);
 	window.draw(text);
 }
 

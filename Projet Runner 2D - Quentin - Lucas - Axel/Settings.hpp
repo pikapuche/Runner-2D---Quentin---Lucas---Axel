@@ -15,5 +15,8 @@ public:
 	sf::Font textFont;
 	Button backButton;
 	Button restartButton;
+	Button soundPlusButton;
+	Button soundMinusButton;
+
 };
 

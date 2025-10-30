@@ -120,7 +120,6 @@ void Game::run() {
                     menuDelay.restart();
                     gameState = Game::Playing;
                 }
-				
 			}
 
             break;

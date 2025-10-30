@@ -14,6 +14,5 @@ public:
 	sf::Font textFont;
 	Button backButton;
 	Button resumeButton;
-	Button epilepticButton;
 };
 
