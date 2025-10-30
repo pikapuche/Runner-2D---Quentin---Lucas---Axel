@@ -15,25 +15,29 @@ void Pause::initMenu() {
 
 	//setup backButton
 	backButton.buttonState = Button::BACK;
-	backButton.buttonBack.setPosition({ 100,800 });
+	backButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05),800 });
 	backButton.buttonBack.setFillColor(sf::Color::White);
 	backButton.buttonBack.setSize({ 300,60 });
-	backButton.buttonText.setCharacterSize(30);
+
 	backButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
+
+	backButton.buttonText.setCharacterSize(30);
 	backButton.buttonText.setFont(backButton.buttonFont);
 	backButton.buttonText.setString("BACK");
-	backButton.buttonText.setPosition({ backButton.buttonBack.getGlobalBounds().size.x / 2 + backButton.buttonText.getGlobalBounds().size.x/2,backButton.buttonBack.getPosition().y + backButton.buttonText.getGlobalBounds().size.y / 2});
+	backButton.buttonText.setPosition({ backButton.buttonBack.getPosition().x + backButton.buttonBack.getGlobalBounds().size.x / 2 - backButton.buttonText.getGlobalBounds().size.x / 2,backButton.buttonBack.getPosition().y + backButton.buttonText.getGlobalBounds().size.y / 2 });
 	backButton.buttonText.setFillColor(sf::Color::Black);
 
 	//setup resumeButton
 	resumeButton.buttonState = Button::RESTART;
-	resumeButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.12),700 });
+	resumeButton.buttonBack.setPosition({ static_cast<float>(STGS::WIDTH * 0.05),700 });
 	resumeButton.buttonBack.setFillColor(sf::Color::White);
 	resumeButton.buttonBack.setSize({ 300,60 });
+
 	resumeButton.buttonFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 	resumeButton.buttonText.setFont(resumeButton.buttonFont);
+	resumeButton.buttonText.setCharacterSize(30);
 	resumeButton.buttonText.setString("RESUME");
-	resumeButton.buttonText.setPosition({ resumeButton.buttonBack.getGlobalBounds().size.x/2 + resumeButton.buttonText.getGlobalBounds().size.x / 2,resumeButton.buttonBack.getPosition().y + resumeButton.buttonText.getGlobalBounds().size.y / 2 });
+	resumeButton.buttonText.setPosition({ resumeButton.buttonBack.getPosition().x + resumeButton.buttonBack.getGlobalBounds().size.x/2 - resumeButton.buttonText.getGlobalBounds().size.x/2,resumeButton.buttonBack.getPosition().y + resumeButton.buttonText.getGlobalBounds().size.y / 2});
 	resumeButton.buttonText.setFillColor(sf::Color::Black);
 
 	//setup text
