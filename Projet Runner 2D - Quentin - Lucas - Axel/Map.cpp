@@ -1,27 +1,22 @@
 #include "Map.hpp"
 
 Map::Map() {
-	createSeed();
-	rng.seed(seed);
 	makeGround();
 }
 
 Map::~Map() {}
 
 void Map::reset() {
-	for (auto* o : obstacles) {
+	for (auto* o : obstacles)
 		delete o;
-	}
 	obstacles.clear();
 
-	for (auto* p : plateforms) {
+	for (auto* p : plateforms)
 		delete p;
-	}
 	plateforms.clear();
 
-	for (auto* c : collectibles) {
+	for (auto* c : collectibles)
 		delete c;
-	}
 	collectibles.clear();
 
 	difficulty = 1;
@@ -188,8 +183,8 @@ void Map::setObstacles(int& score) {
 	waveType += difficulty * 5;
 
 	if (waveType < 333) {
-		std::vector<int> platformLines = { 1, 2 };
-		int linePlatform = platformLines[rand() % platformLines.size()];
+		std::uniform_int_distribution<int> distLinePlatform(1, 2);
+		int linePlatform = distLinePlatform(rng);
 
 		Plateform* tempPlatform = new Plateform(-500.f - score * 10.f, linePlatform);
 		tempPlatform->shape.setSize({ static_cast<float>(STGS::WIDTH / 5), static_cast<float>((STGS::HEIGHT / 3 - STGS::GAP_Y - ground.getSize().y) / 2) });
