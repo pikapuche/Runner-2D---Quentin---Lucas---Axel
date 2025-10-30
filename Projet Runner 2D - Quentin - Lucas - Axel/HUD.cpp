@@ -91,7 +91,14 @@ void HUD::update(sf::Clock& clock, int scoreGame, int pessos, float speed) {
 	else if (seconds >= 100)
 		sbstr = 6;
 	timer.setString("Timer : " + std::to_string(seconds).substr(0, sbstr));
-	score.setString("Score : " + std::to_string(scoreGame));
+
+	if (scoreGame < 10)
+		score.setString("Score : 00" + std::to_string(scoreGame));
+	else if (scoreGame < 100)
+		score.setString("Score : 0" + std::to_string(scoreGame));
+	else
+		score.setString("Score : " + std::to_string(scoreGame));
+
 	gold.setString(std::to_string(pessos));
 
 	sbstrSpeed = 5;
