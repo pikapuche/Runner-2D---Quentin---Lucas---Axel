@@ -1,12 +1,12 @@
 #include "Game.hpp"
 
 Game::Game() {
-    if (!music.openFromFile("Assets/Music/MusicInGame.ogg")) 
-        std::cerr << "error : to load music in-game" << std::endl;
-
-    music.setVolume(static_cast<float>(volumeMusic));
-    music.setLooping(true);
-
+    Shared::music.setLooping(true);
+    Shared::musicMenu.setLooping(true);
+    volumeMusic = 20;
+    volumeSound = 40;
+    Shared::music.setVolume(volumeMusic);
+    Shared::musicMenu.setVolume(volumeMusic);
     playing = false;
     needClockRestart = false;
 
@@ -16,7 +16,6 @@ Game::Game() {
     score = 0;
     collectible = 0;
     speed = 0;
-    volumeMusic = 20;
     scoreEnd = 0;
     player_ptr = std::make_shared<Player>();
 
@@ -27,8 +26,8 @@ Game::~Game() {}
 
 void Game::restart() {
     map.reset();
-    player_ptr->initPlayer();
     myHud.initHUD();
+    player_ptr->initPlayer(volumeSound);
 
     score = 0;
     collectible = 0;
@@ -38,9 +37,8 @@ void Game::restart() {
     playing = true;
     needClockRestart = true;
 
-    music.stop();
-    music.play();
-
+    Shared::music.stop();
+    Shared::music.play();
     clockGame.restart();
     generateClock.restart();
 }
@@ -64,10 +62,15 @@ void Game::run() {
             while (const std::optional event = window.pollEvent())
                 if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
+            }
 
-            if (menu.playButton.activate())
+            if (Shared::musicMenu.getStatus() != sf::SoundSource::Status::Playing)
+                Shared::musicMenu.play();
+
+            if (menu.playButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
                     menuDelay.restart();
+                    Shared::musicMenu.stop();
                     gameState = Game::Playing;
                 }
 
@@ -79,16 +82,21 @@ void Game::run() {
                     menuDelay.restart();
                     gameState = Game::Settings;
                 }
+            }
+
             break;
         case Game::Playing:
             if (!playing) {
-                player_ptr->initPlayer();
+                player_ptr->initPlayer(volumeSound);
                 myHud.initHUD();
                 restart();
-                music.play();
+                //Shared::music.play();
                 clockGame.reset();
                 playing = true;
             }
+
+            if (Shared::music.getStatus() != sf::SoundSource::Status::Playing)
+                Shared::music.play();
 
             clockGame.start();
             generateClock.start();
@@ -100,7 +108,8 @@ void Game::run() {
 
             if (player_ptr->getLife() <= 0) {
                 playing = false;
-                music.stop();
+                
+                Shared::music.stop();
                 gameState = Game::MenuEndLose;
             }
 
@@ -121,7 +130,8 @@ void Game::run() {
         case Game::Pause:
             clockGame.stop();
             generateClock.stop();
-
+            Shared::music.pause();
+            player_ptr->stopSounds();
             if (pauseMenu.backButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
@@ -132,12 +142,14 @@ void Game::run() {
             if (pauseMenu.resumeButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
+                    Shared::music.play();
                     gameState = Game::Playing;
                 }
             }
             break;
         case Game::MenuEndWin:
             clockGame.stop();
+            player_ptr->stopSounds();
             generateClock.stop();
 
             if (winMenu.backButton.activate()) {
@@ -145,7 +157,6 @@ void Game::run() {
                     menuDelay.restart();
                     playing = false;
                     gameState = Game::MenuStart;
-
                 }
             }
 
@@ -162,6 +173,8 @@ void Game::run() {
         case Game::MenuEndLose:
             clockGame.stop();
             generateClock.stop();
+
+            player_ptr->stopSounds();
 
             if (endMenu.backButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
@@ -181,6 +194,7 @@ void Game::run() {
             break;
         case Game::Settings:
             generateClock.stop();
+            settingsMenu.setVolume(volumeSound, volumeMusic);
             if (settingsMenu.backButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();
@@ -192,6 +206,7 @@ void Game::run() {
             clockGame.stop();
             generateClock.stop();
             shop.update(collectible);
+            player_ptr->stopSounds();
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {

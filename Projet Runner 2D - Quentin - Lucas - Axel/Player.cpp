@@ -336,7 +336,6 @@ void Player::soundManager(sf::SoundBuffer& buffer) {
         else
             sound.setLooping(true);
 
-        sound.setVolume(volumeSound);
         sound.play();
     }
     else if (sound.getStatus() != sf::SoundSource::Status::Playing && life != 0)
@@ -353,7 +352,7 @@ void Player::stopSounds() {
 void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
     if (life != 0) {
         invincibility(shop);
-        animationTakeDamage();
+        BlinkingWhenDamage();
         playerMovement(deltaTime, map, pessos);
         animationManager(deltaTime);
         staminaGestion();
@@ -413,7 +412,7 @@ void Player::setUpLife() {
         life++;
 }
 
-void Player::animationTakeDamage() {
+void Player::BlinkingWhenDamage() {
     if (takeDamageClock.getElapsedTime().asSeconds() >= 2.f) {
         takeDamageClock.stop();
         takeDamageBool = false;

@@ -36,6 +36,7 @@ public:
 	sf::Clock generateClock;
 
 	int volumeMusic;
+	int volumeSound;
 	int score;
 	int collectible;
 	int scoreEnd;

@@ -40,4 +40,5 @@ public:
     static sf::Texture loseBackgroundMenu;
 
     static sf::SoundBuffer bufferRunGravel, bufferRun, bufferJump, bufferJetpack, bufferCoin, bufferHurt, bufferSlide, bufferJohn;
+    static sf::Music music, musicMenu;
 };

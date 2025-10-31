@@ -10,6 +10,9 @@ void AssetManager::loadAssetsFromFiles() {
     if (!Shared::tileSetTexture.loadFromFile("Assets/tiles_map/RunnerTileSet.png"))
         std::cerr << "Erreur : impossible de charger RunnerTileSet.png\n";
 
+    if (!Shared::music.openFromFile("Assets/Music/MusicInGame.ogg"))
+        std::cerr << "Erreur : MusicInGame.ogg\n";
+
     ///////////// MENU /////////////
     
     if (!Shared::backgroundMenu.loadFromFile("Assets/tiles_map/spaceTitleBackground.png"))
@@ -24,6 +27,9 @@ void AssetManager::loadAssetsFromFiles() {
 
     if (!Shared::cadre1.loadFromFile("Assets/Images/cadre_1.png"))
         std::cerr << "Erreur : cadre_1.png\n";
+
+    if (!Shared::musicMenu.openFromFile("Assets/Music/MusicMenu.ogg"))
+        std::cerr << "Erreur : musicMenu.ogg\n";
 
     ///////////// MAP /////////////
 
