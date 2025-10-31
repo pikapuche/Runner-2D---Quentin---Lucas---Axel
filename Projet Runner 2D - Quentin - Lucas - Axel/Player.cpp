@@ -349,7 +349,7 @@ void Player::update(float deltaTime, Map& map, int& pessos, Shop& shop) {
 
     if (life != 0) {
         invincibility(shop);
-        animationTakeDamage();
+        BlinkingWhenDamage();
         playerMovement(deltaTime, map, pessos);
         animationManager(deltaTime);
         staminaGestion();
@@ -413,7 +413,7 @@ void Player::setUpLife() {
 int Player::getLife() { return life; }
 void Player::setLife(int l) { life = l; }
 
-void Player::animationTakeDamage() {
+void Player::BlinkingWhenDamage() {
     if (takeDamageClock.getElapsedTime().asSeconds() >= 2.f) {
         takeDamageClock.stop();
         takeDamageBool = false;
