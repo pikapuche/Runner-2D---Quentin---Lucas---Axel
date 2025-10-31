@@ -5,7 +5,7 @@ Player::Player() : sound(Shared::bufferRun), soundCoin(Shared::bufferCoin), soun
 
 Player::~Player() {}
 
-void Player::initPlayer() {
+void Player::initPlayer(int& volumeSound) {
     gravity = 5000.0f; // 150
     jetpackStamina = 100.f; // endurance du jetpack
     slideStamina = 100.f; // durée de la glissade
@@ -422,9 +422,5 @@ void Player::BlinkingWhenDamage() {
         return;
 }
 
-int Player::getVolume() { return volumeSound; }
-void Player::setVolumeLess() { volumeSound--; }
-void Player::setVolumeUp() {  volumeSound++; }
-void Player::setVolume(int sound) {  volumeSound = sound; }
 int Player::getLife() { return life; }
 void Player::setLife(int l) { life = l; }

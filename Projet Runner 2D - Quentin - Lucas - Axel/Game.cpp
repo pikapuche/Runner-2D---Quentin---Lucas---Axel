@@ -62,12 +62,12 @@ void Game::run() {
             while (const std::optional event = window.pollEvent())
                 if (event->is<sf::Event::Closed>() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                     window.close();
-            }
+            
 
             if (Shared::musicMenu.getStatus() != sf::SoundSource::Status::Playing)
                 Shared::musicMenu.play();
 
-            if (menu.playButton.activate()) {
+            if (menu.playButton.activate()) 
                 if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
                     menuDelay.restart();
                     Shared::musicMenu.stop();
@@ -77,7 +77,7 @@ void Game::run() {
             if (menu.quitButton.activate())
                 window.close();
 
-            if (menu.settingsButton.activate())
+            if (menu.settingsButton.activate()) {
                 if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
                     menuDelay.restart();
                     gameState = Game::Settings;
@@ -104,7 +104,7 @@ void Game::run() {
             player_ptr->update(deltaTime, map, collectible, shop);
             scoreEnd = score;
             speed = std::abs(map.getSpeed(score));
-            myHud.update(clockGame, score, collectible, speed);
+            myHud.update(clockGame, score, collectible, static_cast<float>(speed));
 
             if (player_ptr->getLife() <= 0) {
                 playing = false;

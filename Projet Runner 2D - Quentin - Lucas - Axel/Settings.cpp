@@ -121,9 +121,3 @@ void SettingsMenu::drawMenu(sf::RenderWindow& window) {
 	window.draw(downSoundShape);
 	window.draw(volumeTextSoundEffects);
 }
-
-void SettingsMenu::createStartButton() {
-
-void SettingsMenu::updateSettings()
-{
-}
