@@ -209,7 +209,7 @@ void Shop::render(sf::RenderWindow& window) {
 void Shop::buying(int& gold) {
 	sf::Vector2f mousePos = { static_cast<float>(sf::Mouse::getPosition().x), static_cast<float>(sf::Mouse::getPosition().y) };
 
-	const int PRICE_SKIN_2 = 10;
+	const int PRICE_SKIN_1 = 10;
 	const int PRICE_SKIN_2 = 15;
 	const int PRICE_SKIN_3 = 20;
 	const int PRICE_VICTORY = 50;

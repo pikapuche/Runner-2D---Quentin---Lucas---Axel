@@ -45,10 +45,10 @@ void Menu::initMenu() {
 	settingsButton.buttonText.setFillColor(sf::Color::Blue);
 
 	gameTitle.setCharacterSize(100);
-	gameTitle.setString("RUNNER 2D");
+	gameTitle.setString("THE PINK PARADOX");
 	gameTitle.setOutlineColor(sf::Color::Black);
 	gameTitle.setOutlineThickness(2);
-	gameTitle.setPosition({ static_cast<float>(STGS::WIDTH / 2) - gameTitle.getGlobalBounds().size.x / 2, static_cast<float>(STGS::HEIGHT * 0.2)});
+	gameTitle.setPosition({ static_cast<float>(STGS::WIDTH / 2) - gameTitle.getGlobalBounds().size.x / 2, static_cast<float>(STGS::HEIGHT * 0.4)});
 }
 
 void Menu::drawMenu(sf::RenderWindow& window) {
