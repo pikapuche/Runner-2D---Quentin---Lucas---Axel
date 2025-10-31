@@ -32,7 +32,6 @@ void Game::restart() {
     score = 0;
     collectible = 0;
     speed = 0;
-    volumeMusic = 20;
 
     playing = true;
     needClockRestart = true;
