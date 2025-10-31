@@ -13,9 +13,8 @@ class Game {
 public:
 	AssetManager assetManager;
 	Shop shop;
-	sf::Music music;
 	int volumeMusic;
-	int volumeSound = 50; // son 
+	int volumeSound;
 	int score;
 	int collectible;
 	int scoreEnd;

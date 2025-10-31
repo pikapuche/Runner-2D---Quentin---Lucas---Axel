@@ -24,6 +24,7 @@ public:
     static sf::Texture goldTexture, heart1Texture, heart2Texture, heart3Texture;
     static sf::Texture groundTexture, trophyTexture, cadre1;
     static sf::Texture playerTexture, playerJumpTexture, playerJetpackTexture, playerSlideTexture;
-	  static sf::Texture backgroundMenu, winBackgroundMenu, loseBackgroundMenu;
+	static sf::Texture backgroundMenu, winBackgroundMenu, loseBackgroundMenu;
     static sf::SoundBuffer bufferRunGravel, bufferRun, bufferJump, bufferJetpack, bufferCoin, bufferHurt, bufferSlide, bufferJohn;
+    static sf::Music music, musicMenu;
 };

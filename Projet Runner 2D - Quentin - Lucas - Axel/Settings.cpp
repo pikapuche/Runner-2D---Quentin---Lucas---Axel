@@ -1,12 +1,13 @@
 #include "Settings.hpp"
 SettingsMenu::SettingsMenu() : text(textFont), volumeTextMusic(textFont), volumeTextSoundEffects(textFont) {
+	initMenu();
 }
 
 SettingsMenu::~SettingsMenu()
 {
 }
 
-void SettingsMenu::initMenu(int& volumeSound, int& volumeMusic) {
+void SettingsMenu::initMenu() {
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 
 	//setup background
@@ -50,7 +51,7 @@ void SettingsMenu::initMenu(int& volumeSound, int& volumeMusic) {
 	volumeTextMusic.setFillColor(sf::Color::Blue);
 	volumeTextMusic.setOutlineThickness(5.f);
 	volumeTextMusic.setOutlineColor(sf::Color::White);
-	volumeTextMusic.setString(std::to_string(volumeMusic));
+	volumeTextMusic.setString("error");
 
 	// setop volume sound
 	upSoundShape.setSize({ static_cast<float>(STGS::WIDTH * 0.03), static_cast<float>(STGS::HEIGHT * 0.05) });
@@ -69,7 +70,7 @@ void SettingsMenu::initMenu(int& volumeSound, int& volumeMusic) {
 	volumeTextSoundEffects.setFillColor(sf::Color::Blue);
 	volumeTextSoundEffects.setOutlineThickness(5.f);
 	volumeTextSoundEffects.setOutlineColor(sf::Color::White);
-	volumeTextSoundEffects.setString(std::to_string(volumeSound));
+	volumeTextSoundEffects.setString("error");
 
 	clickDelay = 0.1f;
 }
@@ -102,6 +103,8 @@ void SettingsMenu::setVolume(int& volumeSound, int& volumeMusic)
 		}
 	}
 	volumeTextMusic.setString("Music Volume : " + std::to_string(volumeMusic));
+	Shared::music.setVolume(volumeMusic);
+	Shared::musicMenu.setVolume(volumeMusic);
 	volumeTextSoundEffects.setString("Effects Volume : " + std::to_string(volumeSound));
 }
 

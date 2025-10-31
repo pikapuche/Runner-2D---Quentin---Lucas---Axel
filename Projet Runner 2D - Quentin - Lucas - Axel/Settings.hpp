@@ -6,7 +6,7 @@ public:
 	SettingsMenu();
 	~SettingsMenu();
 
-	void initMenu(int& volumeSound, int& volumeMusic);
+	void initMenu();
 	void setVolume(int& volumeSound, int& volumeMusic);
 	void updateSettings();
 	void drawMenu(sf::RenderWindow& window);
