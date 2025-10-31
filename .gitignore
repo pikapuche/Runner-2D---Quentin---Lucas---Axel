@@ -364,13 +364,13 @@ FodyWeavers.xsd
 
 # Ignorer les includes externes (SFML, etc.)
 
-/SFML-3.0.2/
-/include/
-/lib/
+SFML-3.0.2/
+include/
+lib/
 
 # Ignorer uniquement les DLL dans le dossier x64
 
-/x64/**/*.dll
+x64/**/*.dll
 
 # Ignorer les Assets 
 
