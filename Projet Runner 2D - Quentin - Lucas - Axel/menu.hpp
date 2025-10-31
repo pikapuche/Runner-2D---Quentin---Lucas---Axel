@@ -9,7 +9,6 @@ public:
 
 	void initMenu();
 	void drawMenu(sf::RenderWindow& window);
-	void createStartButton();
 
 	Button playButton;
 	Button quitButton;

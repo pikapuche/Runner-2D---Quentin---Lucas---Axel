@@ -59,7 +59,3 @@ void Menu::drawMenu(sf::RenderWindow& window) {
 	quitButton.drawButton(window);
 	settingsButton.drawButton(window);
 }
-
-void Menu::createStartButton() {
-	//PASS
-}
