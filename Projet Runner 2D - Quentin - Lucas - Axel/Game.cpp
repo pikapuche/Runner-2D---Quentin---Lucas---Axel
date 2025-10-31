@@ -65,6 +65,7 @@ void Game::run() {
             }
 
             if (menu.settingsButton.activate()) {
+                settingsMenu.initMenu(volumeSound, volumeMusic); // je le trouve mieux ici
                 if (menuDelay.getElapsedTime().asSeconds() > 1.f) {
                     menuDelay.restart();
                     gameState = Game::Settings;
@@ -168,7 +169,7 @@ void Game::run() {
 			}
             break;
         case Game::Settings:
-            set.setVolume(volumeSound, volumeMusic);
+            settingsMenu.setVolume(volumeSound, volumeMusic);
             if (settingsMenu.backButton.activate() || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 if (menuDelay.getElapsedTime().asSeconds() > 0.5f) {
                     menuDelay.restart();

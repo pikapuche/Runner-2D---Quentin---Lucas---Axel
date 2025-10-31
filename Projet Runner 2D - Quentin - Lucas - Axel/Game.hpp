@@ -24,7 +24,6 @@ public:
 	bool needClockRestart = false;
 	Map map;
 	HUD myHud;
-	SettingsMenu set;
 	std::shared_ptr<Player> player_ptr = std::make_shared<Player>();
 	sf::Clock clockGame;
 	sf::Clock clock;

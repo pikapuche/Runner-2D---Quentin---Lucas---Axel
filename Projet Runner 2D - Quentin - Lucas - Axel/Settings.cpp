@@ -1,13 +1,12 @@
 #include "Settings.hpp"
 SettingsMenu::SettingsMenu() : text(textFont), volumeTextMusic(textFont), volumeTextSoundEffects(textFont) {
-	initMenu();
 }
 
 SettingsMenu::~SettingsMenu()
 {
 }
 
-void SettingsMenu::initMenu() {
+void SettingsMenu::initMenu(int& volumeSound, int& volumeMusic) {
 	textFont.openFromFile("Assets/Fonts/Minecraft.ttf");
 
 	//setup background
@@ -35,62 +34,75 @@ void SettingsMenu::initMenu() {
 	text.setPosition({ static_cast<float>(STGS::WIDTH / 2 - text.getGlobalBounds().size.x / 2 ), static_cast<float>(STGS::HEIGHT * 0.25) });
 
 	// setup volume music
-	upMusicShape.setSize({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
-	upMusicShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.7), static_cast<float>(STGS::HEIGHT * 0.6) });
-	upMusicShape.setFillColor(sf::Color::Blue);
+	upMusicShape.setSize({ static_cast<float>(STGS::WIDTH * 0.03), static_cast<float>(STGS::HEIGHT * 0.05) });
+	upMusicShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.3), static_cast<float>(STGS::HEIGHT * 0.45) });
+	upMusicShape.setFillColor(sf::Color::White);
 	upMusicShape.setOutlineThickness(5.f);
-	upMusicShape.setOutlineColor(sf::Color::White);
-	downMusicShape.setSize({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
-	downMusicShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.7), static_cast<float>(STGS::HEIGHT * 0.7) });
-	downMusicShape.setFillColor(sf::Color::Blue);
+	upMusicShape.setOutlineColor(sf::Color::Blue);
+	downMusicShape.setSize({ static_cast<float>(STGS::WIDTH * 0.03), static_cast<float>(STGS::HEIGHT * 0.05) });
+	downMusicShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.3), static_cast<float>(STGS::HEIGHT * 0.55) });
+	downMusicShape.setFillColor(sf::Color::White);
 	downMusicShape.setOutlineThickness(5.f);
-	downMusicShape.setOutlineColor(sf::Color::White);
+	downMusicShape.setOutlineColor(sf::Color::Blue);
+	volumeTextMusic.setPosition({ static_cast<float>(STGS::WIDTH / 1.9 - downMusicShape.getPosition().x / 2), static_cast<float>(STGS::HEIGHT / 2 - upMusicShape.getGlobalBounds().size.y / 1.5)});
 	volumeTextMusic.setFont(textFont);
 	volumeTextMusic.setCharacterSize(100);
 	volumeTextMusic.setFillColor(sf::Color::Blue);
 	volumeTextMusic.setOutlineThickness(5.f);
 	volumeTextMusic.setOutlineColor(sf::Color::White);
+	volumeTextMusic.setString(std::to_string(volumeMusic));
 
 	// setop volume sound
-	upSoundShape.setSize({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
-	upSoundShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.7), static_cast<float>(STGS::HEIGHT * 0.6) });
-	upSoundShape.setFillColor(sf::Color::Blue);
+	upSoundShape.setSize({ static_cast<float>(STGS::WIDTH * 0.03), static_cast<float>(STGS::HEIGHT * 0.05) });
+	upSoundShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.3), static_cast<float>(STGS::HEIGHT * 0.75) });
+	upSoundShape.setFillColor(sf::Color::White);
 	upSoundShape.setOutlineThickness(5.f);
-	upSoundShape.setOutlineColor(sf::Color::White);
-	downSoundShape.setSize({ static_cast<float>(STGS::WIDTH * 0.01), static_cast<float>(STGS::HEIGHT * 0.01) });
-	downSoundShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.7), static_cast<float>(STGS::HEIGHT * 0.7) });
-	downSoundShape.setFillColor(sf::Color::Blue);
+	upSoundShape.setOutlineColor(sf::Color::Blue);
+	downSoundShape.setSize({ static_cast<float>(STGS::WIDTH * 0.03), static_cast<float>(STGS::HEIGHT * 0.05) });
+	downSoundShape.setPosition({ static_cast<float>(STGS::WIDTH * 0.3), static_cast<float>(STGS::HEIGHT * 0.85) });
+	downSoundShape.setFillColor(sf::Color::White);
 	downSoundShape.setOutlineThickness(5.f);
-	downSoundShape.setOutlineColor(sf::Color::White);
+	downSoundShape.setOutlineColor(sf::Color::Blue);
+	volumeTextSoundEffects.setPosition({ static_cast<float>(STGS::WIDTH / 1.9 - downSoundShape.getPosition().x / 2), static_cast<float>(STGS::HEIGHT * 0.76) });
 	volumeTextSoundEffects.setFont(textFont);
 	volumeTextSoundEffects.setCharacterSize(100);
 	volumeTextSoundEffects.setFillColor(sf::Color::Blue);
 	volumeTextSoundEffects.setOutlineThickness(5.f);
 	volumeTextSoundEffects.setOutlineColor(sf::Color::White);
+	volumeTextSoundEffects.setString(std::to_string(volumeSound));
+
+	clickDelay = 0.1f;
 }
 
 void SettingsMenu::setVolume(int& volumeSound, int& volumeMusic)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition();
-	sf::Vector2f mousePosF(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y));
+	mousePos = sf::Mouse::getPosition();
+	mousePosF.x = static_cast<float>(mousePos.x);
+	mousePosF.y = static_cast<float>(mousePos.y);
 
-	if (upMusicShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		volumeMusic++;
-	}
-	else if (downMusicShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		volumeMusic--;
-	}
-	volumeTextMusic.setString("Volume musique : " + std::to_string(volumeMusic));
+	if (clickClock.getElapsedTime().asSeconds() > clickDelay) {
+		if (upMusicShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			volumeMusic++;
+			clickClock.restart();
+		}
+		else if (downMusicShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			volumeMusic--;
+			clickClock.restart();
+		}
 
-	//////// 
+		//////// 
 
-	if (upSoundShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		volumeSound++;
+		if (upSoundShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			volumeSound++;
+			clickClock.restart();
+		}
+		else if (downSoundShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			volumeSound--;
+			clickClock.restart();
+		}
 	}
-	else if (downSoundShape.getGlobalBounds().contains(mousePosF) && sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		volumeSound--;
-	}
-	volumeTextSoundEffects.setString("Volume sons et effets : " + std::to_string(volumeSound));
+	volumeTextMusic.setString("Music Volume : " + std::to_string(volumeMusic));
+	volumeTextSoundEffects.setString("Effects Volume : " + std::to_string(volumeSound));
 }
 
 void SettingsMenu::drawMenu(sf::RenderWindow& window) {
